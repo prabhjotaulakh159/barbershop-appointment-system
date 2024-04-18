@@ -1,4 +1,4 @@
-from project import create_app
+from appointment_app import create_app
 
 app = create_app()
 
