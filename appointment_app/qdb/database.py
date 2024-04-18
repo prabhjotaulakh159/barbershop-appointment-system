@@ -1,7 +1,7 @@
 import os
 import oracledb
 
-from project.qdb.config_db import host, usr, sn, pw
+from appointment_app.qdb.config_db import host, usr, sn, pw
 
 
 class Database:
