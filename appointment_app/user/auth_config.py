@@ -3,7 +3,7 @@ from flask_login import LoginManager, UserMixin
 login_manager = LoginManager()
 
 class User(UserMixin):
-    ''' Extends UserMixing for flask login '''
+    ''' Extends UserMixin for flask login '''
     
     def __init__(self):
         ''' Constructor '''
