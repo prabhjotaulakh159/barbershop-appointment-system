@@ -1,6 +1,5 @@
 from flask import Flask
 from appointment_app.config import ConfigDev
-from flask_login import LoginManager
 
 
 def create_app(config=ConfigDev):
