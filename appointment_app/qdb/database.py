@@ -1,24 +1,18 @@
-import os
 import oracledb
-
 from appointment_app.qdb.config_db import host, usr, sn, pw
 
 
 class Database:
-    def __init__(self, autocommit=True):
-        self.__connection = self.__connect()
-        self.__connection.autocommit = autocommit
-
-    def __connect(self):
-        return oracledb.connect(user=usr, password=pw, host=host,  service_name=sn)
-
-    def db_conn(self):
-        return self.__connection
+    ''' Performs actions on the database '''
+    def connect(self):
+        ''' Create a connection to oracle '''
+        return oracledb.connect(user=usr, password=pw, host=host,
+                                service_name=sn)
 
     def run_file(self, file_path):
+        ''' Runs an SQL script in isolation '''
         statement_parts = []
         with self.__connection.cursor() as cursor:
-            # pdb.set_trace()
             with open(file_path, 'r') as f:
                 for line in f:
                     if line[:2] == '--':
@@ -35,58 +29,35 @@ class Database:
                                 print(e)
                         statement_parts = []
 
-    def close(self):
-        '''Closes the connection'''
-        if self.__connection is not None:
-            self.__connection.close()
-            self.__connection = None
-
-    def get_cursor(self):
-        for i in range(3):
-            try:
-                return self.__connection.cursor()
-            except Exception:
-                # Might need to reconnect
-                self.__reconnect()
-
-    def __reconnect(self):
-        try:
-            self.close()
-        except oracledb.Error as f:
-            pass
-        self.__connection = self.__connect()
-
-    def run_sql_script(self, sql_filename):
-        if os.path.exists(sql_filename):
-            self.__connect()
-            self.__run_file(sql_filename)
-            self.close()
-        else:
-            print('Invalid Path')
-            
-#-----------------------------------------------------------
     def add_client(self, user_name, pass_word, email, avatar, phone):
-        qry = "INSERT INTO Clients (user_name,pass_word,email,avatar,phone) VALUES (:user_name,:pass_word,:email,:avatar,:phone)"
-        with self.__connection.cursor() as cur:
-            try:
-                res = cur.execute(qry, (user_name,pass_word,email,avatar,phone))
-            except Exception as e:
-                print(e)
-                
-    def get_client(self,username):
-            with self.__connection.cursor() as cur:
-                qry = f"SELECT * FROM Clients WHERE user_name = '{username}'"
+        ''' Adds a client to the database '''
+        qry = '''
+            INSERT INTO clients (user_name, pass_word, email,
+            avatar, phone) VALUES
+            (:user_name, :pass_word, :email,: avatar, :phone)
+        '''
+        with self.connect() as connection:
+            with connection.cursor() as cursor:
                 try:
-                    r = cur.execute(qry).fetchone()
-                    return r
+                    cursor.execute(qry, [user_name, pass_word, email, avatar,
+                                         phone])
                 except Exception as e:
-                    print (e)
+                    print(e)
+
+    def get_client(self, username):
+        ''' Gets a client by username '''
+        with self.connect() as connection:
+            with connection.cursor() as cursor:
+                qry = "SELECT client_id, user_name, pass_word, email, avatar, phone FROM Clients WHERE user_name = :username"
+                try:
+                    cursor.execute(qry, [username])
+                    client = cursor.fetchall()
+                    return client
+                except Exception as e:
+                    print(e)
 
 
-#-----------------------------------------------------------
 db = Database()
 
 if __name__ == '__main__':
     db.run_file('database.sql')
-    db.close()
-

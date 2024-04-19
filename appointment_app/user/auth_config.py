@@ -1,44 +1,57 @@
 from flask_login import LoginManager, UserMixin
-from flask_login import UserMixin
-from appointment_app.qdb.database import db
+
 
 login_manager = LoginManager()
 
+
 class Client(UserMixin):
-    ''' class representing a client '''
-    def __init__(self, username):
-        client = db.get_client(username)
-        self.username = client[1]
-        self.password = client[2]
-        self.email = client[3]
-        self.avatar = client[4]
-        self.phone = client[5]
+    ''' Client login configuration '''
+    def __init__(self, client_id, username, password, email, avatar, phone):
+        ''' Constructor with all parameters for a user '''
+        self.client_id = client_id
+        self.username = username
+        self.password = password
+        self.email = email
+        self.avatar = avatar
+        self.phone = phone
 
     def get_id(self):
-        return self.username
+        ''' Gets the ID of the user in session'''
+        return self.client_id
 
-    @property
-    def is_active(self):
-        return True
 
-    @property
-    def is_authenticated(self):
-        return True
-
-    def __str__(self):
-        return f"{self.username} {self.email} {self.phone}"
+class Professional(UserMixin):
+    ''' Professional login configuration '''
+    def __init__(self, professional_id, username, password, email, avatar,
+                 phone, pay_rate, speciality):
+        self.professional_id = professional_id
+        self.username = username
+        self.password = password
+        self.email = email
+        self.avatar = avatar
+        self.phone = phone
+        self.pay_rate = pay_rate
+        self.specialty = speciality
 
 
 login_manager = LoginManager()
 
 
 @login_manager.user_loader
-def load_user(user_id):
-    ''' Loads the user from session '''
-    pass
+def load_client(client_id, username, password, email, avatar, phone):
+    ''' Loads the client from the session '''
+    return Client(client_id, username, password, email, avatar, phone)
+
+
+@login_manager.user_loader
+def load_professional(professional_id, username, password, email, avatar,
+                      phone, pay_rate, speciality):
+    ''' Loads the professional from the session '''
+    return Professional(professional_id, username, password, email, avatar,
+                        phone, pay_rate, speciality)
 
 
 @login_manager.unauthorized_handler
 def unauthorized():
-    ''' Redirects to some page if not authorized '''
+    ''' Redirects to a login page if user accesses an unauthorized page '''
     pass
