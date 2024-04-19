@@ -1,16 +1,16 @@
-'''Module containing the Member Class'''
+'''Module containing the client Class'''
 from flask_login import UserMixin
 from appointment_app.qdb.database import db
 
-class Member(UserMixin):
-    ''' class representing an member '''
+class Client(UserMixin):
+    ''' class representing a client '''
     def __init__(self, username):
-        member = db.get_member(username)
-        self.username = member[1]
-        self.password = member[2]
-        self.email = member[3]
-        self.avatar = member[4]
-        self.phone = member[5]
+        client = db.get_client(username)
+        self.username = client[1]
+        self.password = client[2]
+        self.email = client[3]
+        self.avatar = client[4]
+        self.phone = client[5]
 
     def get_id(self):
         return self.username
