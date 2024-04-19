@@ -1,5 +1,8 @@
 from flask import Blueprint, render_template
 from appointment_app.qdb.database import Database
+from appointment_app.user.member import Member
+
+
 
 user = Blueprint('user', __name__, template_folder="templates",
                  static_folder="static")
