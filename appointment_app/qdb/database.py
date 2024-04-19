@@ -4,6 +4,7 @@ from appointment_app.qdb.config_db import host, usr, sn, pw
 
 class Database:
     ''' Performs actions on the database '''
+
     def connect(self):
         ''' Create a connection to oracle '''
         return oracledb.connect(user=usr, password=pw, host=host,
@@ -64,22 +65,25 @@ class Database:
             with connection.cursor() as cursor:
                 try:
                     cursor.execute(qry, [prof_name, pass_word,
-                                    prof_email, avatar, phone, rate, specialty])
+                                         prof_email, avatar, phone, rate, specialty])
                     connection.commit()
                 except Exception as e:
                     print(e)
-                
+
     def get_professional(self, prof_name):
         ''' Gets a professional by username '''
         with self.connect() as connection:
             with connection.cursor() as cursor:
-                qry = f"SELECT * FROM Professionals WHERE prof_name = '{prof_name}'"
+                qry = f"SELECT * FROM Professionals WHERE prof_name = '{
+                    prof_name}'"
                 try:
-                    cursor.execute(qry,[prof_name])
+                    cursor.execute(qry, [prof_name])
                     professional = cursor.fetchall()
                     return professional
                 except Exception as e:
                     print(e)
+
+
 db = Database()
 
 if __name__ == '__main__':
