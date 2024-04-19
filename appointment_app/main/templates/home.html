@@ -5,10 +5,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{context['page_title']}}</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}">
+
 </head>
 
 <body>
-    <h1>Homepage</h1>
+    <header>
+        <h1> Barber shop</h1>
+    </header>
+    <nav>
+        <li id="nav"> <a href="{{url_for('main.home_view')}}">Home</a></li>
+
+        {% if current_user.is_authenticated %}
+        Hey {{current_user.username}}
+        <li id="nav"> <a href="{{url_for('user.logout')}}">Logout</a></li>
+
+        {% else %}
+        <li id="nav"> <a href="{{url_for('user.register')}}">Register</a></li>
+        <li id="nav"> <a href="{{url_for('user.login')}}">Login</a></li>
+        {% endif %}
+        
+    </nav>
 </body>
 
 </html>
