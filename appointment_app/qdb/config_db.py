@@ -1,4 +1,3 @@
-'''Module containing the configuration info'''
 import os
 
 host = os.environ.get('ORA_HOST')
