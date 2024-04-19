@@ -1,25 +1,31 @@
 {% extends "base.html" %}
+{% from "macros.html" import form_field_error with context %}
 {% block content %}
-    <h1>Register your account! </h1>
-    <section id="form">
+    <section id="form" novalidate>
+        <h1>Register your client account!</h1>
         <form action="" method="post">
             {{form.hidden_tag()}}
             <fieldset>
                 <legend>Create your client account</legend>
                 <section>
                     {{form.username(class='form-field', placeholder='Enter username')}}
+                    {{form_field_error(form.username.errors)}}
                 </section>
                 <section>
                     {{form.email(class='form-field', placeholder='Enter email')}}
+                    {{form_field_error(form.email.errors)}}
                 </section>
                 <section>
                     {{form.password(class='form-field', placeholder='Enter password')}}
+                    {{form_field_error(form.password.errors)}}
                 </section>
                 <section>
                     {{form.confirm_password(class='form-field', placeholder='Retype password')}}
+                    {{form_field_error(form.confirm_password.errors)}}
                 </section>
                 <section>
                     {{form.phone(class='form-field', placeholder='Enter your phone number (xxx-xxx-xxxx) or without - ')}}
+                    {{form_field_error(form.phone.errors)}}
                 </section>
                 <section>
                     {{form.submit(class='button')}}

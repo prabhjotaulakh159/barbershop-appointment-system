@@ -48,7 +48,7 @@ class Database:
         ''' Gets a client by username '''
         with self.connect() as connection:
             with connection.cursor() as cursor:
-                qry = "SELECT * FROM Clients WHERE user_name = :username"
+                qry = "SELECT client_id, user_name, pass_word, email, avatar, phone FROM Clients WHERE user_name = :username"
                 try:
                     cursor.execute(qry, [username])
                     client = cursor.fetchall()

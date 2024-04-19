@@ -11,3 +11,9 @@ class RegisterClientForm(FlaskForm):
     email = EmailField ('Email', validators=[DataRequired(),])
     phone = StringField("Phone", validators=[DataRequired(), Length(min=10,max=12)])
     submit = SubmitField("Register")
+    
+class LoginForm(FlaskForm):
+    username = StringField("Username", validators=[DataRequired(), Length(min=2,max=25)])
+    email = EmailField ('Email', validators=[DataRequired(),])
+    password = PasswordField("Password", validators=[DataRequired()])
+    submit = SubmitField("Login")
