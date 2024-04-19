@@ -1,11 +1,12 @@
 from flask_login import LoginManager, UserMixin
-from flask_login import UserMixin
-from appointment_app.qdb.database import db
+
 
 login_manager = LoginManager()
 
+
 class User(UserMixin):
     ''' Base class representing a user '''
+
     def __init__(self, username, password, email, avatar, phone):
         self.username = username
         self.password = password
@@ -13,49 +14,45 @@ class User(UserMixin):
         self.avatar = avatar
         self.phone = phone
 
-    def get_id(self):
-        return self.username
-
-    @property
-    def is_active(self):
-        return True
-
-    @property
-    def is_authenticated(self):
-        return True
-
-    def __str__(self):
-        return f"{self.username} {self.email} {self.phone}"
-
-
 class Client(User):
     ''' Class representing a client '''
-    def __init__(self, username):
-        client = db.get_client(username)
-        super().__init__(client[1], client[2], client[3], client[4], client[5])
-        
-class Professional(User):
-    ''' Class representing a professional '''
-    def __init__(self, username):
-        professional = db.get_professional(username)
-        super().__init__(professional[1], professional[2], professional[3], professional[4], professional[5])
-        self.payrate = professional[6]  
-        self.specialty = professional[7]
+    def __init__(self, client_id, username, password, email, avatar, phone):
+        super().__init__(username, password, email, avatar, phone)
+        self.client_id = client_id
+    
+    def get_id(self):
+        ''' Gets the ID of the user in session'''
+        return self.client_id
 
-    def __str__(self):
-        return f"{super().__str__()} {self.payrate} {self.specialty}"
+class Professional(User):
+    ''' Professional login configuration '''
+
+    def __init__(self, professional_id, username, password, email, avatar,
+                 phone, pay_rate, speciality):
+        super().__init__(username,password,email,avatar,phone)
+        self.professional_id = professional_id
+        self.payrate = pay_rate
+        self.specialty = speciality
 
 
 login_manager = LoginManager()
 
 
 @login_manager.user_loader
-def load_user(user_id):
-    ''' Loads the user from session '''
-    pass
+def load_client(client_id, username, password, email, avatar, phone):
+    ''' Loads the client from the session '''
+    return Client(client_id, username, password, email, avatar, phone)
+
+
+@login_manager.user_loader
+def load_professional(professional_id, username, password, email, avatar,
+                      phone, pay_rate, speciality):
+    ''' Loads the professional from the session '''
+    return Professional(professional_id, username, password, email, avatar,
+                        phone, pay_rate, speciality)
 
 
 @login_manager.unauthorized_handler
 def unauthorized():
-    ''' Redirects to some page if not authorized '''
+    ''' Redirects to a login page if user accesses an unauthorized page '''
     pass
