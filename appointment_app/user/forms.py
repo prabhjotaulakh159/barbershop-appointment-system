@@ -1,6 +1,6 @@
 '''import flask_wtf and its methods'''
 from flask_wtf import FlaskForm
-from wtforms import EmailField, PasswordField, StringField, SubmitField
+from wtforms import EmailField, PasswordField, StringField, SubmitField, FloatField,SelectField
 from wtforms.validators import DataRequired, Length, EqualTo
 
 class RegisterClientForm(FlaskForm):
@@ -11,3 +11,13 @@ class RegisterClientForm(FlaskForm):
     email=EmailField ('Email', validators=[DataRequired(),])
     phone = StringField("Phone", validators=[DataRequired(), Length(min=10,max=12)])
     submit=SubmitField("Register")
+
+class RegisterProfessionalForm(RegisterClientForm):
+    ''' class representing a professional registration form '''
+    payrate = FloatField("Pay Rate", validators=[DataRequired()])
+    specialty = SelectField("Specialty", choices=[
+        ('hair_stylist', 'Hair Stylist'),
+        ('colorist', 'Colorist'),
+        ('barber', 'Barber'),
+        ('other', 'Other')
+    ])

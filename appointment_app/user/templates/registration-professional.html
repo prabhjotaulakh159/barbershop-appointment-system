@@ -21,7 +21,7 @@
         <li id="nav"> <a href="{{url_for('user.logout')}}">Logout</a></li>
         <!--<li id="nav"> <a href="{{url_for('user.login')}}">Login</a></li> -->
         {% else %}
-        <li id="nav"> <a href="{{url_for('user.register')}}">Register as a client</a></li>
+        <li id="nav"> <a href="{{url_for('user.register')}}">Register</a></li>
         <li id="nav"> <a href="{{url_for('user.register_professional')}}">Register as a professional</a></li>
         {% endif %}
 
@@ -34,7 +34,7 @@
         <form action="" method="post">
             {{form.hidden_tag()}}
             <fieldset>
-                <legend>Create your client account</legend>
+                <legend>Create your professional account</legend>
                 <section>
                     {{form.username(class='form-field',placeholder='Enter username')}}
                 </section>
@@ -50,6 +50,13 @@
                 <section>
                     {{form.phone(class='form-field',placeholder='Enter your phone number (xxx-xxx-xxxx) or without - ')}}
                 </section>
+                <section>
+                    {{form.payrate(class='form-field',placeholder='Enter your payrate ')}}
+                </section>
+                <section>
+                    {{form.specialty(class='form-field',placeholder='Select your specialty ')}}
+                </section>
+
                 <section>{{form.submit(class='button')}}
                 </section>
             </fieldset>

@@ -63,30 +63,47 @@ class Database:
             self.close()
         else:
             print('Invalid Path')
-            
-#-----------------------------------------------------------
+
+# -----------------------------------------------------------
     def add_client(self, user_name, pass_word, email, avatar, phone):
         qry = "INSERT INTO Clients (user_name,pass_word,email,avatar,phone) VALUES (:user_name,:pass_word,:email,:avatar,:phone)"
         with self.__connection.cursor() as cur:
             try:
-                res = cur.execute(qry, (user_name,pass_word,email,avatar,phone))
+                res = cur.execute(
+                    qry, (user_name, pass_word, email, avatar, phone))
+            except Exception as e:
+                print(e)
+
+    def get_client(self, username):
+        with self.__connection.cursor() as cur:
+            qry = f"SELECT * FROM Clients WHERE user_name = '{username}'"
+            try:
+                r = cur.execute(qry).fetchone()
+                return r
+            except Exception as e:
+                print(e)
+
+    def add_professional(self, prof_name, pass_word, prof_email, avatar, phone, rate, specialty):
+        qry = "INSERT INTO Professionals (prof_name,pass_word,prof_email,avatar,phone,rate,specialty) VALUES (:prof_name,:pass_word,:prof_email,:avatar,:phone,:rate,:specialty)"
+        with self.__connection.cursor() as cur:
+            try:
+                res = cur.execute(qry, (prof_name, pass_word,
+                                  prof_email, avatar, phone, rate, specialty))
             except Exception as e:
                 print(e)
                 
-    def get_client(self,username):
-            with self.__connection.cursor() as cur:
-                qry = f"SELECT * FROM Clients WHERE user_name = '{username}'"
-                try:
-                    r = cur.execute(qry).fetchone()
-                    return r
-                except Exception as e:
-                    print (e)
+    def get_professional(self, prof_name):
+        with self.__connection.cursor() as cur:
+            qry = f"SELECT * FROM Professionals WHERE prof_name = '{prof_name}'"
+            try:
+                r = cur.execute(qry).fetchone()
+                return r
+            except Exception as e:
+                print(e)
 
-
-#-----------------------------------------------------------
+# -----------------------------------------------------------
 db = Database()
 
 if __name__ == '__main__':
     db.run_file('database.sql')
     db.close()
-
