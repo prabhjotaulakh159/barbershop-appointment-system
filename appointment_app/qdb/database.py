@@ -57,22 +57,27 @@ class Database:
                     print(e)
 
     def add_professional(self, prof_name, pass_word, prof_email, avatar, phone, rate, specialty):
+        ''' Adds a professional to the database '''
         qry = "INSERT INTO Professionals (prof_name,pass_word,prof_email,avatar,phone,rate,specialty) VALUES (:prof_name,:pass_word,:prof_email,:avatar,:phone,:rate,:specialty)"
-        with self.connect() as cur:
-            try:
-                res = cur.execute(qry, (prof_name, pass_word,
-                                  prof_email, avatar, phone, rate, specialty))
-            except Exception as e:
-                print(e)
+        with self.connect() as connection:
+            with connection.cursor() as cursor:
+                try:
+                    cursor.execute(qry, [prof_name, pass_word,
+                                    prof_email, avatar, phone, rate, specialty])
+                except Exception as e:
+                    print(e)
                 
     def get_professional(self, prof_name):
-        with self.connect() as cur:
-            qry = f"SELECT * FROM Professionals WHERE prof_name = '{prof_name}'"
-            try:
-                r = cur.execute(qry).fetchone()
-                return r
-            except Exception as e:
-                print(e)
+        ''' Gets a professional by username '''
+        with self.connect() as connection:
+            with connection.cursor() as cursor:
+                qry = f"SELECT * FROM Professionals WHERE prof_name = '{prof_name}'"
+                try:
+                    cursor.execute(qry,[prof_name])
+                    professional = cursor.fetchall()
+                    return professional
+                except Exception as e:
+                    print(e)
 db = Database()
 
 if __name__ == '__main__':
