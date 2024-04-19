@@ -65,8 +65,22 @@ class Database:
             print('Invalid Path')
             
 #-----------------------------------------------------------
-
-
+    def add_client(self, user_name, pass_word, email, avatar, phone):
+        qry = "INSERT INTO Clients (user_name,pass_word,email,avatar,phone) VALUES (:user_name,:pass_word,:email,:avatar,:phone)"
+        with self.__connection.cursor() as cur:
+            try:
+                res = cur.execute(qry, (user_name,pass_word,email,avatar,phone))
+            except Exception as e:
+                print(e)
+                
+    def get_client(self,username):
+            with self.__connection.cursor() as cur:
+                qry = f"SELECT * FROM Clients WHERE user_name = '{username}'"
+                try:
+                    r = cur.execute(qry).fetchone()
+                    return r
+                except Exception as e:
+                    print (e)
 
 
 #-----------------------------------------------------------
