@@ -1,5 +1,22 @@
+:root {
+    --light-blue: #574ae2;
+    --dark-blue: #222a68;
+    --dark-purple: #654597;
+    --medium-purple: #ab81cd;
+    --light-purple: #e2adf2;
+}
+
 body, * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+.header {
+    width: 100%;
+    height: 15%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
