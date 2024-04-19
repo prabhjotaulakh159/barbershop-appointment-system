@@ -1,7 +1,6 @@
 from flask import Blueprint, render_template, flash, redirect, url_for
 from flask_bcrypt import Bcrypt
 from appointment_app.qdb.database import Database
-from appointment_app.user.client import Client
 from appointment_app.user.forms import RegisterClientForm
 
 
