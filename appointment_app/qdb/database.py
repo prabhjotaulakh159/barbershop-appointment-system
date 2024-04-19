@@ -41,6 +41,7 @@ class Database:
                 try:
                     cursor.execute(qry, [user_name, pass_word, email, avatar,
                                          phone])
+                    connection.commit()
                 except Exception as e:
                     print(e)
 
@@ -64,6 +65,7 @@ class Database:
                 try:
                     cursor.execute(qry, [prof_name, pass_word,
                                     prof_email, avatar, phone, rate, specialty])
+                    connection.commit()
                 except Exception as e:
                     print(e)
                 
