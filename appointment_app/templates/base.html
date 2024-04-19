@@ -13,7 +13,9 @@
         <nav class='navigation'>
             <a href="{{ url_for('main.home') }}">Home</a>
             <a href="{{ url_for('user.register_client') }}">Register as a client</a>
+            <a href="{{ url_for('user.register_professional') }}">Register as a professional</a>
             <a href="{{ url_for('user.login_client') }}">Login as a client</a>
+            
         </nav>
         {% if get_flashed_messages() %}
             {% for category, message in get_flashed_messages(with_categories=True) %}

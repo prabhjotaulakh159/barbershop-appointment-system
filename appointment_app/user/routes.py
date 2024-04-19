@@ -70,4 +70,4 @@ def register_professional():
         db.add_professional(username, password, email, avatar, phone,payrate,speciality)
         flash(f'Welcome {username} you are now a professional', 'success')
         return redirect(url_for('main.home'))
-    return render_template("registration-professional.html", form=form)
+    return render_template("register-professional.html", form=form)
