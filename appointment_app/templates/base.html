@@ -12,7 +12,14 @@
         </header>
         <nav class='navigation'>
             <a href="{{ url_for('main.home') }}">Home</a>
+            <a href="{{ url_for('user.logout') }}">Logout</a>
+            <a href="{{ url_for('user.register') }}">Register</a>
         </nav>
+        {% if get_flashed_messages() %}
+            {% for category, message in get_flashed_messages(with_categories=True) %}
+                <p class="{{ category }}">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
         {% block content %}
             <!-- overriden -->
         {% endblock content %}
