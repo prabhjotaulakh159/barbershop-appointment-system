@@ -25,12 +25,22 @@ def add_appointment():
     for professional in professionals:
         professionals_list.append((professional[0], professional[0]))
 
+    time_slots = [
+        ('10-11', '10am - 11am'),
+        ('11-12', '11am - 12pm'),
+        ('12-1', '12pm - 1pm'),
+        ('1-2', '1pm - 2pm'),
+        ('2-3', '2pm - 3pm'),
+        ('3-4', '3pm - 4pm')
+    ]
+
     form.prof_name.choices = professionals_list
     form.service.choices = services_list
+    form.slot.choices = time_slots
 
     if form.validate_on_submit():
-        #no validation yet for time slot & professional being taken. Don't know how to do it
-        
+        # no validation yet for time slot & professional being taken. Don't know how to do it
+
         status = 1
         client_id = 1  # to be replaced with current_user.client_id once login works
         prof_id = db.get_professional_id(form.prof_name.data)[0]
@@ -38,5 +48,5 @@ def add_appointment():
         db.add_appointment(status, form.date_appointment.data,
                            form.slot.data, form.venue.data, client_id, prof_id, service_id)
         flash('Appointment is created!')
-    
+
     return render_template("appointment.html", form=form)
