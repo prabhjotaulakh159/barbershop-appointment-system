@@ -78,13 +78,13 @@ class Database:
                 except Exception as e:
                     print(e)
 
-    def get_professional(self, get_professional):
+    def get_professional(self, professional_name):
         ''' Gets a professional by username '''
         with self.connect() as connection:
             with connection.cursor() as cursor:
                 qry = "SELECT professional_id, professional_name, pass_word, professional_email, avatar, phone, rate, specialty,  FROM Professionals WHERE get_professional = :get_professional"
                 try:
-                    cursor.execute(qry, [get_professional])
+                    cursor.execute(qry, [professional_name])
                     professional = cursor.fetchall()[0]
                     return professional
                 except Exception as e:
