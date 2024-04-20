@@ -1,5 +1,5 @@
 '''import flask and its methods'''
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, flash
 from flask_login import current_user
 from appointment_app.qdb.database import Database
 from appointment_app.appointment.forms import AppointmentForm
@@ -37,5 +37,6 @@ def add_appointment():
         service_id = db.get_service_id(form.service.data)[0]
         db.add_appointment(status, form.date_appointment.data,
                            form.slot.data, form.venue.data, client_id, prof_id, service_id)
-
+        flash('Appointment is created!')
+    
     return render_template("appointment.html", form=form)
