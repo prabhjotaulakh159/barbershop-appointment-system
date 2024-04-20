@@ -80,3 +80,28 @@ CREATE TABLE reports (
     CONSTRAINT report_id_PK                     PRIMARY KEY (report_id),
     CONSTRAINT appointment_id_FK                FOREIGN KEY (appointment_id) REFERENCES appointments (appointment_id) ON DELETE CASCADE 
 );
+
+INSERT INTO services (service_name, service_duration, service_price, service_materials)
+VALUES ('Haircut', 30, 50.00, 'Scissors, Comb, Hair Dryer');
+
+INSERT INTO services (service_name, service_duration, service_price, service_materials)
+VALUES ('Head Shave', 20, 25.00, 'Clippers, Shaving Cream, Razor');
+
+INSERT INTO services (service_name, service_duration, service_price, service_materials)
+VALUES ('Hair Styling', 60, 60.00, 'Curling Iron, Hair Spray, Hair Pins');
+
+INSERT INTO services (service_name, service_duration, service_price, service_materials)
+VALUES ('Hair Color', 60, 150.00, 'Hair Color, Developer, Gloves');
+
+INSERT INTO services (service_name, service_duration, service_price, service_materials)
+VALUES ('Highlights', 60, 200.00, 'Foil, Hair 
+Bleach, Developer');
+
+INSERT INTO services (service_name, service_duration, service_price, service_materials)
+VALUES ('Perm', 60, 180.00, 'Perm Solution, Neutralizer');
+
+INSERT INTO services (service_name, service_duration, service_price, service_materials)
+VALUES ('Basic Haircut', 30, 30.00, 'Clippers, Scissors, Comb');
+
+INSERT INTO services (service_name, service_duration, service_price, service_materials)
+VALUES ('Beard Trim', 15, 20.00, 'Clippers, Scissors, Beard Oil');

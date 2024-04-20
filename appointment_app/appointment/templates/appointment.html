@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% from "macros.html" import form_field_error with context %}
+{% block content %}
+    <section id="form" novalidate>
+        <h1>Make your appointment!</h1>
+        <form action="" method="post">
+            {{form.hidden_tag()}}
+            <fieldset>
+                <legend>Fill the form to make your appointment</legend>
+                <section>
+                    <label>Date</label>
+                    {{form.date_appointment(class='form-field', placeholder='Enter the date')}}
+                    {{form_field_error(form.date_appointment.errors)}}
+                </section>
+                <section>
+                    <label>Time</label>
+                    {{form.slot(class='form-field', placeholder='Enter the time slot')}}
+                    {{form_field_error(form.slot.errors)}}
+                </section>
+                <section>
+                    
+                    {{form.venue(class='form-field', placeholder='Enter the venue')}}
+                    {{form_field_error(form.venue.errors)}}
+                </section>
+                <section>
+                    <label>Choose the professional</label>
+                    {{form.prof_name(class='form-field', placeholder='Choose the professional')}}
+                    {{form_field_error(form.prof_name.errors)}}
+                </section>
+                <section>
+                    <label>Choose the service</label>
+                    {{form.service(class='form-field', placeholder='Choose the service ')}}
+                    {{form_field_error(form.service.errors)}}
+                </section>
+                <section>
+                    {{form.submit(class='button')}}
+                </section>
+            </fieldset>
+        </form>
+    </section>
+{% endblock content %}
