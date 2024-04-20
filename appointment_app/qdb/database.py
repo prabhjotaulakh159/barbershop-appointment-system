@@ -82,8 +82,7 @@ class Database:
         ''' Gets a professional by username '''
         with self.connect() as connection:
             with connection.cursor() as cursor:
-                qry = f"SELECT * FROM Professionals WHERE prof_name = '{
-                    prof_name}'"
+                qry = "SELECT professional_id, professional_name, pass_word, professional_email, avatar, phone, rate, specialty,  FROM Professionals WHERE prof_name = :prof_name"
                 try:
                     cursor.execute(qry, [prof_name])
                     professional = cursor.fetchall()

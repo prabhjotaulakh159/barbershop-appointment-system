@@ -3,7 +3,7 @@ from flask_bcrypt import Bcrypt
 from appointment_app.qdb.database import db
 from appointment_app.user.forms import RegisterClientForm, LoginForm, RegisterProfessionalForm
 from flask_login import login_user
-from appointment_app.user.auth_config import Client
+from appointment_app.user.auth_config import Client, Professional
 
 user = Blueprint('user', __name__, template_folder="templates")
 
@@ -75,3 +75,33 @@ def register_professional():
         flash(f'Welcome {username} you are now a professional', 'success')
         return redirect(url_for('main.home'))
     return render_template("register-professional.html", form=form)
+
+
+@user.route('/login-professional', methods=['GET', 'POST'])
+def login_professional():
+    '''renders register login from'''
+    form = LoginForm()
+    if form.validate_on_submit():
+        professional = db.get_professional(form.username.data)
+        if not professional:
+            flash(f"Professional {form.username.data} does not exist !", "error")
+            return redirect(url_for('user.login_professional'))
+        bcrypt = Bcrypt()
+        encrypted_password = professional[2]
+        if not bcrypt.check_password_hash(encrypted_password, form.password.data):
+            flash("You provided invalid credentials")
+            return redirect(url_for('user.login'))
+        logged_in_professional = Professional(
+            professional_id=professional[0],
+            username=professional[1],
+            password=professional[2],
+            email=professional[3], 
+            avatar=professional[4], 
+            phone=professional[5],
+            pay_rate=professional[6],
+            speciality=professional[7]
+        )
+        login_user(logged_in_professional)
+        flash("You have successfully logged in !", "success")
+        return redirect(url_for('main.home'))
+    return render_template('login-professional.html', form=form)
