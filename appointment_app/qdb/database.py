@@ -4,6 +4,15 @@ from appointment_app.qdb.config_db import host, usr, sn, pw
 
 class Database:
     ''' Performs actions on the database '''
+
+    #had to re-add __init__ and __connect method to run the teacher's run_file method to update database.
+    def __init__(self, autocommit=True):
+        self.__connection = self.__connect()
+        self.__connection.autocommit = autocommit
+
+    def __connect(self):
+        return oracledb.connect(user=usr, password=pw, host=host,  service_name=sn)
+    
     def connect(self):
         ''' Create a connection to oracle '''
         return oracledb.connect(user=usr, password=pw, host=host,
@@ -41,6 +50,7 @@ class Database:
                 try:
                     cursor.execute(qry, [user_name, pass_word, email, avatar,
                                          phone])
+                    connection.commit()
                 except Exception as e:
                     print(e)
 
@@ -53,6 +63,31 @@ class Database:
                     cursor.execute(qry, [username])
                     client = cursor.fetchall()
                     return client
+                except Exception as e:
+                    print(e)
+
+    def add_professional(self, professional_name, pass_word, professional_email, avatar, phone, rate, specialty):
+        ''' Adds a professional to the database '''
+        qry = "INSERT INTO Professionals (professional_name,pass_word,professional_email,avatar,phone,rate,specialty) VALUES (:professional_name,:pass_word,:professional_email,:avatar,:phone,:rate,:specialty)"
+        with self.connect() as connection:
+            with connection.cursor() as cursor:
+                try:
+                    cursor.execute(qry, [professional_name, pass_word,
+                                         professional_email, avatar, phone, rate, specialty])
+                    connection.commit()
+                except Exception as e:
+                    print(e)
+
+    def get_professional(self, prof_name):
+        ''' Gets a professional by username '''
+        with self.connect() as connection:
+            with connection.cursor() as cursor:
+                qry = f"SELECT * FROM Professionals WHERE prof_name = '{
+                    prof_name}'"
+                try:
+                    cursor.execute(qry, [prof_name])
+                    professional = cursor.fetchall()
+                    return professional
                 except Exception as e:
                     print(e)
 
