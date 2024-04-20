@@ -5,6 +5,14 @@ from appointment_app.qdb.config_db import host, usr, sn, pw
 class Database:
     ''' Performs actions on the database '''
 
+    #had to re-add __init__ and __connect method to run the teacher's run_file method to update database.
+    def __init__(self, autocommit=True):
+        self.__connection = self.__connect()
+        self.__connection.autocommit = autocommit
+
+    def __connect(self):
+        return oracledb.connect(user=usr, password=pw, host=host,  service_name=sn)
+    
     def connect(self):
         ''' Create a connection to oracle '''
         return oracledb.connect(user=usr, password=pw, host=host,
@@ -58,14 +66,14 @@ class Database:
                 except Exception as e:
                     print(e)
 
-    def add_professional(self, prof_name, pass_word, prof_email, avatar, phone, rate, specialty):
+    def add_professional(self, professional_name, pass_word, professional_email, avatar, phone, rate, specialty):
         ''' Adds a professional to the database '''
-        qry = "INSERT INTO Professionals (prof_name,pass_word,prof_email,avatar,phone,rate,specialty) VALUES (:prof_name,:pass_word,:prof_email,:avatar,:phone,:rate,:specialty)"
+        qry = "INSERT INTO Professionals (professional_name,pass_word,professional_email,avatar,phone,rate,specialty) VALUES (:professional_name,:pass_word,:professional_email,:avatar,:phone,:rate,:specialty)"
         with self.connect() as connection:
             with connection.cursor() as cursor:
                 try:
-                    cursor.execute(qry, [prof_name, pass_word,
-                                         prof_email, avatar, phone, rate, specialty])
+                    cursor.execute(qry, [professional_name, pass_word,
+                                         professional_email, avatar, phone, rate, specialty])
                     connection.commit()
                 except Exception as e:
                     print(e)
