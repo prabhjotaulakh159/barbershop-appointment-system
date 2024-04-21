@@ -1,4 +1,4 @@
-<DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <title>420 Project</title>
@@ -7,7 +7,7 @@
         <script src="{{ url_for('static', filename='/script.js') }}"></script>
     </head>
     <body>
-        <header class='header'>
+        <header>
             <h1>Barbershop Appointments</h1>
         </header>
         <nav class='navigation'>
@@ -23,11 +23,13 @@
                 <p class="{{ category }}">{{ message }}</p>
             {% endfor %}
         {% endif %}
-        {% block content %}
-            <!-- overriden -->
-        {% endblock content %}
-        <footer class='footer'>
+        <main>
+            {% block content %}
+                <!-- overriden -->
+            {% endblock content %}
+        </main>
+        <footer>
             <span>Prabhjot Aulakh and Tommy Tran, Winter 2024</span>
-        </footer>
+        </footer> 
     </body>
 </html>

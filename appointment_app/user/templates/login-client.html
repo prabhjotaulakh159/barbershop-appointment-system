@@ -1,24 +1,21 @@
 {% extends "base.html" %}
 {% from "macros.html" import form_field_error with context %}
 {% block content %}
-    <section id="form">
-        <h1>Login as a client !</h1>
-        <form action="" method="post">
+    <section class="form-container">
+        <form action="" method="post" novalidate>
             {{form.hidden_tag()}}
-            <fieldset>
-                <legend>Login as a client</legend>
-                <section>
-                    {{ form.username(class='form-field', placeholder='Enter username')}}
-                    {{ form_field_error(form.username.errors) }}
-                </section>
-                <section>
-                    {{ form.password(class='form-field', placeholder='Enter password')}}
-                    {{ form_field_error(form.password.errors) }}
-                </section>
-                <section>
-                    {{ form.submit(class='button') }}
-                </section>
-            </fieldset>
+            <legend>Login as a client</legend>
+            <section>
+                {{ form.username(class='form-field', placeholder='Enter username')}}
+                {{ form_field_error(form.username.errors) }}
+            </section>
+            <section>
+                {{ form.password(class='form-field', placeholder='Enter password')}}
+                {{ form_field_error(form.password.errors) }}
+            </section>
+            <section>
+                {{ form.submit(class='button') }}
+            </section>
         </form>
     </section>
 {% endblock content %}
