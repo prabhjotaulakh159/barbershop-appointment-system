@@ -1,46 +1,25 @@
 {% extends "base.html" %}
 {% from "macros.html" import form_field_error with context %}
 {% block content %}
-    <section class='divider'>
-        <section class='professional-information'>
-            <h1>This is info</h1>
-        </section>
-        <section class="form-container">
-            <form action="" method="post" novalidate>
-                {{form.hidden_tag()}}
-                <legend>Create your professional account</legend>
-                <section>
-                    {{form.username(class='form-field', placeholder='Enter username')}}
-                    {{form_field_error(form.username.errors)}}
-                </section>
-                <section>
-                    {{form.email(class='form-field', placeholder='Enter email')}}
-                    {{form_field_error(form.email.errors)}}
-                </section>
-                <section>
-                    {{form.password(class='form-field', placeholder='Enter password')}}
-                    {{form_field_error(form.password.errors)}}
-                </section>
-                <section>
-                    {{form.confirm_password(class='form-field', placeholder='Retype password')}}
-                    {{form_field_error(form.confirm_password.errors)}}
-                </section>
-                <section>
-                    {{form.phone(class='form-field', placeholder='Enter your phone number (xxx-xxx-xxxx) or without - ')}}
-                    {{form_field_error(form.phone.errors)}}
-                </section>
-                <section>
-                    {{form.payrate(class='form-field',placeholder='Enter your payrate ')}}
-                    {{form_field_error(form.payrate.errors)}}
-                </section>
-                <section>
-                    {{form.specialty(class='form-field',placeholder='Select your specialty ')}}
-                    {{form_field_error(form.specialty.errors)}}
-                </section>
-                <section>
-                    {{form.submit(class='button')}}
-                </section>
-            </form>
-        </section>
-    </section>
+    <div class="form-container">
+        <h1>Get hired as a professional !</h1>
+        <form method="POST" novalidate>
+            {{form.hidden_tag()}}
+            {{form.username(class='form-field', placeholder='Enter username')}}
+            {{form_field_error(form.username.errors)}}
+            {{form.email(class='form-field', placeholder='Enter email')}}
+            {{form_field_error(form.email.errors)}}
+            {{form.password(class='form-field', placeholder='Enter password')}}
+            {{form_field_error(form.password.errors)}}
+            {{form.confirm_password(class='form-field', placeholder='Retype password')}}
+            {{form_field_error(form.confirm_password.errors)}}
+            {{form.phone(class='form-field', placeholder='Enter your phone number (xxx-xxx-xxxx) or without - ')}}
+            {{form_field_error(form.phone.errors)}}
+            {{form.payrate(class='form-field',placeholder='Enter your payrate ')}}
+            {{form_field_error(form.payrate.errors)}}
+            {{form.specialty(class='form-field',placeholder='Select your specialty ')}}
+            {{form_field_error(form.specialty.errors)}}
+            {{form.submit(class='button')}}
+        </form>
+    </div>
 {% endblock content %}
