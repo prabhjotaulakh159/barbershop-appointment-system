@@ -25,6 +25,6 @@ class RegisterProfessionalForm(RegisterClientForm):
     
 class LoginForm(FlaskForm):
     username = StringField("Username", validators=[DataRequired(), Length(min=2,max=25)])
-    email = EmailField ('Email', validators=[DataRequired(),])
+    #email = EmailField ('Email', validators=[DataRequired(),])
     password = PasswordField("Password", validators=[DataRequired()])
     submit = SubmitField("Login")

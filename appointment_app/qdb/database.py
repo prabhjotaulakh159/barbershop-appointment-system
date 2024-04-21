@@ -5,14 +5,14 @@ from appointment_app.qdb.config_db import host, usr, sn, pw
 class Database:
     ''' Performs actions on the database '''
 
-    #had to re-add __init__ and __connect method to run the teacher's run_file method to update database.
+    # had to re-add __init__ and __connect method to run the teacher's run_file method to update database.
     def __init__(self, autocommit=True):
         self.__connection = self.__connect()
         self.__connection.autocommit = autocommit
 
     def __connect(self):
         return oracledb.connect(user=usr, password=pw, host=host,  service_name=sn)
-    
+
     def connect(self):
         ''' Create a connection to oracle '''
         return oracledb.connect(user=usr, password=pw, host=host,
@@ -61,7 +61,7 @@ class Database:
                 qry = "SELECT client_id, user_name, pass_word, email, avatar, phone FROM Clients WHERE user_name = :username"
                 try:
                     cursor.execute(qry, [username])
-                    client = cursor.fetchall()
+                    client = cursor.fetchall()[0]
                     return client
                 except Exception as e:
                     print(e)
@@ -78,15 +78,75 @@ class Database:
                 except Exception as e:
                     print(e)
 
-    def get_professional(self, prof_name):
+    def get_professional(self, professional_name):
         ''' Gets a professional by username '''
         with self.connect() as connection:
             with connection.cursor() as cursor:
-                qry = "SELECT professional_id, professional_name, pass_word, professional_email, avatar, phone, rate, specialty,  FROM Professionals WHERE prof_name = :prof_name"
+                qry = "SELECT professional_id, professional_name, pass_word, professional_email, avatar, phone, rate, specialty,  FROM Professionals WHERE get_professional = :get_professional"
                 try:
-                    cursor.execute(qry, [prof_name])
+                    cursor.execute(qry, [professional_name])
+                    professional = cursor.fetchall()[0]
+                    return professional
+                except Exception as e:
+                    print(e)
+
+    def get_services_name(self):
+        ''' Gets all services' name '''
+        with self.connect() as connection:
+            with connection.cursor() as cursor:
+                qry = "SELECT service_name FROM Services"
+                try:
+                    cursor.execute(qry)
                     professional = cursor.fetchall()
                     return professional
+                except Exception as e:
+                    print(e)
+
+    def get_professional_names(self):
+        ''' Gets all professionals' name'''
+        with self.connect() as connection:
+            with connection.cursor() as cursor:
+                qry = "SELECT professional_name FROM professionals"
+                try:
+                    cursor.execute(qry,)
+                    professional = cursor.fetchall()
+                    return professional
+                except Exception as e:
+                    print(e)
+
+    def get_professional_id(self, professional_name):
+        ''' Gets professional's id by name '''
+        with self.connect() as connection:
+            with connection.cursor() as cursor:
+                qry = "SELECT professional_id FROM professionals WHERE professional_name = :professional_name"
+                try:
+                    cursor.execute(qry, [professional_name])
+                    professional = cursor.fetchall()[0]
+                    return professional
+                except Exception as e:
+                    print(e)
+
+    def get_service_id(self, service_name):
+        ''' Gets service's id by name '''
+        with self.connect() as connection:
+            with connection.cursor() as cursor:
+                qry = "SELECT service_id FROM services WHERE service_name = :service_name"
+                try:
+                    cursor.execute(qry, [service_name])
+                    professional = cursor.fetchall()[0]
+                    return professional
+                except Exception as e:
+                    print(e)
+
+    def add_appointment(self, status, date_appointment, slot, venue, client_id, prof_id, service_id):
+        ''' Adds appointment to the database '''
+        qry = "INSERT INTO Appointments (status,date_appointment,slot,venue,client_id,prof_id,service_id) VALUES (:status,:date_appointment,:slot,:venue,:client_id,:prof_id,:service_id)"
+        with self.connect() as connection:
+            with connection.cursor() as cursor:
+                try:
+                    cursor.execute(qry, [status, date_appointment,
+                                         slot, venue, client_id, prof_id, service_id])
+                    connection.commit()
                 except Exception as e:
                     print(e)
 
