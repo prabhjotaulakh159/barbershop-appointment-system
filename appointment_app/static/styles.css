@@ -104,7 +104,15 @@ form {
     border-radius: 0.2rem;
 }
 
-form * {
+.input-group {
+    width: 80%;
+}
+
+.input-group * {
+    width: 100%;
+}
+
+form *{
     width: 80%;
 }
 
