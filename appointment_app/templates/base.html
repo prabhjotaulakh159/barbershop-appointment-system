@@ -18,14 +18,17 @@
             <a href="{{ url_for('user.login_professional') }}">Login (professional)</a>
             <a href="{{ url_for('appointment.add_appointment') }}">Make an appointment</a>
         </nav>
-        <!--
-            {% if get_flashed_messages() %}
-                {% for category, message in get_flashed_messages(with_categories=True) %}
-                    <p class="{{ category }}">{{ message }}</p>
-                {% endfor %}
-            {% endif %}
+        {% if get_flashed_messages() %}
+            {% for category, message in get_flashed_messages(with_categories=True) %}
+                <p class="{{ category }}">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+        <main>
             {% block content %}
+                
             {% endblock content %}
+        </main>
+        <!--
             <footer>
                 <span>Prabhjot Aulakh and Tommy Tran, Winter 2024</span>
             </footer> 

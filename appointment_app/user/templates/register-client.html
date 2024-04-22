@@ -1,33 +1,20 @@
 {% extends "base.html" %}
 {% from "macros.html" import form_field_error with context %}
 {% block content %}
-    <section class="form-container">
-        <form action="" method="post" novalidate>
-            {{form.hidden_tag()}}
-            <legend>Create your client account</legend>
-            <section>
-                {{form.username(class='form-field', placeholder='Enter username')}}
-                {{form_field_error(form.username.errors)}}
-            </section>
-            <section>
-                {{form.email(class='form-field', placeholder='Enter email')}}
-                {{form_field_error(form.email.errors)}}
-            </section>
-            <section>
-                {{form.password(class='form-field', placeholder='Enter password')}}
-                {{form_field_error(form.password.errors)}}
-            </section>
-            <section>
-                {{form.confirm_password(class='form-field', placeholder='Retype password')}}
-                {{form_field_error(form.confirm_password.errors)}}
-            </section>
-            <section>
-                {{form.phone(class='form-field', placeholder='Enter your phone number (xxx-xxx-xxxx) or without - ')}}
-                {{form_field_error(form.phone.errors)}}
-            </section>
-            <section>
-                {{form.submit(class='button')}}
-            </section>
+    <div class="form-container">
+        <form method="POST" novalidate>
+            {{ form.hidden_tag() }}
+            {{ form.username(class='form-field', placeholder='Enter username') }}
+            {{ form_field_error(form.username.errors) }}
+            {{ form.email(class='form-field', placeholder='Enter email') }}
+            {{ form_field_error(form.email.errors) }}
+            {{ form.password(class='form-field', placeholder='Enter password') }}
+            {{ form_field_error(form.password.errors) }}
+            {{ form.confirm_password(class='form-field', placeholder='Retype password') }}
+            {{ form_field_error(form.confirm_password.errors) }}
+            {{ form.phone(class='form-field', placeholder='Enter your phone number') }}
+            {{ form_field_error(form.phone.errors) }}
+            {{ form.submit(class='button', value='Register as a client') }}
         </form>
-    </section>
+    </div>
 {% endblock content %}
