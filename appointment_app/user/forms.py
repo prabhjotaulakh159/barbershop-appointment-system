@@ -21,7 +21,7 @@ class RegisterProfessionalForm(RegisterClientForm):
         ('barber', 'Barber'),
         ('other', 'Other')
     ])
-    submit = SubmitField("Register")
+    submit = SubmitField("Register as a professional")
     
 class LoginForm(FlaskForm):
     username = StringField("Username", validators=[DataRequired(), Length(min=2,max=25)])

@@ -1,4 +1,4 @@
-<DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <title>420 Project</title>
@@ -7,15 +7,15 @@
         <script src="{{ url_for('static', filename='/script.js') }}"></script>
     </head>
     <body>
-        <header class='header'>
-            <h1>420 project by Prabhjot Aulakh and Tommy Tran</h1>
+        <header>
+            <h1>Barbershop Appointments</h1>
         </header>
-        <nav class='navigation'>
+        <nav>
             <a href="{{ url_for('main.home') }}">Home</a>
-            <a href="{{ url_for('user.register_client') }}">Register as a client</a>
-            <a href="{{ url_for('user.register_professional') }}">Register as a professional</a>
-            <a href="{{ url_for('user.login_client') }}">Login as a client</a>
-            <a href="{{ url_for('user.login_professional') }}">Login as a professional</a>
+            <a href="{{ url_for('user.register_client') }}">Register (client)</a>
+            <a href="{{ url_for('user.login_client') }}">Login (client)</a>
+            <a href="{{ url_for('user.register_professional') }}">Register (professional)</a>
+            <a href="{{ url_for('user.login_professional') }}">Login (professional)</a>
             <a href="{{ url_for('appointment.add_appointment') }}">Make an appointment</a>
         </nav>
         {% if get_flashed_messages() %}
@@ -23,8 +23,15 @@
                 <p class="{{ category }}">{{ message }}</p>
             {% endfor %}
         {% endif %}
-        {% block content %}
-            <!-- overriden -->
-        {% endblock content %}
+        <main>
+            {% block content %}
+                
+            {% endblock content %}
+        </main>
+        <!--
+            <footer>
+                <span>Prabhjot Aulakh and Tommy Tran, Winter 2024</span>
+            </footer> 
+        -->
     </body>
 </html>
