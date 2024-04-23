@@ -3,9 +3,7 @@
 document.addEventListener('DOMContentLoaded', (e) => {
     const userTypeInput = document.getElementById('user-type');
     const payrateInput = document.getElementById('pay-rate');
-    const specialityInput = document.getElementById('speciality');
-
-    userTypeInput.addEventListener('click', renderProfessionalReservedFields);
+    const specialityInput = document.getElementById('specialty');
 
     const renderProfessionalReservedFields = (e) => {
         if (e.target.value == 'Member') {
@@ -18,4 +16,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
             throw new Error('Invalid value found for user type !');
         }
     };
+
+    userTypeInput.addEventListener('click', renderProfessionalReservedFields);
+
 });
