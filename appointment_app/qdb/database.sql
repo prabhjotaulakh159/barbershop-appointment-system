@@ -1,47 +1,29 @@
 DROP TABLE reports;
 DROP TABLE appointments;
 DROP TABLE services;
-DROP TABLE admins;
-DROP TABLE professionals;
-DROP TABLE clients;
+DROP TABLE users;
 
-CREATE TABLE clients (
-    client_id       NUMBER              GENERATED ALWAYS AS IDENTITY,
+CREATE TABLE users (
+    user_id         NUMBER              GENERATED ALWAYS AS IDENTITY,
+    is_active       NUMBER(1)           DEFAULT 1 NOT NULL,
+    access_level    NUMBER(1)           DEFAULT 0 NOT NULL,
+    user_type       VARCHAR2(255)       NOT NULL, 
     user_name       VARCHAR2(255)       NOT NULL,
     pass_word       VARCHAR2(255)       NOT NULL,
     email           VARCHAR2(255)       NOT NULL,
     avatar          VARCHAR2(255)       DEFAULT '/static/images/avatar.png' NOT NULL,
     phone           VARCHAR2(255)       NOT NULL,
+    adddress        VARCHAR2(255)       NOT NULL,
+    age             NUMBER(4)           NOT NULL,
+    pay_rate        NUMBER(5,2)         ,
+    specialty       VARCHAR2(255)       ,
     
-    CONSTRAINT client_id_PK             PRIMARY KEY (client_id),
+    
+    CONSTRAINT user_id_PK               PRIMARY KEY (user_id),
     CONSTRAINT user_name_U              UNIQUE (user_name),
     CONSTRAINT email_U                  UNIQUE (email)
 );
 
-CREATE TABLE professionals (
-    professional_id         NUMBER              GENERATED ALWAYS AS IDENTITY,
-    professional_name       VARCHAR2(255)       NOT NULL,
-    pass_word               VARCHAR2(255)       NOT NULL,
-    professional_email      VARCHAR2(255)       NOT NULL,
-    avatar                  VARCHAR2(255)       DEFAULT '/static/images/avatar.png' NOT NULL,
-    phone                   VARCHAR2(255)       NOT NULL,
-    rate                    NUMBER(5,2)         NOT NULL,
-    specialty               VARCHAR2(255)       NOT NULL,
-    
-    CONSTRAINT professional_id_PK               PRIMARY KEY (professional_id),
-    CONSTRAINT professional_name_U              UNIQUE (professional_name),
-    CONSTRAINT professional_email_U             UNIQUE (professional_email) 
-);
-
-CREATE TABLE admins (
-    admin_id        NUMBER          GENERATED ALWAYS AS IDENTITY,    
-    admin_name      VARCHAR2(255)   NOT NULL,
-    pass_word       VARCHAR2(255)   NOT NULL,
-    access_lvl      NUMBER(1)       NOT NULL,
-    
-    CONSTRAINT admin_id_PK          PRIMARY KEY (admin_id),
-    CONSTRAINT admin_name_U         UNIQUE (admin_name)
-);
 
 CREATE TABLE services (
     service_id          NUMBER          GENERATED ALWAYS AS IDENTITY,
@@ -56,17 +38,18 @@ CREATE TABLE services (
 
 CREATE TABLE appointments (
     appointment_id      NUMBER              GENERATED ALWAYS AS IDENTITY,
-    status              NUMBER(1)           NOT NULL,
+    status              VARCHAR2(255)       DEFAULT 'ON GOING' NOT NULL,
     date_appointment    DATE                NOT NULL,
     slot                VARCHAR2(255)       NOT NULL,
     venue               VARCHAR2(255)       NOT NULL,
     client_id           NUMBER              NOT NULL,
-    prof_id             NUMBER              NOT NULL,
+    professional_id     NUMBER              NOT NULL,
     service_id          NUMBER              NOT NULL,
+    number_services     NUMBER(1)           DEFAULT 1 NOT NULL,
     
     CONSTRAINT appointment_id_PK            PRIMARY KEY (appointment_id),
-    CONSTRAINT client_id_FK                 FOREIGN KEY (client_id) REFERENCES clients (client_id) ON DELETE CASCADE,
-    CONSTRAINT prof_id_FK                   FOREIGN KEY (prof_id) REFERENCES professionals (professional_id) ON DELETE CASCADE,
+    CONSTRAINT client_id_FK                 FOREIGN KEY (client_id) REFERENCES users (user_id) ON DELETE CASCADE,
+    CONSTRAINT professional_id              FOREIGN KEY (professional_id) REFERENCES users (user_id) ON DELETE CASCADE,
     CONSTRAINT service_id_FK                FOREIGN KEY (service_id) REFERENCES services (service_id) ON DELETE CASCADE
 );
 
@@ -81,27 +64,27 @@ CREATE TABLE reports (
     CONSTRAINT appointment_id_FK                FOREIGN KEY (appointment_id) REFERENCES appointments (appointment_id) ON DELETE CASCADE 
 );
 
-INSERT INTO services (service_name, service_duration, service_price, service_materials)
-VALUES ('Haircut', 30, 50.00, 'Scissors, Comb, Hair Dryer');
-
-INSERT INTO services (service_name, service_duration, service_price, service_materials)
-VALUES ('Head Shave', 20, 25.00, 'Clippers, Shaving Cream, Razor');
-
-INSERT INTO services (service_name, service_duration, service_price, service_materials)
-VALUES ('Hair Styling', 60, 60.00, 'Curling Iron, Hair Spray, Hair Pins');
-
-INSERT INTO services (service_name, service_duration, service_price, service_materials)
-VALUES ('Hair Color', 60, 150.00, 'Hair Color, Developer, Gloves');
-
-INSERT INTO services (service_name, service_duration, service_price, service_materials)
-VALUES ('Highlights', 60, 200.00, 'Foil, Hair 
-Bleach, Developer');
-
-INSERT INTO services (service_name, service_duration, service_price, service_materials)
-VALUES ('Perm', 60, 180.00, 'Perm Solution, Neutralizer');
-
-INSERT INTO services (service_name, service_duration, service_price, service_materials)
-VALUES ('Basic Haircut', 30, 30.00, 'Clippers, Scissors, Comb');
-
-INSERT INTO services (service_name, service_duration, service_price, service_materials)
-VALUES ('Beard Trim', 15, 20.00, 'Clippers, Scissors, Beard Oil');
+--INSERT INTO services (service_name, service_duration, service_price, service_materials)
+--VALUES ('Haircut', 30, 50.00, 'Scissors, Comb, Hair Dryer');
+--
+--INSERT INTO services (service_name, service_duration, service_price, service_materials)
+--VALUES ('Head Shave', 20, 25.00, 'Clippers, Shaving Cream, Razor');
+--
+--INSERT INTO services (service_name, service_duration, service_price, service_materials)
+--VALUES ('Hair Styling', 60, 60.00, 'Curling Iron, Hair Spray, Hair Pins');
+--
+--INSERT INTO services (service_name, service_duration, service_price, service_materials)
+--VALUES ('Hair Color', 60, 150.00, 'Hair Color, Developer, Gloves');
+--
+--INSERT INTO services (service_name, service_duration, service_price, service_materials)
+--VALUES ('Highlights', 60, 200.00, 'Foil, Hair 
+--Bleach, Developer');
+--
+--INSERT INTO services (service_name, service_duration, service_price, service_materials)
+--VALUES ('Perm', 60, 180.00, 'Perm Solution, Neutralizer');
+--
+--INSERT INTO services (service_name, service_duration, service_price, service_materials)
+--VALUES ('Basic Haircut', 30, 30.00, 'Clippers, Scissors, Comb');
+--
+--INSERT INTO services (service_name, service_duration, service_price, service_materials)
+--VALUES ('Beard Trim', 15, 20.00, 'Clippers, Scissors, Beard Oil');
