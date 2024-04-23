@@ -3,31 +3,31 @@ from flask_bcrypt import Bcrypt
 from appointment_app.qdb.database import db
 from appointment_app.user.forms import RegisterUserForm, LoginForm
 from flask_login import login_user
-from appointment_app.user.auth_config import Client, Professional
+from appointment_app.user.auth_config import User
 
 user = Blueprint('user', __name__, template_folder="templates")
 
 
-@user.route("/login-client", methods=['GET', 'POST'])
-def login_client():
-    '''Renders the login client form'''
-    form = LoginForm()
-    if form.validate_on_submit():
-        client = db.get_client(form.username.data)
-        if not client:
-            flash(f"Client {form.username.data} does not exist")
-            return redirect(url_for('user.login_client'))
-        encrypted_password = client[2]
-        bcrypt = Bcrypt()
-        if not bcrypt.check_password_hash(encrypted_password, form.password.data):
-            flash("You provided invalid credentials")
-            return redirect(url_for('user.login'))
-        logged_in_client = Client(
-            client_id=client[0], username=client[1], password=client[2], email=client[3], avatar=client[4], phone=client[5])
-        login_user(logged_in_client)
-        flash("You have sucessfully logged in !", "success")
-        return redirect(url_for('main.home'))
-    return render_template('login-client.html', form=form)
+# @user.route("/login-client", methods=['GET', 'POST'])
+# def login_client():
+#     '''Renders the login client form'''
+#     form = LoginForm()
+#     if form.validate_on_submit():
+#         client = db.get_client(form.username.data)
+#         if not client:
+#             flash(f"Client {form.username.data} does not exist")
+#             return redirect(url_for('user.login_client'))
+#         encrypted_password = client[2]
+#         bcrypt = Bcrypt()
+#         if not bcrypt.check_password_hash(encrypted_password, form.password.data):
+#             flash("You provided invalid credentials")
+#             return redirect(url_for('user.login'))
+#         logged_in_client = User(
+#             client_id=client[0], username=client[1], password=client[2], email=client[3], avatar=client[4], phone=client[5])
+#         login_user(logged_in_client)
+#         flash("You have sucessfully logged in !", "success")
+#         return redirect(url_for('main.home'))
+#     return render_template('login-client.html', form=form)
 
 
 @user.route("/register", methods=["GET", "POST"])
@@ -50,9 +50,11 @@ def register():
         speciality = form.specialty.data
         address = form.address.data
         age = form.age.data
-        db.add_user(username, password, email,
-                            avatar, phone, payrate, speciality)
-        flash(f'Welcome {username} you are now a professional', 'success')
+        usertype = form.user_type.data
+        db.add_user(usertype,username, password, email,
+                            avatar, phone, address,age, payrate, speciality)
+        
+        flash(f'Welcome {username} you are now a user', 'success')
         return redirect(url_for('main.home'))
     return render_template("register.html", form=form)
 

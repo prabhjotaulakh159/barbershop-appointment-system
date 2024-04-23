@@ -66,14 +66,14 @@ class Database:
                 except Exception as e:
                     print(e)
 
-    def add_user(self, user_name, pass_word, professional_email, avatar, phone, rate, specialty):
-        ''' Adds a professional to the database '''
-        qry = "INSERT INTO Professionals (professional_name,pass_word,professional_email,avatar,phone,rate,specialty) VALUES (:professional_name,:pass_word,:professional_email,:avatar,:phone,:rate,:specialty)"
+    def add_user(self, user_type, user_name ,pass_word, email, avatar, phone, address, age, pay_rate, specialty):
+        ''' Adds a user to the database '''
+        qry = "INSERT INTO Users (user_type,user_name,pass_word,email,avatar,phone,rate,address,age,payrate,specialty) VALUES (:user_type,:user_name,:pass_word,:email,:avatar,:phone,:address,:age,:pay_rate,:specialty)"
         with self.connect() as connection:
             with connection.cursor() as cursor:
                 try:
-                    cursor.execute(qry, [professional_name, pass_word,
-                                         professional_email, avatar, phone, rate, specialty])
+                    cursor.execute(
+                        qry, [user_type, user_name, pass_word, email, avatar, phone, address, age, pay_rate, specialty])
                     connection.commit()
                 except Exception as e:
                     print(e)
