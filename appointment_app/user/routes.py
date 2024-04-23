@@ -49,6 +49,7 @@ def register():
         payrate = form.pay_rate.data
         speciality = form.specialty.data
         address = form.address.data
+        age = form.age.data
         db.add_user(username, password, email,
                             avatar, phone, payrate, speciality)
         flash(f'Welcome {username} you are now a professional', 'success')
