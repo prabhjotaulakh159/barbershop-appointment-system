@@ -23,11 +23,11 @@
             {{ form.pay_rate(placeholder='Enter pay rate', id='pay-rate') }}
             {{ form_field_error(form.pay_rate.errors) }}
             <div class="input-group">
-                <div>Speciality</div>
+                <div id="specialityLabel">Speciality</div>
                 {{ form.specialty(id='specialty') }}
                 {{ form_field_error(form.specialty.errors) }}
             </div>
-            {{ form.submit(class='button', value='Register as a client') }}
+            {{ form.submit(class='button', value='Register') }}
         </form>
     </div>
 {% endblock content %}

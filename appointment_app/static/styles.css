@@ -13,7 +13,8 @@
     --font-family: Roboto, sans-serif;
 }
 
-body, * {
+body,
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -25,7 +26,8 @@ a {
     text-decoration: none;
 }
 
-html, body {
+html,
+body {
     height: 100%;
 }
 
@@ -112,11 +114,12 @@ form {
     width: 100%;
 }
 
-form *{
+form * {
     width: 80%;
 }
 
-form input, select {
+form input,
+select {
     font-size: 1.25rem;
     padding: 0.5rem;
 }
@@ -134,4 +137,12 @@ form .button {
     padding: 0.5rem;
     font-size: 0.75rem;
     font-weight: 700;
+}
+
+#pay-rate {
+    display: none;
+}
+
+#specialty, #specialityLabel {
+    display: none;
 }
