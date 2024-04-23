@@ -55,14 +55,33 @@ class Database:
                     print(e)
 
     def get_user(self, username):
-        ''' Gets a User by username '''
+        ''' Gets a user by username '''
         with self.connect() as connection:
             with connection.cursor() as cursor:
-                qry = "SELECT * FROM Users WHERE user_name = :username"
+                qry = ''' 
+                    SELECT 
+                        user_id,
+                        is_active,
+                        access_level,
+                        user_type, 
+                        user_name,
+                        pass_word,
+                        email,
+                        avatar,
+                        phone,
+                        adddress,
+                        age,
+                        pay_rate,
+                        specialty
+                    FROM 
+                        users 
+                    WHERE
+                        user_name = :username 
+                    '''
                 try:
                     cursor.execute(qry, [username])
-                    client = cursor.fetchall()[0]
-                    return client
+                    user = cursor.fetchall()[0]
+                    return user
                 except Exception as e:
                     print(e)
 
@@ -75,18 +94,6 @@ class Database:
                     cursor.execute(
                         qry, [user_type, user_name, pass_word, email, avatar, phone, address, age, pay_rate, specialty])
                     connection.commit()
-                except Exception as e:
-                    print(e)
-
-    def get_professional(self, professional_name):
-        ''' Gets a professional by username '''
-        with self.connect() as connection:
-            with connection.cursor() as cursor:
-                qry = "SELECT professional_id, professional_name, pass_word, professional_email, avatar, phone, rate, specialty,  FROM Professionals WHERE get_professional = :get_professional"
-                try:
-                    cursor.execute(qry, [professional_name])
-                    professional = cursor.fetchall()[0]
-                    return professional
                 except Exception as e:
                     print(e)
 
