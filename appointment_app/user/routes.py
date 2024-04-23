@@ -20,7 +20,7 @@ def login():
         is_active = client[1]
         access_level = client[2]
         user_name = client[3]
-        pass_word = client[4] # this is encrypted
+        pass_word = client[4]  # this is encrypted
         email = client[5]
         avatar = client[6]
         phone = client[7]
@@ -32,7 +32,8 @@ def login():
         if not bcrypt.check_password_hash(pass_word, form.password.data):
             flash("You provided invalid credentials")
             return redirect(url_for('user.login'))
-        user = User(user_id, is_active, access_level, user_name, email, avatar, phone, address, age, pay_rate, specialty)
+        user = User(user_id, is_active, access_level, user_name,
+                    email, avatar, phone, address, age, pay_rate, specialty)
         login_user(user)
         flash("You have sucessfully logged in !", "success")
         return redirect(url_for('main.home'))
@@ -50,19 +51,23 @@ def register():
             flash(f'{username} already in db. Choose another username', 'error')
             return redirect(url_for('user.register'))
         b = Bcrypt()
+        usertype = form.user_type.data
         username = form.username.data
         password = b.generate_password_hash(form.password.data).decode('utf-8')
         email = form.email.data
         avatar = "/static/images/avatar.png"
         phone = form.phone.data
-        payrate = form.pay_rate.data
-        speciality = form.specialty.data
         address = form.address.data
         age = form.age.data
-        usertype = form.user_type.data
-        db.add_user(usertype,username, password, email,
-                            avatar, phone, address,age, payrate, speciality)
-        
+        if usertype=="Member":
+            payrate = None
+            speciality = None
+        else:
+            payrate = form.pay_rate.data
+            speciality = form.specialty.data
+        db.add_user(usertype, username, password, email,
+                    avatar, phone, address, age, payrate, speciality)
+
         flash(f'Welcome {username} you are now a user', 'success')
         return redirect(url_for('main.home'))
     return render_template("register.html", form=form)

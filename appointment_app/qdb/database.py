@@ -37,23 +37,7 @@ class Database:
                             except Exception as e:
                                 print(e)
                         statement_parts = []
-
-    def add_client(self, user_name, pass_word, email, avatar, phone):
-        ''' Adds a client to the database '''
-        qry = '''
-            INSERT INTO clients (user_name, pass_word, email,
-            avatar, phone) VALUES
-            (:user_name, :pass_word, :email,: avatar, :phone)
-        '''
-        with self.connect() as connection:
-            with connection.cursor() as cursor:
-                try:
-                    cursor.execute(qry, [user_name, pass_word, email, avatar,
-                                         phone])
-                    connection.commit()
-                except Exception as e:
-                    print(e)
-
+                        
     def get_user(self, username):
         ''' Gets a user by username '''
         with self.connect() as connection:
@@ -69,7 +53,7 @@ class Database:
                         email,
                         avatar,
                         phone,
-                        adddress,
+                        address,
                         age,
                         pay_rate,
                         specialty
@@ -87,13 +71,15 @@ class Database:
 
     def add_user(self, user_type, user_name ,pass_word, email, avatar, phone, address, age, pay_rate, specialty):
         ''' Adds a user to the database '''
-        qry = "INSERT INTO Users (user_type,user_name,pass_word,email,avatar,phone,rate,address,age,payrate,specialty) VALUES (:user_type,:user_name,:pass_word,:email,:avatar,:phone,:address,:age,:pay_rate,:specialty)"
+        qry = "INSERT INTO Users (user_type,user_name,pass_word,email,avatar,phone,address,age,pay_rate,specialty) VALUES (:user_type,:user_name,:pass_word,:email,:avatar,:phone,:address,:age,:pay_rate,:specialty)"
         with self.connect() as connection:
             with connection.cursor() as cursor:
                 try:
+                    print("test")
                     cursor.execute(
                         qry, [user_type, user_name, pass_word, email, avatar, phone, address, age, pay_rate, specialty])
                     connection.commit()
+                    print("test2")
                 except Exception as e:
                     print(e)
 
