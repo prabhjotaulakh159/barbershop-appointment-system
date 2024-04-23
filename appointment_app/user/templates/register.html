@@ -14,6 +14,13 @@
             {{ form_field_error(form.confirm_password.errors) }}
             {{ form.phone(class='form-field', placeholder='Enter your phone number') }}
             {{ form_field_error(form.phone.errors) }}
+            {{ form.pay_rate(placeholder='Enter pay rate') }}
+            {{ form_field_error(form.pay_rate.errors) }}
+            <div class="input-group">
+                <div>Speciality</div>
+                {{ form.specialty() }}
+                {{ form_field_error(form.specialty.errors) }}
+            </div>
             {{ form.submit(class='button', value='Register as a client') }}
         </form>
     </div>
