@@ -18,6 +18,16 @@
             {{ form_field_error(form.payrate.errors) }}
             {{ form.specialty(class='form-field',placeholder='Select your specialty ') }}
             {{ form_field_error(form.specialty.errors) }}
+
+            {{ form.specialty(class='form-field',placeholder='Select your specialty ') }}
+            {{ form_field_error(form.specialty.errors) }}
+
+            {{ form.address(class='form-field',placeholder='Enter your address ') }}
+            {{ form_field_error(form.address.errors) }}
+
+            {{ form.age(class='form-field',placeholder='Enter your age ') }}
+            {{ form_field_error(form.age.errors) }}
+            
             {{ form.submit(class='button') }}
         </form>
     </div>

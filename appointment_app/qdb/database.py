@@ -54,11 +54,11 @@ class Database:
                 except Exception as e:
                     print(e)
 
-    def get_client(self, username):
-        ''' Gets a client by username '''
+    def get_user(self, username):
+        ''' Gets a User by username '''
         with self.connect() as connection:
             with connection.cursor() as cursor:
-                qry = "SELECT client_id, user_name, pass_word, email, avatar, phone FROM Clients WHERE user_name = :username"
+                qry = "SELECT * FROM Users WHERE user_name = :username"
                 try:
                     cursor.execute(qry, [username])
                     client = cursor.fetchall()[0]
@@ -66,7 +66,7 @@ class Database:
                 except Exception as e:
                     print(e)
 
-    def add_professional(self, professional_name, pass_word, professional_email, avatar, phone, rate, specialty):
+    def add_user(self, user_name, pass_word, professional_email, avatar, phone, rate, specialty):
         ''' Adds a professional to the database '''
         qry = "INSERT INTO Professionals (professional_name,pass_word,professional_email,avatar,phone,rate,specialty) VALUES (:professional_name,:pass_word,:professional_email,:avatar,:phone,:rate,:specialty)"
         with self.connect() as connection:
