@@ -1,17 +1,18 @@
 '''import flask and its methods'''
 from flask import Blueprint, render_template, flash
 from flask_login import login_required
-from appointment_app.qdb.database import Database
+from appointment_app.qdb.database import db
 from appointment_app.appointment.forms import AppointmentForm
-from appointment_app.qdb.database import Database
 
-appointment = Blueprint('appointment', __name__, template_folder="templates",
-                        static_folder="static")
+appointment = Blueprint('appointment', __name__, template_folder="templates")
 
-db = Database()
+@appointment.route('/all-appointments')
+@login_required
+def all_appointments():
+    appointments = db.get_appointments()
+    return render_template("all-appointments.html", appointments=appointments)
 
-
-@appointment.route("/add_appointment", methods=["GET", "POST"])
+@appointment.route("/add-appointment", methods=["GET", "POST"])
 @login_required
 def add_appointment():
     form = AppointmentForm()
@@ -50,4 +51,4 @@ def add_appointment():
                            form.slot.data, form.venue.data, client_id, prof_id, service_id)
         flash('Appointment is created!')
 
-    return render_template("appointment.html", form=form)
+    return render_template("add-appointment.html", form=form)

@@ -19,6 +19,7 @@
             {% if current_user.is_authenticated %}
                 <a href="{{ url_for('user.logout') }}">Logout</a>
                 <a href="{{ url_for('appointment.add_appointment') }}">Make an appointment</a>
+                <a href="{{ url_for('appointment.all_appointments') }}">View all appointments</a>
             {% endif %}
         </nav>
         <div class="flashes">

@@ -140,7 +140,18 @@ class Database:
                     connection.commit()
                 except Exception as e:
                     print(e)
-
+                    
+    def get_appointments(self):
+        query = ''' SELECT appointment_id, status, date_appointment, slot, venue,
+            client_id, professional_id, service_id, number_services FROM appointments'''
+        with self.connect() as connection:
+            with connection.cursor() as cursor:
+                try:
+                    cursor.execute(query)
+                    appointments = cursor.fetchall()
+                    return appointments
+                except Exception as e:
+                    print(e)
 
 db = Database()
 
