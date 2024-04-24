@@ -2,7 +2,7 @@
 {% from "macros.html" import form_field_error with context %}
 {% block content %}
     <div class="form-container">
-        <form method="POST" novalidate>
+        <form method="POST" novalidate enctype="multipart/form-data">
             {{ form.hidden_tag() }}
             {{ form.user_type(id='user-type') }}
             {{ form_field_error(form.user_type.errors) }}
@@ -26,6 +26,11 @@
                 <div id="specialityLabel">Speciality</div>
                 {{ form.specialty(id='specialty') }}
                 {{ form_field_error(form.specialty.errors) }}
+            </div>
+            <div class="input-group">
+                <div>Profile Picture</div>
+                {{ form.avatar() }}
+                {{ form_field_error(form.avatar.errors) }}
             </div>
             {{ form.submit(class='button', value='Register') }}
         </form>
