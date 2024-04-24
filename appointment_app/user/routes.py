@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, flash, redirect, url_for
 from flask_bcrypt import Bcrypt
 from appointment_app.qdb.database import db
 from appointment_app.user.forms import RegisterUserForm, LoginForm
-from flask_login import login_user
+from flask_login import login_user, current_user, login_required, logout_user
 from appointment_app.user.auth_config import User
 
 user = Blueprint('user', __name__, template_folder="templates")
@@ -10,6 +10,8 @@ user = Blueprint('user', __name__, template_folder="templates")
 
 @user.route("/login", methods=['GET', 'POST'])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('main.home'))
     form = LoginForm()
     if form.validate_on_submit():
         user = db.get_user(form.username.data)
@@ -39,6 +41,12 @@ def login():
         return redirect(url_for('main.home'))
     return render_template('login.html', form=form)
 
+@user.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('user.login'))
+    
 
 @user.route("/register", methods=["GET", "POST"])
 def register():
