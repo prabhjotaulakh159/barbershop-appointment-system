@@ -5,11 +5,11 @@
 } */
 
 :root {
-    --light-blue: #574ae2;
-    --dark-blue: #222a68;
-    --dark-purple: #654597;
-    --medium-purple: #ab81cd;
-    --light-purple: #e2adf2;
+    --primary-clr: #561D25;
+    --secondary-clr: #CE8147;
+    --ternary-clr: #ECDD7B;
+    --fourth-clr: #D3E298;
+    --fifth-clr: #CDE7BE;
     --font-family: Roboto, sans-serif;
 }
 
@@ -40,7 +40,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--dark-blue);
+    background-color: var(--secondary-clr);
     color: #ffffff;
     height: auto;
     font-size: 1.25rem;
@@ -55,7 +55,7 @@ nav {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--light-blue);
+    background-color: var(--primary-clr);
     color: #ffffff;
     font-size: 1.25rem;
     gap: 1rem;
@@ -80,7 +80,7 @@ nav {
 }
 
 main {
-    background-color: var(--light-purple);
+    background-color: var(--fifth-clr);
     flex: 1;
 }
 
@@ -94,7 +94,7 @@ main {
 }
 
 form {
-    background-color: var(--medium-purple);
+    background-color: var(--fourth-clr);
     padding: 4rem;
     display: flex;
     flex-direction: column;
@@ -125,7 +125,7 @@ select {
 }
 
 form .button {
-    background-color: var(--dark-blue);
+    background-color: var(--secondary-clr);
     border: none;
     border-radius: 0.1rem;
     color: #ffffff;
@@ -133,7 +133,7 @@ form .button {
 
 .error {
     list-style: none;
-    background-color: var(--light-purple);
+    background-color: var(--fifth-clr);
     padding: 0.5rem;
     font-size: 0.75rem;
     font-weight: 700;

@@ -45,7 +45,7 @@ class Database:
                 qry = ''' 
                     SELECT 
                         user_id,
-                        is_active,
+                        is_enabled,
                         access_level,
                         user_type, 
                         user_name,
@@ -71,15 +71,13 @@ class Database:
 
     def add_user(self, user_type, user_name ,pass_word, email, avatar, phone, address, age, pay_rate, specialty):
         ''' Adds a user to the database '''
-        qry = "INSERT INTO Users (user_type,user_name,pass_word,email,avatar,phone,address,age,pay_rate,specialty) VALUES (:user_type,:user_name,:pass_word,:email,:avatar,:phone,:address,:age,:pay_rate,:specialty)"
+        qry = "INSERT INTO users (user_type,user_name,pass_word,email,avatar,phone,address,age,pay_rate,specialty) VALUES (:user_type,:user_name,:pass_word,:email,:avatar,:phone,:address,:age,:pay_rate,:specialty)"
         with self.connect() as connection:
             with connection.cursor() as cursor:
                 try:
-                    print("test")
                     cursor.execute(
                         qry, [user_type, user_name, pass_word, email, avatar, phone, address, age, pay_rate, specialty])
                     connection.commit()
-                    print("test2")
                 except Exception as e:
                     print(e)
 

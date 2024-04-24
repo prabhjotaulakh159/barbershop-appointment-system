@@ -21,5 +21,4 @@ document.addEventListener('DOMContentLoaded', (e) => {
     };
 
     userTypeInput.addEventListener('click', renderProfessionalReservedFields);
-
 });
