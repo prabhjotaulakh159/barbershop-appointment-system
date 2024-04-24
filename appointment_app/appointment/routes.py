@@ -20,7 +20,6 @@ def add_appointment():
     form = AppointmentForm()
 
     services = db.get_services_name()
-    print(services)
     services_list = []
     for service in services:
         services_list.append((service[0], service[0]))
@@ -28,7 +27,6 @@ def add_appointment():
    
     professionals = db.get_professional_names()
     professionals_list = []
-    print(professionals_list)
     for professional in professionals:
         professionals_list.append((professional[0], professional[0]))
 
