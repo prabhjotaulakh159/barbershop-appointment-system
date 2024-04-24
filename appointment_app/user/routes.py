@@ -16,7 +16,7 @@ def login():
     if form.validate_on_submit():
         user = db.get_user(form.username.data)
         if not user:
-            flash(f"You provided invalid credentials")
+            flash(f"You provided invalid credentials", "error")
             return redirect(url_for('user.login'))
         user_id = user[0]
         is_enabled = user[1]
@@ -33,7 +33,7 @@ def login():
         specialty = user[12]
         bcrypt = Bcrypt()
         if not bcrypt.check_password_hash(pass_word, form.password.data):
-            flash("You provided invalid credentials")
+            flash("You provided invalid credentials", "error")
             return redirect(url_for('user.login'))
         user = User(user_id=user_id, is_enabled=is_enabled, access_level=access_level, user_type=user_type, user_name=user_name, pass_word=pass_word, email=email, avatar=avatar, phone=phone, address=address, age=age, pay_rate=pay_rate, specialty=specialty)
         login_user(user)
@@ -45,6 +45,7 @@ def login():
 @login_required
 def logout():
     logout_user()
+    flash("You have been logged out", "success")
     return redirect(url_for('user.login'))
     
 

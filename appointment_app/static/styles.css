@@ -131,12 +131,23 @@ form .button {
     color: #ffffff;
 }
 
+.error, .success {
+    padding: 1rem;
+    color: #ffffff;
+} 
+
 .error {
     list-style: none;
     background-color: var(--fifth-clr);
     padding: 0.5rem;
     font-size: 0.75rem;
     font-weight: 700;
+    background-color: red;
+}
+
+.success {
+    background-color: green;
+    width: fit-content;
 }
 
 #pay-rate {
@@ -145,4 +156,16 @@ form .button {
 
 #specialty, #specialityLabel {
     display: none;
+}
+
+.flashes {
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--fifth-clr);
+    padding-top: 1rem;
+    font-size: 1.5rem;
+    margin-inline: auto;
 }
