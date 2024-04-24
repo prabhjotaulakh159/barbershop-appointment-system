@@ -11,18 +11,24 @@
             <h1>Barbershop Appointments</h1>
         </header>
         <nav>
-            <a href="{{ url_for('main.home') }}">Home</a>
-            <a href="{{ url_for('user.register_client') }}">Register (client)</a>
-            <a href="{{ url_for('user.login_client') }}">Login (client)</a>
-            <a href="{{ url_for('user.register_professional') }}">Register (professional)</a>
-            <a href="{{ url_for('user.login_professional') }}">Login (professional)</a>
-            <a href="{{ url_for('appointment.add_appointment') }}">Make an appointment</a>
+            {% if not current_user.is_authenticated %}
+                <a href="{{ url_for('main.home') }}">Home</a>
+                <a href="{{ url_for('user.register') }}">Register</a>
+                <a href="{{ url_for('user.login') }}">Login</a>
+            {% endif %}
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('user.logout') }}">Logout</a>
+                <a href="{{ url_for('appointment.add_appointment') }}">Make an appointment</a>
+                <a href="{{ url_for('appointment.all_appointments') }}">View all appointments</a>
+            {% endif %}
         </nav>
-        {% if get_flashed_messages() %}
-            {% for category, message in get_flashed_messages(with_categories=True) %}
-                <p class="{{ category }}">{{ message }}</p>
-            {% endfor %}
-        {% endif %}
+        <div class="flashes">
+            {% if get_flashed_messages() %}
+                {% for category, message in get_flashed_messages(with_categories=True) %}
+                    <p class="{{ category }}">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        </div>
         <main>
             {% block content %}
                 

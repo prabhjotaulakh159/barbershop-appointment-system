@@ -37,56 +37,47 @@ class Database:
                             except Exception as e:
                                 print(e)
                         statement_parts = []
-
-    def add_client(self, user_name, pass_word, email, avatar, phone):
-        ''' Adds a client to the database '''
-        qry = '''
-            INSERT INTO clients (user_name, pass_word, email,
-            avatar, phone) VALUES
-            (:user_name, :pass_word, :email,: avatar, :phone)
-        '''
+                        
+    def get_user(self, username):
+        ''' Gets a user by username '''
         with self.connect() as connection:
             with connection.cursor() as cursor:
-                try:
-                    cursor.execute(qry, [user_name, pass_word, email, avatar,
-                                         phone])
-                    connection.commit()
-                except Exception as e:
-                    print(e)
-
-    def get_client(self, username):
-        ''' Gets a client by username '''
-        with self.connect() as connection:
-            with connection.cursor() as cursor:
-                qry = "SELECT client_id, user_name, pass_word, email, avatar, phone FROM Clients WHERE user_name = :username"
+                qry = ''' 
+                    SELECT 
+                        user_id,
+                        is_enabled,
+                        access_level,
+                        user_type, 
+                        user_name,
+                        pass_word,
+                        email,
+                        avatar,
+                        phone,
+                        address,
+                        age,
+                        pay_rate,
+                        specialty
+                    FROM 
+                        users 
+                    WHERE
+                        user_name = :username 
+                    '''
                 try:
                     cursor.execute(qry, [username])
-                    client = cursor.fetchall()[0]
-                    return client
+                    user = cursor.fetchall()[0]
+                    return user
                 except Exception as e:
                     print(e)
 
-    def add_professional(self, professional_name, pass_word, professional_email, avatar, phone, rate, specialty):
-        ''' Adds a professional to the database '''
-        qry = "INSERT INTO Professionals (professional_name,pass_word,professional_email,avatar,phone,rate,specialty) VALUES (:professional_name,:pass_word,:professional_email,:avatar,:phone,:rate,:specialty)"
+    def add_user(self, user_type, user_name ,pass_word, email, avatar, phone, address, age, pay_rate, specialty):
+        ''' Adds a user to the database '''
+        qry = "INSERT INTO users (user_type,user_name,pass_word,email,avatar,phone,address,age,pay_rate,specialty) VALUES (:user_type,:user_name,:pass_word,:email,:avatar,:phone,:address,:age,:pay_rate,:specialty)"
         with self.connect() as connection:
             with connection.cursor() as cursor:
                 try:
-                    cursor.execute(qry, [professional_name, pass_word,
-                                         professional_email, avatar, phone, rate, specialty])
+                    cursor.execute(
+                        qry, [user_type, user_name, pass_word, email, avatar, phone, address, age, pay_rate, specialty])
                     connection.commit()
-                except Exception as e:
-                    print(e)
-
-    def get_professional(self, professional_name):
-        ''' Gets a professional by username '''
-        with self.connect() as connection:
-            with connection.cursor() as cursor:
-                qry = "SELECT professional_id, professional_name, pass_word, professional_email, avatar, phone, rate, specialty,  FROM Professionals WHERE get_professional = :get_professional"
-                try:
-                    cursor.execute(qry, [professional_name])
-                    professional = cursor.fetchall()[0]
-                    return professional
                 except Exception as e:
                     print(e)
 
@@ -149,7 +140,18 @@ class Database:
                     connection.commit()
                 except Exception as e:
                     print(e)
-
+                    
+    def get_appointments(self):
+        query = ''' SELECT appointment_id, status, date_appointment, slot, venue,
+            client_id, professional_id, service_id, number_services FROM appointments'''
+        with self.connect() as connection:
+            with connection.cursor() as cursor:
+                try:
+                    cursor.execute(query)
+                    appointments = cursor.fetchall()
+                    return appointments
+                except Exception as e:
+                    print(e)
 
 db = Database()
 

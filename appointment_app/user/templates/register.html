@@ -4,6 +4,8 @@
     <div class="form-container">
         <form method="POST" novalidate>
             {{ form.hidden_tag() }}
+            {{ form.user_type(id='user-type') }}
+            {{ form_field_error(form.user_type.errors) }}
             {{ form.username(class='form-field', placeholder='Enter username') }}
             {{ form_field_error(form.username.errors) }}
             {{ form.email(class='form-field', placeholder='Enter email') }}
@@ -14,7 +16,18 @@
             {{ form_field_error(form.confirm_password.errors) }}
             {{ form.phone(class='form-field', placeholder='Enter your phone number') }}
             {{ form_field_error(form.phone.errors) }}
-            {{ form.submit(class='button', value='Register as a client') }}
+            {{ form.address(class='form-field',placeholder='Enter your address ') }}
+            {{ form_field_error(form.address.errors) }}
+            {{ form.age(class='form-field',placeholder='Enter your age ') }}
+            {{ form_field_error(form.age.errors) }}
+            {{ form.pay_rate(placeholder='Enter pay rate', id='pay-rate') }}
+            {{ form_field_error(form.pay_rate.errors) }}
+            <div class="input-group">
+                <div id="specialityLabel">Speciality</div>
+                {{ form.specialty(id='specialty') }}
+                {{ form_field_error(form.specialty.errors) }}
+            </div>
+            {{ form.submit(class='button', value='Register') }}
         </form>
     </div>
 {% endblock content %}

@@ -4,11 +4,11 @@
     <div class="form-container">
         <form method="POST" novalidate>
             {{ form.hidden_tag() }}
-            {{ form.username(class='form-field', placeholder='Enter username')}}
+            {{ form.username(placeholder='Enter username')}}
             {{ form_field_error(form.username.errors) }}
-            {{ form.password(class='form-field', placeholder='Enter password')}}
+            {{ form.password(placeholder='Enter password')}}
             {{ form_field_error(form.password.errors) }}
-            {{ form.submit(class='button', value='Login as a client') }}
+            {{ form.submit(class='button') }}
         </form>
     </div>
 {% endblock content %}

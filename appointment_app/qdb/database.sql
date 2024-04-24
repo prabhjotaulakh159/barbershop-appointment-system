@@ -5,7 +5,7 @@ DROP TABLE users;
 
 CREATE TABLE users (
     user_id         NUMBER              GENERATED ALWAYS AS IDENTITY,
-    is_active       NUMBER(1)           DEFAULT 1 NOT NULL,
+    is_enabled      NUMBER(1)           DEFAULT 1 NOT NULL,
     access_level    NUMBER(1)           DEFAULT 0 NOT NULL,
     user_type       VARCHAR2(255)       NOT NULL, 
     user_name       VARCHAR2(255)       NOT NULL,
@@ -13,15 +13,15 @@ CREATE TABLE users (
     email           VARCHAR2(255)       NOT NULL,
     avatar          VARCHAR2(255)       DEFAULT '/static/images/avatar.png' NOT NULL,
     phone           VARCHAR2(255)       NOT NULL,
-    adddress        VARCHAR2(255)       NOT NULL,
+    address         VARCHAR2(255)       NOT NULL,
     age             NUMBER(4)           NOT NULL,
     pay_rate        NUMBER(5,2)         ,
     specialty       VARCHAR2(255)       ,
     
     
     CONSTRAINT user_id_PK               PRIMARY KEY (user_id),
-    CONSTRAINT user_name_U              UNIQUE (user_name),
-    CONSTRAINT email_U                  UNIQUE (email)
+    CONSTRAINT user_name_Usr              UNIQUE (user_name),
+    CONSTRAINT email_Usr                  UNIQUE (email)
 );
 
 

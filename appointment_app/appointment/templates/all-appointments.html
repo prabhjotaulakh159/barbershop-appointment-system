@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+    {% if appointments %}
+        {% for appointment in appointments %}
+            <div>{{ appointment[0] }}</div>
+        {% endfor %}
+    {% else %}
+        <div>No appointments to render</div>
+    {% endif %}
+{% endblock content %}
