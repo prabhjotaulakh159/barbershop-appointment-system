@@ -1,6 +1,6 @@
 '''import flask and its methods'''
 from flask import Blueprint, render_template, flash
-from flask_login import current_user
+from flask_login import login_required
 from appointment_app.qdb.database import Database
 from appointment_app.appointment.forms import AppointmentForm
 from appointment_app.qdb.database import Database
@@ -12,6 +12,7 @@ db = Database()
 
 
 @appointment.route("/add_appointment", methods=["GET", "POST"])
+@login_required
 def add_appointment():
     form = AppointmentForm()
 

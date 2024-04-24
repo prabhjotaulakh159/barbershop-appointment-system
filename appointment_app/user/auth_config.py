@@ -1,3 +1,4 @@
+from flask import redirect, url_for
 from flask_login import LoginManager, UserMixin
 from appointment_app.qdb.database import db
 
@@ -36,5 +37,4 @@ def load_user(user_id):
 
 @login_manager.unauthorized_handler
 def unauthorized():
-    ''' Redirects to a login page if user accesses an unauthorized page '''
-    pass
+    return redirect(url_for('user.login'))
