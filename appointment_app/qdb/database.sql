@@ -11,7 +11,7 @@ CREATE TABLE users (
     user_name       VARCHAR2(255)       NOT NULL,
     pass_word       VARCHAR2(255)       NOT NULL,
     email           VARCHAR2(255)       NOT NULL,
-    avatar          VARCHAR2(255)       DEFAULT '/static/images/avatar.png' NOT NULL,
+    avatar          VARCHAR2(255)       DEFAULT '/images/avatar.png',
     phone           VARCHAR2(255)       NOT NULL,
     address         VARCHAR2(255)       NOT NULL,
     age             NUMBER(4)           NOT NULL,

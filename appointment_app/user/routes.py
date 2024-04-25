@@ -4,6 +4,7 @@ from appointment_app.qdb.database import db
 from appointment_app.user.forms import RegisterUserForm, LoginForm
 from flask_login import login_user, current_user, login_required, logout_user
 from appointment_app.user.auth_config import User
+from appointment_app.user.utils import save_file
 
 user = Blueprint('user', __name__, template_folder="templates")
 
@@ -64,7 +65,9 @@ def register():
         username = form.username.data
         password = b.generate_password_hash(form.password.data).decode('utf-8')
         email = form.email.data
-        avatar = "/static/images/avatar.png"
+        avatar = '/images/avatar.png'
+        if (form.avatar.data):
+            avatar = '/images/' + save_file(form.avatar.data)            
         phone = form.phone.data
         address = form.address.data
         age = form.age.data

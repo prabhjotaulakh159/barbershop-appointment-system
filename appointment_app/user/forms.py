@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import EmailField, PasswordField, StringField, SubmitField, FloatField,SelectField, FloatField
-from wtforms.validators import DataRequired, Length, EqualTo,NumberRange, Optional
+from flask_wtf.file import FileRequired, FileAllowed
+from wtforms import EmailField, PasswordField, StringField, SubmitField, FloatField,SelectField, FloatField, FileField
+from wtforms.validators import DataRequired, Length, EqualTo, NumberRange, Optional
 
 
 class RegisterUserForm(FlaskForm):
@@ -14,6 +15,7 @@ class RegisterUserForm(FlaskForm):
     age = FloatField(validators=[NumberRange(min=0, max=100)])
     address = StringField("Address", validators=[DataRequired(), Length(min=2,max=25)])
     pay_rate = FloatField(validators=[Optional(),NumberRange(min=1, max=100)])
+    avatar = FileField('avatar', validators=[FileAllowed(['jpg', 'png'])])
     specialty = SelectField("Specialty", choices=[
         ('Hair Stylist', 'Hair Stylist'),
         ('Colorist', 'Colorist'),

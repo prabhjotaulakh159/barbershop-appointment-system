@@ -1,4 +1,7 @@
 import os
+import dotenv as env
+
+env.load_dotenv()
 
 host = os.environ.get('ORA_HOST')
 usr = os.environ.get('ORA_USER')
