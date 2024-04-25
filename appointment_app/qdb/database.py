@@ -81,6 +81,19 @@ class Database:
                 except Exception as e:
                     print(e)
 
+    def update_user(self, user_id, user_name, email, avatar, phone, address, age, pay_rate, specialty):
+        query = ''' UPDATE users SET user_name = :user_name,
+                    email = :email, avatar = :avatar, phone = :phone, address = :address, age = :age,
+                    pay_rate = :pay_rate, specialty = :specialty
+                    WHERE user_id = :user_id '''
+        with self.connect() as connection:
+            with connection.cursor() as cursor:
+                try:
+                    cursor.execute(query, [user_name, email, avatar, phone, address, age, pay_rate, specialty, user_id])
+                    connection.commit()
+                except Exception as e:
+                    print(e)
+        
     def get_services_name(self):
         ''' Gets all services' name '''
         with self.connect() as connection:

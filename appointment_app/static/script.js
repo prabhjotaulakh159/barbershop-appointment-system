@@ -3,7 +3,7 @@
 document.addEventListener('DOMContentLoaded', (e) => {
     const userTypeInput = document.getElementById('user-type');
     const payrateInput = document.getElementById('pay-rate');
-    const specialityInput = document.getElementById('specialty');
+    const specialityInput = document.getElementById('specialty-register');
     const specialityLabel = document.getElementById('specialityLabel');
 
     const renderProfessionalReservedFields = (e) => {

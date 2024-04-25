@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, flash, redirect, url_for
+from flask import Blueprint, render_template, flash, redirect, url_for, request
 from flask_bcrypt import Bcrypt
 from appointment_app.qdb.database import db
 from appointment_app.user.forms import RegisterUserForm, LoginForm
@@ -53,6 +53,8 @@ def logout():
 @user.route("/register", methods=["GET", "POST"])
 def register():
     '''function rendering for the route /register'''
+    if current_user.is_authenticated:
+        return redirect(url_for('main.home'))
     form = RegisterUserForm()
     if form.validate_on_submit():
         username = form.username.data
@@ -83,3 +85,35 @@ def register():
         flash(f'Welcome {username} you are now a user', 'success')
         return redirect(url_for('user.login'))
     return render_template("register.html", form=form)
+
+@user.route("/update-profile/<int:user_id>", methods=['GET', 'POST'])
+@login_required
+def update_profile(user_id):
+    if current_user.user_id != user_id:
+        return redirect(url_for('main.home'))
+    form = RegisterUserForm()
+    if request.method == 'GET':
+        form.username.data = current_user.user_name
+        form.email.data = current_user.email
+        form.phone.data = current_user.phone
+        form.user_type.data = current_user.user_type 
+        form.age.data = current_user.age 
+        form.address.data = current_user.address 
+        form.pay_rate.data = current_user.pay_rate 
+        form.specialty.data = current_user.specialty
+    else:
+        if form.username.data != current_user.user_name:    
+            user_already_exists = db.get_user(form.username.data)
+            if user_already_exists:
+                flash("Username already taken !", "error")
+                return redirect(url_for('user.login'))
+        new_avatar = current_user.avatar
+        if form.avatar.data:
+            new_avatar = '/images/' + save_file(form.avatar.data)
+        db.update_user(user_id=user_id, user_name=form.username.data,
+            email=form.email.data, avatar=new_avatar, phone=form.phone.data, address=form.address.data, 
+            age=form.age.data, pay_rate=form.pay_rate.data, specialty=form.specialty.data)
+        flash("You have successfully upated your profile !", "success")
+        return redirect(url_for('main.home'))
+        
+    return render_template('update-profile.html', current_user=current_user, form=form)
