@@ -15,7 +15,7 @@ class RegisterUserForm(FlaskForm):
     age = FloatField(validators=[NumberRange(min=0, max=100)])
     address = StringField("Address", validators=[DataRequired(), Length(min=2,max=25)])
     pay_rate = FloatField(validators=[Optional(),NumberRange(min=1, max=100)])
-    avatar = FileField('avatar', validators=[FileRequired(), FileAllowed(['jpg', 'png'])])
+    avatar = FileField('avatar', validators=[FileAllowed(['jpg', 'png'])])
     specialty = SelectField("Specialty", choices=[
         ('Hair Stylist', 'Hair Stylist'),
         ('Colorist', 'Colorist'),

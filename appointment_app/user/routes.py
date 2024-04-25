@@ -65,7 +65,9 @@ def register():
         username = form.username.data
         password = b.generate_password_hash(form.password.data).decode('utf-8')
         email = form.email.data
-        avatar = save_file(form.avatar.data)
+        avatar = '/images/avatar.png'
+        if (form.avatar.data):
+            avatar = '/images/' + save_file(form.avatar.data)            
         phone = form.phone.data
         address = form.address.data
         age = form.age.data

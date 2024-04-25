@@ -1,4 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
-    <img src="{{ url_for('static', filename='images/current_user.avatar') }}" />
+    {% if current_user.is_authenticated %}
+        <h1>Hello {{ current_user.user_name }}</h1>
+        <h1>{{ current_user.avatar}}</h1>
+        <img src="{{ url_for('static', filename=current_user.avatar) }}" />
+    {% endif %}
 {% endblock content %}
