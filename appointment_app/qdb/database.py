@@ -88,30 +88,31 @@ class Database:
                 qry = "SELECT service_name FROM Services"
                 try:
                     cursor.execute(qry)
-                    professional = cursor.fetchall()
-                    return professional
+                    services = cursor.fetchall()
+                    return services
                 except Exception as e:
                     print(e)
 
     def get_professional_names(self):
         ''' Gets all professionals' name'''
         with self.connect() as connection:
-            with connection.cursor() as cursor:
-                qry = "SELECT professional_name FROM professionals"
+            with connection.cursor() as cursor: 
+                qry = "SELECT user_name FROM Users WHERE user_type = 'Professional'"
                 try:
-                    cursor.execute(qry,)
+                    cursor.execute(qry)
                     professional = cursor.fetchall()
                     return professional
                 except Exception as e:
                     print(e)
 
-    def get_professional_id(self, professional_name):
+    def get_user_id(self,cond):
         ''' Gets professional's id by name '''
         with self.connect() as connection:
             with connection.cursor() as cursor:
-                qry = "SELECT professional_id FROM professionals WHERE professional_name = :professional_name"
+                qry = f"SELECT user_id FROM Users WHERE {cond}"
+                print(qry)
                 try:
-                    cursor.execute(qry, [professional_name])
+                    cursor.execute(qry)
                     professional = cursor.fetchall()[0]
                     return professional
                 except Exception as e:
@@ -129,14 +130,14 @@ class Database:
                 except Exception as e:
                     print(e)
 
-    def add_appointment(self, status, date_appointment, slot, venue, client_id, prof_id, service_id):
+    def add_appointment(self, status, date_appointment, slot, venue, client_id, professional_id, service_id):
         ''' Adds appointment to the database '''
-        qry = "INSERT INTO Appointments (status,date_appointment,slot,venue,client_id,prof_id,service_id) VALUES (:status,:date_appointment,:slot,:venue,:client_id,:prof_id,:service_id)"
+        qry = "INSERT INTO Appointments (status,date_appointment,slot,venue,client_id,professional_id,service_id) VALUES (:status,:date_appointment,:slot,:venue,:client_id,:professional_id,:service_id)"
         with self.connect() as connection:
             with connection.cursor() as cursor:
                 try:
                     cursor.execute(qry, [status, date_appointment,
-                                         slot, venue, client_id, prof_id, service_id])
+                                         slot, venue, client_id, professional_id, service_id])
                     connection.commit()
                 except Exception as e:
                     print(e)

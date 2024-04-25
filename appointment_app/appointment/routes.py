@@ -1,16 +1,18 @@
 '''import flask and its methods'''
 from flask import Blueprint, render_template, flash
-from flask_login import login_required
+from flask_login import login_required, current_user
 from appointment_app.qdb.database import db
 from appointment_app.appointment.forms import AppointmentForm
 
 appointment = Blueprint('appointment', __name__, template_folder="templates")
+
 
 @appointment.route('/all-appointments')
 @login_required
 def all_appointments():
     appointments = db.get_appointments()
     return render_template("all-appointments.html", appointments=appointments)
+
 
 @appointment.route("/add-appointment", methods=["GET", "POST"])
 @login_required
@@ -22,6 +24,7 @@ def add_appointment():
     for service in services:
         services_list.append((service[0], service[0]))
 
+   
     professionals = db.get_professional_names()
     professionals_list = []
     for professional in professionals:
@@ -36,16 +39,23 @@ def add_appointment():
         ('3-4', '3pm - 4pm')
     ]
 
+    venue = [
+        ('Venue A', 'Venue A'),
+        ('Venue B', 'Venue B'),
+        ('Venue C', 'Venue C'),
+        ('Venue D', 'Venue D'),
+        ('Venue E', 'Venue E'),
+    ]
+
     form.prof_name.choices = professionals_list
     form.service.choices = services_list
     form.slot.choices = time_slots
-
+    form.venue.choices = venue
     if form.validate_on_submit():
-        # no validation yet for time slot & professional being taken. Don't know how to do it
-
+        
         status = 1
-        client_id = 1  # to be replaced with current_user.client_id once login works
-        prof_id = db.get_professional_id(form.prof_name.data)[0]
+        client_id = current_user.user_id
+        prof_id = db.get_user_id(f"user_name ='{form.prof_name.data}'")[0]
         service_id = db.get_service_id(form.service.data)[0]
         db.add_appointment(status, form.date_appointment.data,
                            form.slot.data, form.venue.data, client_id, prof_id, service_id)
