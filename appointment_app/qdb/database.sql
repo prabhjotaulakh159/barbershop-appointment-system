@@ -14,22 +14,22 @@ CREATE TABLE users (
     avatar          VARCHAR2(255)       DEFAULT '/images/avatar.png',
     phone           VARCHAR2(255)       NOT NULL,
     address         VARCHAR2(255)       NOT NULL,
-    age             NUMBER(4)           NOT NULL,
-    pay_rate        NUMBER(5,2)         ,
+    age             NUMBER              NOT NULL,
+    pay_rate        NUMBER              ,
     specialty       VARCHAR2(255)       ,
     
     
     CONSTRAINT user_id_PK               PRIMARY KEY (user_id),
-    CONSTRAINT user_name_Usr              UNIQUE (user_name),
-    CONSTRAINT email_Usr                  UNIQUE (email)
+    CONSTRAINT user_name_Usr            UNIQUE (user_name),
+    CONSTRAINT email_Usr                UNIQUE (email)
 );
 
 
 CREATE TABLE services (
     service_id          NUMBER          GENERATED ALWAYS AS IDENTITY,
     service_name        VARCHAR2(255)   NOT NULL,
-    service_duration    NUMBER(2)       NOT NULL,
-    service_price       NUMBER(5,2)     NOT NULL,
+    service_duration    NUMBER          NOT NULL,
+    service_price       NUMBER          NOT NULL,
     service_materials   VARCHAR2(255)   NOT NULL,
     
     CONSTRAINT service_id_PK            PRIMARY KEY (service_id),
@@ -45,7 +45,7 @@ CREATE TABLE appointments (
     client_id           NUMBER              NOT NULL,
     professional_id     NUMBER              NOT NULL,
     service_id          NUMBER              NOT NULL,
-    number_services     NUMBER(1)           DEFAULT 1 NOT NULL,
+    number_services     NUMBER              DEFAULT 1 NOT NULL,
     
     CONSTRAINT appointment_id_PK            PRIMARY KEY (appointment_id),
     CONSTRAINT client_id_FK                 FOREIGN KEY (client_id) REFERENCES users (user_id) ON DELETE CASCADE,
@@ -63,6 +63,8 @@ CREATE TABLE reports (
     CONSTRAINT report_id_PK                     PRIMARY KEY (report_id),
     CONSTRAINT appointment_id_FK                FOREIGN KEY (appointment_id) REFERENCES appointments (appointment_id) ON DELETE CASCADE 
 );
+
+select * from users;
 
 --INSERT INTO services (service_name, service_duration, service_price, service_materials)
 --VALUES ('Haircut', 30, 50.00, 'Scissors, Comb, Hair Dryer');
