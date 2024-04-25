@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, flash, redirect, url_for, request
 from flask_bcrypt import Bcrypt
 from appointment_app.qdb.database import db
-from appointment_app.user.forms import RegisterUserForm, LoginForm
+from appointment_app.user.forms import RegisterUserForm, LoginForm, ChangePasswordForm
 from flask_login import login_user, current_user, login_required, logout_user
 from appointment_app.user.auth_config import User
 from appointment_app.user.utils import save_file
@@ -114,8 +114,7 @@ def update_profile(user_id):
             email=form.email.data, avatar=new_avatar, phone=form.phone.data, address=form.address.data, 
             age=form.age.data, pay_rate=form.pay_rate.data, specialty=form.specialty.data)
         flash("You have successfully upated your profile !", "success")
-        return redirect(url_for('main.home'))
-        
+        return redirect(url_for('main.home'))   
     return render_template('update-profile.html', current_user=current_user, form=form)
 
 @user.route("/change-password/<int:user_id>", methods=['GET', 'POST'])
@@ -123,4 +122,5 @@ def update_profile(user_id):
 def change_password(user_id):
     if current_user.user_id != user_id:
         return redirect(url_for('main.home'))
-    
+    form = ChangePasswordForm()
+    return render_template('change-password.html', form=form)
