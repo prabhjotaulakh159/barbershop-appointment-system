@@ -4,35 +4,32 @@
     <div class="form-container">
         <form method="POST" novalidate enctype="multipart/form-data">
             {{ form.hidden_tag() }}
-            {{ form.user_type(id='user-type') }}
-            {{ form_field_error(form.user_type.errors) }}
             {{ form.username(class='form-field', placeholder='Enter username') }}
             {{ form_field_error(form.username.errors) }}
             {{ form.email(class='form-field', placeholder='Enter email') }}
             {{ form_field_error(form.email.errors) }}
-            {{ form.password(class='form-field', placeholder='Enter password') }}
-            {{ form_field_error(form.password.errors) }}
-            {{ form.confirm_password(class='form-field', placeholder='Retype password') }}
-            {{ form_field_error(form.confirm_password.errors) }}
             {{ form.phone(class='form-field', placeholder='Enter your phone number') }}
             {{ form_field_error(form.phone.errors) }}
             {{ form.address(class='form-field',placeholder='Enter your address ') }}
             {{ form_field_error(form.address.errors) }}
             {{ form.age(class='form-field',placeholder='Enter your age ') }}
             {{ form_field_error(form.age.errors) }}
-            {{ form.pay_rate(placeholder='Enter pay rate', id='pay-rate') }}
-            {{ form_field_error(form.pay_rate.errors) }}
-            <div class="input-group">
-                <div id="specialityLabel">Speciality</div>
-                {{ form.specialty(id='specialty-register') }}
-                {{ form_field_error(form.specialty.errors) }}
-            </div>
+            
+            {% if current_user.user_type == 'Professional' %}
+                {{ form.pay_rate(placeholder='Enter pay rate') }}
+                {{ form_field_error(form.pay_rate.errors) }}
+                <div class="input-group">
+                    <div>Speciality</div>
+                    {{ form.specialty() }}
+                    {{ form_field_error(form.specialty.errors) }}
+                </div>
+            {% endif %}
             <div class="input-group">
                 <div>Profile Picture</div>
                 {{ form.avatar() }}
                 {{ form_field_error(form.avatar.errors) }}
             </div>
-            {{ form.submit(class='button', value='Register') }}
+            {{ form.submit(class='button', value='Update profile') }}
         </form>
     </div>
 {% endblock content %}
