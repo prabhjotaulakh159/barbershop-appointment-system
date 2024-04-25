@@ -117,3 +117,10 @@ def update_profile(user_id):
         return redirect(url_for('main.home'))
         
     return render_template('update-profile.html', current_user=current_user, form=form)
+
+@user.route("/change-password/<int:user_id>", methods=['GET', 'POST'])
+@login_required
+def change_password(user_id):
+    if current_user.user_id != user_id:
+        return redirect(url_for('main.home'))
+    
