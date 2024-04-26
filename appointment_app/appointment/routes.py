@@ -1,17 +1,53 @@
 '''import flask and its methods'''
 from flask import Blueprint, redirect, render_template, flash, request, url_for
 from flask_login import login_required, current_user
+from appointment_app.appointment.appointment import Appointment
 from appointment_app.qdb.database import db
 from appointment_app.appointment.forms import AppointmentForm
-
+import pdb
 appointment = Blueprint('appointment', __name__, template_folder="templates")
 
 
 @appointment.route('/all-appointments')
-@login_required
 def all_appointments():
     appointments = db.get_appointments()
+
     return render_template("all-appointments.html", appointments=appointments)
+
+
+@appointment.route('/all-appointments/<int:appointment_id>')
+@login_required
+def appointment_view(appointment_id):
+    appt = db.get_appointment(f"appointment_id = {appointment_id}")
+    
+    client_name = db.get_user_with_id(appt[5])
+    professional_name = db.get_user_with_id(appt[6])
+  
+    service_name = db.get_service_name(appt[7])
+   
+    names = []
+    names.append(client_name[4])
+    names.append(professional_name[4])
+    names.append(service_name[0])
+
+    return render_template("specific-appointment.html", appointment=appt, names=names)
+
+@appointment.route('/my-appointments')
+@login_required
+def appointment_view(appointment_id):
+    appt = db.get_appointment(f"appointment_id = {appointment_id}")
+    
+    client_name = db.get_user_with_id(appt[5])
+    professional_name = db.get_user_with_id(appt[6])
+  
+    service_name = db.get_service_name(appt[7])
+   
+    names = []
+    names.append(client_name[4])
+    names.append(professional_name[4])
+    names.append(service_name[0])
+
+    return render_template("specific-appointment.html", appointment=appt, names=names)
 
 
 @appointment.route("/add-appointment", methods=["GET", "POST"])
@@ -67,7 +103,7 @@ def add_appointment():
 @login_required
 def update_appointment(appointment_id):
     appointment = db.get_appointment(f"appointment_id = {appointment_id}")
-    
+
     if current_user.user_id != appointment[5]:
         return redirect(url_for('main.home'))
 

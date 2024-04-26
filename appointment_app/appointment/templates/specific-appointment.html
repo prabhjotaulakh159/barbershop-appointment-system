@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% from "macros.html" import form_field_error with context %}
+{% block content %}
+
+<div id="flex">
+    <section id="left-side">
+        <section>Specific appointment in details</section>
+    </section>
+
+    <section id="right-side">
+        <div class="container">
+            {% if appointment %}
+            <div>
+                <h1>Appointment # {{appointment[0]}}</h1>
+            </div>
+            <div class="listing">
+                <div class="section">Client : {{ names[0] }}</div>
+                <div class="section">Professional : {{ names[1] }}</div>
+                <div class="section">Date: {{ appointment[2] }}</div>
+                <div class="section">Venue: {{ appointment[4] }}</div>
+                <div class="section">Time-Slot: {{ appointment[3] }}</div>
+                <div class="section">Service: {{names[2]}}</div>
+
+                {% if current_user.is_authenticated and current_user.user_id == appointment[5] %}
+                    <button class="button"><a
+                            href="{{url_for('appointment.update_appointment',appointment_id=appointment[0])}}"> Update my appointment </a> </button>
+                {% endif %}
+        
+            </div>
+            {% else %}
+            <div>No appointments to render</div>
+
+            {% endif %}
+        </div>
+    </section>
+</div>
+
+{% endblock content %}
