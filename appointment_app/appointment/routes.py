@@ -97,7 +97,7 @@ def add_appointment():
 def update_appointment(appointment_id):
     appointment = db.get_appointment(f"appointment_id = {appointment_id}")
 
-    if current_user.user_id != appointment[5]:
+    if current_user.user_id != appointment[5] and current_user.user_id != appointment[6]:
         return redirect(url_for('main.home'))
 
     form = AppointmentForm()

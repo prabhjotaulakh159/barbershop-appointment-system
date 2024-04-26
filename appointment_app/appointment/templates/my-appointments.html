@@ -22,16 +22,14 @@
                 <div class="section">Time-Slot: {{ appointment[3] }}</div>
                 <div class="section">Service: {{names[loop.index0][2]}}</div>
 
+                
                 <button class="button"><a
                         href="{{url_for('appointment.update_appointment',appointment_id=appointment[0])}}"> Update my
                         appointment </a> </button>
-                
-                
-
             </div>
+            {% endfor %}
             {% else %}
             <div>No appointments to render</div>
-            {% endfor %}
             {% endif %}
         </div>
     </section>
