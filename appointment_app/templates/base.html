@@ -1,45 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>420 Project</title>
-        <meta charset="utf-8"/>
-        <link rel="stylesheet" href="{{ url_for('static', filename='/styles.css') }}"/>
-        <script src="{{ url_for('static', filename='/script.js') }}"></script>
-    </head>
-    <body>
-        <header>
-            <h1>Barbershop Appointments</h1>
-        </header>
-        <nav>
-            {% if not current_user.is_authenticated %}
-                <a href="{{ url_for('main.home') }}">Home</a>
-                <a href="{{ url_for('user.register') }}">Register</a>
-                <a href="{{ url_for('user.login') }}">Login</a>
-            {% endif %}
-            {% if current_user.is_authenticated %}
-                <a href="{{ url_for('user.logout') }}">Logout</a>
-                <a href="{{ url_for('user.update_profile', user_id=current_user.user_id) }}">Update Profile</a>
-                <a href="{{ url_for('user.change_password', user_id=current_user.user_id) }}">Change Password</a>
-                <a href="{{ url_for('appointment.add_appointment') }}">Make an appointment</a>
-                <a href="{{ url_for('appointment.all_appointments') }}">View all appointments</a>
-            {% endif %}
-        </nav>
-        <div class="flashes">
-            {% if get_flashed_messages() %}
-                {% for category, message in get_flashed_messages(with_categories=True) %}
-                    <p class="{{ category }}">{{ message }}</p>
-                {% endfor %}
-            {% endif %}
-        </div>
-        <main>
-            {% block content %}
-                
-            {% endblock content %}
-        </main>
-        <!--
+
+<head>
+    <title>420 Project</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='/styles.css') }}" />
+    <script src="{{ url_for('static', filename='/script.js') }}"></script>
+</head>
+
+<body>
+    <header>
+        <h1>Barbershop Appointments</h1>
+    </header>
+    <nav>
+        {% if not current_user.is_authenticated %}
+        <a href="{{ url_for('main.home') }}">Home</a>
+        <a href="{{ url_for('user.register') }}">Register</a>
+        <a href="{{ url_for('user.login') }}">Login</a>
+        {% endif %}
+        {% if current_user.is_authenticated %}
+        <a href="{{ url_for('user.logout') }}">Logout</a>
+        <a href="{{ url_for('user.update_profile', user_id=current_user.user_id) }}">Update Profile</a>
+        <a href="{{ url_for('user.change_password', user_id=current_user.user_id) }}">Change Password</a>
+        <a href="{{ url_for('appointment.add_appointment') }}">Make an appointment</a>
+        <a href="{{ url_for('appointment.my_appointments') }}">My appointments</a>
+        {% endif %}
+        <a href="{{ url_for('appointment.all_appointments') }}">View all appointments</a>
+    </nav>
+    <div class="flashes">
+        {% if get_flashed_messages() %}
+        {% for category, message in get_flashed_messages(with_categories=True) %}
+        <p class="{{ category }}">{{ message }}</p>
+        {% endfor %}
+        {% endif %}
+    </div>
+    <main>
+        {% block content %}
+
+        {% endblock content %}
+    </main>
+    <!--
             <footer>
                 <span>Prabhjot Aulakh and Tommy Tran, Winter 2024</span>
             </footer> 
         -->
-    </body>
+</body>
+
 </html>

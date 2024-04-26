@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% from "macros.html" import form_field_error with context %}
+{% block content %}
+    <div class="form-container">
+        <form method="POST" novalidate>
+            {{ form.hidden_tag() }}
+            <div class="input-group">
+                <div>Date:</div>
+                {{ form.date_appointment(class='form-field', placeholder='Enter the date') }}
+                {{ form_field_error(form.date_appointment.errors) }}
+            </div>
+            <div class="input-group">
+                <div>Time slot:</div>
+                {{ form.slot(class='form-field', placeholder='Enter the time slot') }}
+                {{ form_field_error(form.slot.errors) }}
+            </div>
+            {{ form.venue(class='form-field', placeholder='Enter the venue') }}
+            {{ form_field_error(form.venue.errors) }}
+            <div class="input-group">
+                <div>Service:</div>
+                {{ form.service(class='form-field', placeholder='Choose the service ') }}
+                {{ form_field_error(form.service.errors) }}
+            </div>
+            {{ form.submit(class='button', value='Update the appointment') }}
+        </form>
+    </div>
+{% endblock content %}
