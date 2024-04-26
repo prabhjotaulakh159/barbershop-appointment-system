@@ -93,7 +93,17 @@ class Database:
                     connection.commit()
                 except Exception as e:
                     print(e)
-        
+    
+    def change_password(self, user_id, pass_word):
+        query = ''' UPDATE users SET pass_word = :pass_word WHERE user_id = :user_id '''
+        with self.connect() as connection:
+            with connection.cursor() as cursor:
+                try:
+                    cursor.execute(query, [pass_word, user_id])
+                    connection.commit()
+                except Exception as e:
+                    print(e)
+    
     def get_services_name(self):
         ''' Gets all services' name '''
         with self.connect() as connection:

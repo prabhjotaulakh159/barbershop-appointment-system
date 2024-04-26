@@ -123,4 +123,16 @@ def change_password(user_id):
     if current_user.user_id != user_id:
         return redirect(url_for('main.home'))
     form = ChangePasswordForm()
+    if form.validate_on_submit():
+        user = db.get_user(current_user.user_name)
+        bcrypt = Bcrypt()
+        if not bcrypt.check_password_hash(user[5], form.old_password.data):
+            flash("You have provided invalid credentials !", "error")
+            return redirect(url_for('user.change_password', user_id=current_user.user_id))  
+        new_password = form.confirm_new_password.data
+        encrypted_new_password = bcrypt.generate_password_hash(new_password).decode("utf-8")
+        db.change_password(user_id, encrypted_new_password)
+        logout_user()
+        flash("You have successfully updated your password !", "success")
+        return redirect(url_for('user.login'))
     return render_template('change-password.html', form=form)

@@ -30,8 +30,7 @@ class LoginForm(FlaskForm):
     submit = SubmitField("Login")
     
 class ChangePasswordForm(FlaskForm):
-    username = StringField("Username", validators=[DataRequired(), Length(min=2,max=25)])
     old_password = PasswordField("Password", validators=[DataRequired(), Length(min=5)])
     new_password = PasswordField("Password", validators=[DataRequired(), Length(min=5)])
-    confirm_new_password = PasswordField("Password", validators=[DataRequired(), Length(min=5), EqualTo("new_password")])
+    confirm_new_password = PasswordField("Password", validators=[DataRequired(), Length(min=5), EqualTo("new_password", message="New passwords do not match !")])
     submit = SubmitField("Change password")
