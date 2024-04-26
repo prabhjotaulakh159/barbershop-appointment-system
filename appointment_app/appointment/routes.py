@@ -11,18 +11,14 @@ appointment = Blueprint('appointment', __name__, template_folder="templates")
 @appointment.route('/all-appointments')
 def all_appointments():
     appointments = db.get_appointments()
-
     return render_template("all-appointments.html", appointments=appointments)
-
 
 @appointment.route('/all-appointments/<int:appointment_id>')
 @login_required
 def appointment_view(appointment_id):
     appt = db.get_appointment(f"appointment_id = {appointment_id}")
-    
     client_name = db.get_user_with_id(appt[5])
     professional_name = db.get_user_with_id(appt[6])
-  
     service_name = db.get_service_name(appt[7])
    
     names = []
@@ -34,20 +30,17 @@ def appointment_view(appointment_id):
 
 @appointment.route('/my-appointments')
 @login_required
-def appointment_view(appointment_id):
-    appt = db.get_appointment(f"appointment_id = {appointment_id}")
-    
-    client_name = db.get_user_with_id(appt[5])
-    professional_name = db.get_user_with_id(appt[6])
-  
-    service_name = db.get_service_name(appt[7])
-   
-    names = []
-    names.append(client_name[4])
-    names.append(professional_name[4])
-    names.append(service_name[0])
+def my_appointments():
+    appointments = db.get_my_appointments(f"client_id = {current_user.user_id} OR professional_id = {current_user.user_id}")
 
-    return render_template("specific-appointment.html", appointment=appt, names=names)
+    names = []    
+    for appt in appointments:    
+        client_name = db.get_user_with_id(appt[5])
+        professional_name = db.get_user_with_id(appt[6])
+        service_name = db.get_service_name(appt[7])
+        names.append((client_name[4], professional_name[4],service_name[0]))
+
+    return render_template("my-appointments.html", appointments=appointments, names=names)
 
 
 @appointment.route("/add-appointment", methods=["GET", "POST"])

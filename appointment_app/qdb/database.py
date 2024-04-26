@@ -99,8 +99,7 @@ class Database:
                     return user
                 except Exception as e:
                     print(e)
-    
-    
+
     def add_user(self, user_type, user_name, pass_word, email, avatar, phone, address, age, pay_rate, specialty):
         ''' Adds a user to the database '''
         qry = "INSERT INTO users (user_type,user_name,pass_word,email,avatar,phone,address,age,pay_rate,specialty) VALUES (:user_type,:user_name,:pass_word,:email,:avatar,:phone,:address,:age,:pay_rate,:specialty)"
@@ -155,7 +154,7 @@ class Database:
             with connection.cursor() as cursor:
                 qry = "SELECT service_name FROM Services WHERE service_id = :service_id"
                 try:
-                    cursor.execute(qry,[service_id])
+                    cursor.execute(qry, [service_id])
                     services = cursor.fetchall()
                     return services
                 except Exception as e:
@@ -235,6 +234,18 @@ class Database:
                 except Exception as e:
                     print(e)
 
+    def get_my_appointments(self, cond):
+        query = f''' SELECT appointment_id, status, date_appointment, slot, venue,
+            client_id, professional_id, service_id, number_services FROM appointments WHERE {cond}'''
+        with self.connect() as connection:
+            with connection.cursor() as cursor:
+                try:
+                    cursor.execute(query)
+                    appointments = cursor.fetchall()
+                    return appointments
+                except Exception as e:
+                    print(e)
+
     def update_appointment(self, appointment_id, date_appointment, slot, venue, service_id):
         query = ''' UPDATE Appointments SET date_appointment = :date_appointment,
                     slot = :slot, venue = :venue, service_id = :service_id
@@ -243,7 +254,7 @@ class Database:
             with connection.cursor() as cursor:
                 try:
                     cursor.execute(query, [
-                                date_appointment, slot, venue, service_id,appointment_id])
+                        date_appointment, slot, venue, service_id, appointment_id])
                     connection.commit()
                 except Exception as e:
                     print(e)

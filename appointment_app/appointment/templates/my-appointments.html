@@ -4,7 +4,7 @@
 
 <div id="flex">
     <section id="left-side">
-        <section>All-appointments</section>
+        <h1>My appointments</h1>
     </section>
 
     <section id="right-side">
@@ -15,12 +15,12 @@
                 <h1>Appointment # {{appointment[0]}}</h1>
             </div>
             <div class="listing">
-                <div class="section">Client : {{ names[0] }}</div>
-                <div class="section">Professional : {{ names[1] }}</div>
+                <div class="section">Client : {{ names[loop.index0][0] }}</div>
+                <div class="section">Professional : {{ names[loop.index0][1] }}</div>
                 <div class="section">Date: {{ appointment[2] }}</div>
                 <div class="section">Venue: {{ appointment[4] }}</div>
                 <div class="section">Time-Slot: {{ appointment[3] }}</div>
-                <div class="section">Service: {{names[2]}}</div>
+                <div class="section">Service: {{names[loop.index0][2]}}</div>
 
                 <button class="button"><a
                         href="{{url_for('appointment.update_appointment',appointment_id=appointment[0])}}"> Update my
