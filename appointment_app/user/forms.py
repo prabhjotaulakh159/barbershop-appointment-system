@@ -22,10 +22,15 @@ class RegisterUserForm(FlaskForm):
         ('Barber', 'Barber'),
         ('Other', 'Other')
     ])
-    
     submit = SubmitField("Register")
 
 class LoginForm(FlaskForm):
     username = StringField("Username", validators=[DataRequired(), Length(min=2,max=25)])
     password = PasswordField("Password", validators=[DataRequired(), Length(min=5)])
     submit = SubmitField("Login")
+    
+class ChangePasswordForm(FlaskForm):
+    old_password = PasswordField("Password", validators=[DataRequired(), Length(min=5)])
+    new_password = PasswordField("Password", validators=[DataRequired(), Length(min=5)])
+    confirm_new_password = PasswordField("Password", validators=[DataRequired(), Length(min=5), EqualTo("new_password", message="New passwords do not match !")])
+    submit = SubmitField("Change password")
