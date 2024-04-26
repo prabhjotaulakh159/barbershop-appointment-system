@@ -12,7 +12,7 @@
             {% if appointments %}
             {% for appointment in appointments %}
             <div>
-                <h1>Appointment # {{appointment[0]}}</h1>
+                <h1>Appointment ID {{appointment[0]}}</h1>
             </div>
             <div class="listing">
                 <div class="section">Client : {{ names[loop.index0][0] }}</div>
@@ -22,7 +22,7 @@
                 <div class="section">Time-Slot: {{ appointment[3] }}</div>
                 <div class="section">Service: {{names[loop.index0][2]}}</div>
 
-                
+
                 <button class="button"><a
                         href="{{url_for('appointment.update_appointment',appointment_id=appointment[0])}}"> Update my
                         appointment </a> </button>

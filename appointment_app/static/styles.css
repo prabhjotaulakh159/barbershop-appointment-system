@@ -82,7 +82,6 @@ nav {
 body,
 html {
     height: 100%;
-    /* Ensure all parent elements up to the root have a defined height */
     margin: 0;
     padding: 0;
 }
@@ -239,13 +238,10 @@ section#right-side {
 .button {
     display: inline-block;
     background-color: lightgreen;
-    
-
     padding: 10px 20px;
     text-align: center;
     font-size: 16px;
     margin: 5px;
- 
     cursor: pointer;
     border-radius: 8px;
 }

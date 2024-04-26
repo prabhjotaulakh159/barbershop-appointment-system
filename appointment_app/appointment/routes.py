@@ -19,7 +19,7 @@ def appointment_view(appointment_id):
     appt = db.get_appointment(f"appointment_id = {appointment_id}")
     client_name = db.get_user_with_id(appt[5])
     professional_name = db.get_user_with_id(appt[6])
-    service_name = db.get_service_name(appt[7])
+    service_name = db.get_service_name(appt[7])[0]
    
     names = []
     names.append(client_name[4])
@@ -37,7 +37,7 @@ def my_appointments():
     for appt in appointments:    
         client_name = db.get_user_with_id(appt[5])
         professional_name = db.get_user_with_id(appt[6])
-        service_name = db.get_service_name(appt[7])
+        service_name = db.get_service_name(appt[7])[0]
         names.append((client_name[4], professional_name[4],service_name[0]))
 
     return render_template("my-appointments.html", appointments=appointments, names=names)
