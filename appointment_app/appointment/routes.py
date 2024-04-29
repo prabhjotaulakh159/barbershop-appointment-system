@@ -46,10 +46,12 @@ def my_appointments():
 @appointment.route("/add-appointment", methods=["GET", "POST"])
 @login_required
 def add_appointment():
+    # import pdb
     form = AppointmentForm()
 
     services = db.get_services_name()
     services_list = []
+    # pdb.set_trace()
     for service in services:
         services_list.append((service[0], service[0]))
 

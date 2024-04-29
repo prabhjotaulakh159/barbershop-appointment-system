@@ -137,10 +137,11 @@ class Database:
                     print(e)
 
     def get_services_name(self):
+        # import pdb
         ''' Gets all services' name '''
         with self.connect() as connection:
             with connection.cursor() as cursor:
-                qry = "SELECT service_name FROM Services"
+                qry = "SELECT service_name FROM services"
                 try:
                     cursor.execute(qry)
                     services = cursor.fetchall()
@@ -259,6 +260,15 @@ class Database:
                 except Exception as e:
                     print(e)
 
+    def add_report(self, feedback_client, feedback_professional, date_of_report, appointment_id):
+        query = 'INSERT INTO reports VALUES (:feedback_client, :feedback_professional, :date_of_report, :appointment_id)'
+        with self.connection() as connection:
+            with connection.cursor() as cursor:
+                try:
+                    cursor.execute(query, [feedback_client, feedback_professional, date_of_report, appointment_id])
+                    connection.commit()
+                except Exception as e:
+                    print(e)
 
 db = Database()
 

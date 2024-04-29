@@ -63,3 +63,6 @@ CREATE TABLE reports (
     CONSTRAINT report_id_PK                     PRIMARY KEY (report_id),
     CONSTRAINT appointment_id_FK                FOREIGN KEY (appointment_id) REFERENCES appointments (appointment_id) ON DELETE CASCADE 
 );
+
+INSERT INTO services (service_name, service_duration, service_price, service_materials) VALUES ('Hair dressing', 15, 15, 'Barber equipment tool kit');
+INSERT INTO services (service_name, service_duration, service_price, service_materials) VALUES ('Haircut', 15, 15, 'Barber equipment tool kit');
