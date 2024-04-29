@@ -260,7 +260,7 @@ class Database:
                     print(e)
 
     def add_report(self, feedback_client, feedback_professional, date_of_report, appointment_id):
-        query = 'INSERT INTO reports VALUES (:feedback_client, :feedback_professional, :date_of_report, :appointment_id)'
+        query = 'INSERT INTO reports(feedback_client, feedback_professional, date_of_report, appointment_id) VALUES (:feedback_client, :feedback_professional, :date_of_report, :appointment_id)'
         with self.connection() as connection:
             with connection.cursor() as cursor:
                 try:
