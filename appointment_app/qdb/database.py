@@ -137,11 +137,10 @@ class Database:
                     print(e)
 
     def get_services_name(self):
-        # import pdb
         ''' Gets all services' name '''
         with self.connect() as connection:
             with connection.cursor() as cursor:
-                qry = "SELECT service_name FROM services"
+                qry = "SELECT * FROM services"
                 try:
                     cursor.execute(qry)
                     services = cursor.fetchall()
