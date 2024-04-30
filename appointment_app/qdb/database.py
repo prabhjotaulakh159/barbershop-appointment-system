@@ -100,6 +100,19 @@ class Database:
                 except Exception as e:
                     print(e)
 
+    def get_member_names(self):
+        with self.connect() as connection:
+            with connection.cursor() as cursor:
+                qry = ''' 
+                    SELECT user_name FROM users WHERE user_type = 'Member'  
+                    '''
+                try:
+                    cursor.execute(qry)
+                    members = cursor.fetchall()
+                    return members
+                except Exception as e:
+                    print(e)
+
     def add_user(self, user_type, user_name, pass_word, email, avatar, phone, address, age, pay_rate, specialty):
         ''' Adds a user to the database '''
         qry = "INSERT INTO users (user_type,user_name,pass_word,email,avatar,phone,address,age,pay_rate,specialty) VALUES (:user_type,:user_name,:pass_word,:email,:avatar,:phone,:address,:age,:pay_rate,:specialty)"
@@ -257,7 +270,7 @@ class Database:
                     connection.commit()
                 except Exception as e:
                     print(e)
-
+                    
     def add_report(self, feedback_client, feedback_professional, date_of_report, appointment_id):
         query = 'INSERT INTO reports(feedback_client, feedback_professional, date_of_report, appointment_id) VALUES (:feedback_client, :feedback_professional, :date_of_report, :appointment_id)'
         with self.connect() as connection:
@@ -311,6 +324,31 @@ class Database:
                 except Exception as e:
                     print(e)
 
+    def update_appointment_admin(self, appointment_id, date_appointment, slot, venue, client_id, professional_id, service_id):
+        query = ''' UPDATE Appointments SET date_appointment = :date_appointment,
+                    slot = :slot, venue = :venue, client_id = :client_id, professional_id = :professional_id, service_id = :service_id
+                    WHERE appointment_id = :appointment_id '''
+        with self.connect() as connection:
+            with connection.cursor() as cursor:
+                try:
+                    cursor.execute(query, [
+                        date_appointment, slot, venue, client_id, professional_id, service_id, appointment_id])
+                    connection.commit()
+                except Exception as e:
+                    print(e)
+
+
+    def delete_appointment(self, appointment_id):
+        query = ''' DELETE FROM appointments WHERE appointment_id = :appointment_id '''
+        with self.connect() as connection:
+            with connection.cursor() as cursor:
+                try:
+                    cursor.execute(query, [appointment_id])
+                    connection.commit()
+                except Exception as e:
+                    print(e)
+                    
+            
 db = Database()
 
 if __name__ == '__main__':

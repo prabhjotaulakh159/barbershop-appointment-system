@@ -13,22 +13,32 @@
         <h1>Barbershop Appointments</h1>
     </header>
     <nav>
+        <a href="{{ url_for('appointment.all_appointments') }}">View all appointments</a>
+        <a href="{{ url_for('main.home') }}">Home</a>
+
         {% if not current_user.is_authenticated %}
-            <a href="{{ url_for('main.home') }}">Home</a>
             <a href="{{ url_for('user.register') }}">Register</a>
             <a href="{{ url_for('user.login') }}">Login</a>
         {% endif %}
-        {% if current_user.is_authenticated %}
+
+        {% if current_user.is_authenticated %}  
             <a href="{{ url_for('user.logout') }}">Logout</a>
             <a href="{{ url_for('user.update_profile', user_id=current_user.user_id) }}">Update Profile</a>
             <a href="{{ url_for('user.change_password', user_id=current_user.user_id) }}">Change Password</a>
+            
             {% if current_user.user_type == 'Member' %}
                 <a href="{{ url_for('appointment.add_appointment') }}">Make an appointment</a>
             {% endif %}
-            <a href="{{ url_for('appointment.my_appointments') }}">My appointments</a>
+            
+            {% if (current_user.access_level >= 2) %}
+                <a href="{{ url_for('appointment.admin_appointments') }}">Admin appointments</a>
+            {% else %}
+                <a href="{{ url_for('appointment.my_appointments') }}">My appointments</a>
+            {% endif %}
         {% endif %}
-        <a href="{{ url_for('appointment.all_appointments') }}">View all appointments</a>
+
     </nav>
+
     <div class="flashes">
         {% if get_flashed_messages() %}
             {% for category, message in get_flashed_messages(with_categories=True) %}
@@ -36,6 +46,7 @@
             {% endfor %}
         {% endif %}
     </div>
+    
     <main>
         {% block content %}
 
