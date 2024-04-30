@@ -52,10 +52,12 @@ def logout():
 
 @user.route("/register", methods=["GET", "POST"])
 def register():
+    #import pdb
     '''function rendering for the route /register'''
     if current_user.is_authenticated:
         return redirect(url_for('main.home'))
     form = RegisterUserForm()
+    #pdb.set_trace()
     if form.validate_on_submit():
         username = form.username.data
         user_exist = db.get_user(username)

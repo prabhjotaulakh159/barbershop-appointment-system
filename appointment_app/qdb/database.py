@@ -153,7 +153,7 @@ class Database:
         ''' Gets all services' name '''
         with self.connect() as connection:
             with connection.cursor() as cursor:
-                qry = "SELECT service_name FROM Services"
+                qry = "SELECT service_name FROM services"
                 try:
                     cursor.execute(qry)
                     services = cursor.fetchall()
@@ -216,8 +216,7 @@ class Database:
         with self.connect() as connection:
             with connection.cursor() as cursor:
                 try:
-                    cursor.execute(qry, [status, date_appointment,
-                                         slot, venue, client_id, professional_id, service_id])
+                    cursor.execute(qry, [status, date_appointment, slot, venue, client_id, professional_id, service_id])
                     connection.commit()
                 except Exception as e:
                     print(e)
@@ -271,6 +270,59 @@ class Database:
                     connection.commit()
                 except Exception as e:
                     print(e)
+                    
+    def add_report(self, feedback_client, feedback_professional, date_of_report, appointment_id):
+        query = 'INSERT INTO reports(feedback_client, feedback_professional, date_of_report, appointment_id) VALUES (:feedback_client, :feedback_professional, :date_of_report, :appointment_id)'
+        with self.connect() as connection:
+            with connection.cursor() as cursor:
+                try:
+                    cursor.execute(query, [feedback_client, feedback_professional, date_of_report, appointment_id])
+                    connection.commit()
+                except Exception as e:
+                    print(e)
+    
+    def get_report(self, appointment_id):
+        query = 'SELECT feedback_client, feedback_professional FROM reports WHERE appointment_id = :appointment_id'
+        with self.connect() as connection:
+            with connection.cursor() as cursor:
+                try:
+                    report = cursor.execute(query, [appointment_id])
+                    return cursor.fetchall()[0]
+                except Exception as e:
+                    print(e)
+    
+    def update_client_report(self, feedback_client, appointment_id):
+        query = ''' UPDATE reports SET feedback_client = :feedback_client
+                    WHERE appointment_id = :appointment_id'''
+        with self.connect() as connection:
+            with connection.cursor() as cursor:
+                try:
+                    cursor.execute(query, [feedback_client, appointment_id])
+                    connection.commit()
+                except Exception as e:
+                    print(e)
+    
+    def update_professional_report(self, feedback_professional, appointment_id):
+        query = ''' UPDATE reports SET feedback_professional = :feedback_professional
+                    WHERE appointment_id = :appointment_id'''
+        with self.connect() as connection:
+            with connection.cursor() as cursor:
+                try:
+                    cursor.execute(query, [feedback_professional, appointment_id])
+                    connection.commit()
+                except Exception as e:
+                    print(e)
+                     
+    def check_if_appointment_already_has_report(self, appointment_id):
+        query = 'SELECT report_id FROM reports WHERE appointment_id = :appointment_id'
+        with self.connect() as connection:
+            with connection.cursor() as cursor:
+                try:
+                    cursor.execute(query, [appointment_id])
+                    rows = cursor.fetchall()
+                    return rows
+                except Exception as e:
+                    print(e)
 
     def update_appointment_admin(self, appointment_id, date_appointment, slot, venue, client_id, professional_id, service_id):
         query = ''' UPDATE Appointments SET date_appointment = :date_appointment,
@@ -284,6 +336,7 @@ class Database:
                     connection.commit()
                 except Exception as e:
                     print(e)
+
 
     def delete_appointment(self, appointment_id):
         query = ''' DELETE FROM appointments WHERE appointment_id = :appointment_id '''

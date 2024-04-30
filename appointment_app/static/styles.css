@@ -89,7 +89,7 @@ html {
 main {
     background-color: var(--fifth-clr);
     flex: 1;
-    height: 100%;
+    height: auto;
 }
 
 .form-container {
@@ -98,7 +98,8 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 2rem 0;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
 }
 
 form {
@@ -112,6 +113,7 @@ form {
     width: 100%;
     max-width: 37.5rem;
     border-radius: 0.2rem;
+    height: auto;
 }
 
 .input-group {
@@ -179,11 +181,28 @@ form .button {
     margin-inline: auto;
 }
 
+footer {
+    background-color: var(--fourth-clr);
+    width: 100%;
+    flex-grow: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2em;
+    font-weight: bold;
+}
 
 /*-------------Appointment css----------------------*/
 div#flex {
     display: flex;
     height: 100%;
+}
+
+@media(max-width: 700px) {
+    div#flex{
+        flex-direction: column;
+    }
 }
 
 section#left-side {

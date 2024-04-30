@@ -4,8 +4,7 @@ from wtforms.validators import DataRequired, Length, EqualTo
 
 
 class AppointmentForm(FlaskForm):
-    date_appointment = DateField(
-        "Date", format='%Y-%m-%d', validators=[DataRequired()])
+    date_appointment = DateField("Date", format='%Y-%m-%d', validators=[DataRequired()])
     slot = SelectField("Time Slot", validators=[DataRequired()])
     venue = SelectField("Venue", validators=[DataRequired()])
     prof_name = SelectField("Professional name", validators=[DataRequired()])

@@ -35,24 +35,28 @@ def appointment_view(appointment_id):
 def my_appointments():
     appointments = db.get_my_appointments(
         f"client_id = {current_user.user_id} OR professional_id = {current_user.user_id}")
-
-    names = []
-    for appt in appointments:
+    names = []    
+    reports = []
+    for appt in appointments:    
         client_name = db.get_user_with_id(appt[5])
         professional_name = db.get_user_with_id(appt[6])
         service_name = db.get_service_name(appt[7])[0]
-        names.append((client_name[4], professional_name[4], service_name[0]))
-
-    return render_template("my-appointments.html", appointments=appointments, names=names)
+        names.append((client_name[4], professional_name[4],service_name[0]))
+        reports.append(db.get_report(appt[0]))
+    return render_template("my-appointments.html", appointments=appointments, names=names, reports=reports)
 
 
 @appointment.route("/add-appointment", methods=["GET", "POST"])
 @login_required
 def add_appointment():
+    if current_user.user_type == 'Professional':
+        return redirect(url_for('main.home'))
+    # import pdb
     form = AppointmentForm()
 
     services = db.get_services_name()
     services_list = []
+    # pdb.set_trace()
     for service in services:
         services_list.append((service[0], service[0]))
 
@@ -98,8 +102,9 @@ def add_appointment():
 @appointment.route("/update-appointment/<int:appointment_id>", methods=['GET', 'POST'])
 @login_required
 def update_appointment(appointment_id):
+    if current_user.user_type == 'Professional':
+        return redirect(url_for('main.home'))
     appointment = db.get_appointment(f"appointment_id = {appointment_id}")
-
     if (current_user.user_id != appointment[5] and current_user.user_id != appointment[6]) and current_user.access_level < 2:
         return redirect(url_for('main.home'))
 
