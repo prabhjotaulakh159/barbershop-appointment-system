@@ -147,18 +147,24 @@ def update_appointment(appointment_id):
         form.slot.choices = time_slots
         form.venue.choices = venue
 
-        if (current_user.access_level >=2):
+        if (current_user.access_level >= 2):
             members = db.get_member_names()
             members_list = []
             for member in members:
                 members_list.append((member[0], member[0]))
                 form.member_name.choices = members_list
-    
+
     else:
         service_id = db.get_service_id(form.service.data)[0]
-        db.update_appointment(appointment_id=appointment[0], date_appointment=form.date_appointment.data,
-                              slot=form.slot.data, venue=form.venue.data, service_id=service_id)
-        flash("You have successfully updated your appointment!", "success")
+        if (current_user.access_level >= 2):
+            client_id = db.get_user_id(f"user_name ='{form.member_name.data}'")[0]
+            prof_id = db.get_user_id(f"user_name ='{form.prof_name.data}'")[0]
+            db.update_appointment_admin(appointment_id=appointment[0], date_appointment=form.date_appointment.data,
+                                        slot=form.slot.data, venue=form.venue.data, client_id=client_id, professional_id=prof_id, service_id=service_id)
+        else:
+            db.update_appointment(appointment_id=appointment[0], date_appointment=form.date_appointment.data,
+                                  slot=form.slot.data, venue=form.venue.data, service_id=service_id)
+        flash("You have successfully updated the appointment!", "success")
         return redirect(url_for('main.home'))
     return render_template('update-appointment.html', current_user=current_user, form=form)
 

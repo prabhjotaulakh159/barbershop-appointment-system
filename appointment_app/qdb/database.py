@@ -272,6 +272,19 @@ class Database:
                 except Exception as e:
                     print(e)
 
+    def update_appointment_admin(self, appointment_id, date_appointment, slot, venue, client_id, professional_id, service_id):
+        query = ''' UPDATE Appointments SET date_appointment = :date_appointment,
+                    slot = :slot, venue = :venue, client_id = :client_id, professional_id = :professional_id, service_id = :service_id
+                    WHERE appointment_id = :appointment_id '''
+        with self.connect() as connection:
+            with connection.cursor() as cursor:
+                try:
+                    cursor.execute(query, [
+                        date_appointment, slot, venue, client_id, professional_id, service_id, appointment_id])
+                    connection.commit()
+                except Exception as e:
+                    print(e)
+
 
 db = Database()
 
