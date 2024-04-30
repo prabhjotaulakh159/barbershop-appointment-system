@@ -34,13 +34,16 @@ def my_appointments():
     appointments = db.get_my_appointments(f"client_id = {current_user.user_id} OR professional_id = {current_user.user_id}")
 
     names = []    
+    reports = []
     for appt in appointments:    
         client_name = db.get_user_with_id(appt[5])
         professional_name = db.get_user_with_id(appt[6])
         service_name = db.get_service_name(appt[7])[0]
         names.append((client_name[4], professional_name[4],service_name[0]))
+        reports.append(db.get_report(appt[0]))
+    
 
-    return render_template("my-appointments.html", appointments=appointments, names=names)
+    return render_template("my-appointments.html", appointments=appointments, names=names, reports=reports)
 
 
 @appointment.route("/add-appointment", methods=["GET", "POST"])
