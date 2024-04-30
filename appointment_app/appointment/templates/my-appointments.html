@@ -21,11 +21,12 @@
                 <div class="section">Venue: {{ appointment[4] }}</div>
                 <div class="section">Time-Slot: {{ appointment[3] }}</div>
                 <div class="section">Service: {{names[loop.index0][2]}}</div>
-
-
-                <button class="button"><a
-                        href="{{url_for('appointment.update_appointment',appointment_id=appointment[0])}}"> Update my
-                        appointment </a> </button>
+                <a href="{{url_for('appointment.update_appointment',appointment_id=appointment[0])}}">
+                    <button class="button">Update appointment</button>
+                </a> 
+                <a href="{{url_for('report.update_report',appointment_id=appointment[0])}}">
+                    <button class="button">Leave a report</button>
+                </a> 
             </div>
             {% endfor %}
             {% else %}

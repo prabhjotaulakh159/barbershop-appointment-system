@@ -55,8 +55,8 @@ CREATE TABLE appointments (
 
 CREATE TABLE reports (
     report_id               NUMBER              GENERATED ALWAYS AS IDENTITY,
-    feedback_client         VARCHAR2(255)       NOT NULL,
-    feedback_professional   VARCHAR2(255)       NOT NULL,
+    feedback_client         VARCHAR2(255)       ,
+    feedback_professional   VARCHAR2(255)       ,
     date_of_report          DATE                NOT NULL,
     appointment_id          NUMBER              NOT NULL,
     
