@@ -46,6 +46,8 @@ def my_appointments():
 @appointment.route("/add-appointment", methods=["GET", "POST"])
 @login_required
 def add_appointment():
+    if current_user.user_type == 'Professional':
+        return redirect(url_for('main.home'))
     # import pdb
     form = AppointmentForm()
 
@@ -97,8 +99,9 @@ def add_appointment():
 @appointment.route("/update-appointment/<int:appointment_id>", methods=['GET', 'POST'])
 @login_required
 def update_appointment(appointment_id):
+    if current_user.user_type == 'Professional':
+        return redirect(url_for('main.home'))
     appointment = db.get_appointment(f"appointment_id = {appointment_id}")
-
     if current_user.user_id != appointment[5] and current_user.user_id != appointment[6]:
         return redirect(url_for('main.home'))
 

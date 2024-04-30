@@ -66,3 +66,5 @@ CREATE TABLE reports (
 
 INSERT INTO services (service_name, service_duration, service_price, service_materials) VALUES ('Hair dressing', 15, 15, 'Barber equipment tool kit');
 INSERT INTO services (service_name, service_duration, service_price, service_materials) VALUES ('Haircut', 15, 15, 'Barber equipment tool kit');
+
+COMMIT;
