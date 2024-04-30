@@ -278,14 +278,24 @@ class Database:
                 except Exception as e:
                     print(e)
     
-    def update_report(self, feedback_client, feedback_professional, appointment_id):
-        query = ''' UPDATE reports SET feedback_client = :feedback_client, 
-                    feedback_professional = :feedback_professional,
+    def update_client_report(self, feedback_client, appointment_id):
+        query = ''' UPDATE reports SET feedback_client = :feedback_client
                     WHERE appointment_id = :appointment_id'''
         with self.connect() as connection:
             with connection.cursor() as cursor:
                 try:
-                    cursor.execute(query, [feedback_client, feedback_professional, appointment_id])
+                    cursor.execute(query, [feedback_client, appointment_id])
+                    connection.commit()
+                except Exception as e:
+                    print(e)
+    
+    def update_professional_report(self, feedback_professional, appointment_id):
+        query = ''' UPDATE reports SET feedback_professional = :feedback_professional
+                    WHERE appointment_id = :appointment_id'''
+        with self.connect() as connection:
+            with connection.cursor() as cursor:
+                try:
+                    cursor.execute(query, [feedback_professional, appointment_id])
                     connection.commit()
                 except Exception as e:
                     print(e)

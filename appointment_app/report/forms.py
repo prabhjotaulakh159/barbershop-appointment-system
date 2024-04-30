@@ -1,8 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import TextAreaField, SubmitField
-from wtforms.validators import Optional, Length
+from wtforms.validators import DataRequired, Optional
 
 class AddReportForm(FlaskForm):
-	feedback_client = TextAreaField('feedback client', validators=[Length(min=2, max=255)])
-	feedback_professional = TextAreaField('feedback professional', validators=[Optional(), Length(min=2, max=255)])
+	feedback = TextAreaField('feedback', validators=[DataRequired()])
 	submit = SubmitField('submit')

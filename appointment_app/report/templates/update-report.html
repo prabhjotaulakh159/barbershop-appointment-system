@@ -3,30 +3,16 @@
 {% block content %}
 	<div class="form-container">
 		<form method="POST" novalidate>
-			{{ form.hidden_tag() }}
-            {% if current_user.user_type == 'Professional' %}         
-                <div class="input-group">
-                    <div>Client feedback</div>
-                    {{ form.feedback_client(placeholder='Only client can fill this', readonly='true') }}
-                    {{ form_field_error(form.feedback_client.errors) }}
-                </div>
-                <div class="input-group">
+			{{ form.hidden_tag() }}    
+            <div class="input-group">
+                {% if current_user.user_type == 'Professional' %}
                     <div>Professional feedback</div>
-                    {{ form.feedback_professional() }}
-                    {{ form_field_error(form.feedback_professional.errors) }}
-                </div>
-            {% else %}
-                <div class="input-group">
+                {% else %}
                     <div>Client feedback</div>
-                    {{ form.feedback_client() }}
-                    {{ form_field_error(form.feedback_client.errors) }}
-                </div>
-                <div class="input-group">
-                    <div>Professional feedback</div>
-                    {{ form.feedback_professional(placeholder='Only professional can fill this', readonly='true') }}
-                    {{ form_field_error(form.feedback_professional.errors) }}
-                </div>
-            {% endif %}
+                {% endif %}
+                {{ form.feedback(placeholder='Add a report') }}
+                {{ form_field_error(form.feedback.errors) }}
+            </div>
 			{{ form.submit(value='Add report') }}
 		</form>
 	</div>
