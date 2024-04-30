@@ -4,8 +4,9 @@
 
 <div id="flex">
     <section id="left-side">
-        <div class="form-container">
+        <div class="">
             <form method="POST" novalidate>
+                <h2> Add appointment</h2>
                 {{ form.hidden_tag() }}
                 <div class="input-group">
                     <div>Client:</div>
@@ -34,7 +35,7 @@
                     {{ form.service(class='form-field', placeholder='Choose the service ') }}
                     {{ form_field_error(form.service.errors) }}
                 </div>
-                {{ form.submit(class='button', value='Make an appointment') }}
+                {{ form.submit(class='button', value='Add an appointment') }}
             </form>
         </div>
     </section>

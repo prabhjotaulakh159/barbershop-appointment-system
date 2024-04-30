@@ -104,7 +104,7 @@ class Database:
         with self.connect() as connection:
             with connection.cursor() as cursor:
                 qry = ''' 
-                    SELECT user_name FROM users WHERE access_level = 0  
+                    SELECT user_name FROM users WHERE user_type = 'Member'  
                     '''
                 try:
                     cursor.execute(qry)
