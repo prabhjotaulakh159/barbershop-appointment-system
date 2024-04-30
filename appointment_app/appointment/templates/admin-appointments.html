@@ -55,13 +55,13 @@
                 <div class="section">Service: {{names[loop.index0][2]}}</div>
 
                 <button class="button"><a
-                        href="{{url_for('appointment.appointment_view',appointment_id=appointment[0])}}">Update </a>
+                        href="{{url_for('appointment.update_appointment',appointment_id=appointment[0])}}"> Update </a>
                 </button>
 
                 <button class="button"><a
                         href="{{url_for('appointment.appointment_view',appointment_id=appointment[0])}}">Delete </a>
                 </button>
-                
+
 
             </div>
             {% endfor %}

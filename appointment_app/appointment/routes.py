@@ -13,6 +13,7 @@ def all_appointments():
     appointments = db.get_appointments()
     return render_template("all-appointments.html", appointments=appointments)
 
+
 @appointment.route('/all-appointments/<int:appointment_id>')
 @login_required
 def appointment_view(appointment_id):
@@ -99,10 +100,14 @@ def add_appointment():
 def update_appointment(appointment_id):
     appointment = db.get_appointment(f"appointment_id = {appointment_id}")
 
-    if (current_user.user_id != appointment[5] and current_user.user_id != appointment[6]) or current_user.access_level < 2:
+    if (current_user.user_id != appointment[5] and current_user.user_id != appointment[6]) and current_user.access_level < 2:
         return redirect(url_for('main.home'))
 
-    form = AppointmentForm()
+    if (current_user.access_level >= 2):
+        form = AppointmentAdminForm()
+    else:
+        form = AppointmentForm()
+
     if request.method == 'GET':
         form.date_appointment.data = appointment[2]
         form.slot.data = appointment[3]
@@ -111,6 +116,7 @@ def update_appointment(appointment_id):
 
         services = db.get_services_name()
         services_list = []
+
         for service in services:
             services_list.append((service[0], service[0]))
 
@@ -140,6 +146,14 @@ def update_appointment(appointment_id):
         form.service.choices = services_list
         form.slot.choices = time_slots
         form.venue.choices = venue
+
+        if (current_user.access_level >=2):
+            members = db.get_member_names()
+            members_list = []
+            for member in members:
+                members_list.append((member[0], member[0]))
+                form.member_name.choices = members_list
+    
     else:
         service_id = db.get_service_id(form.service.data)[0]
         db.update_appointment(appointment_id=appointment[0], date_appointment=form.date_appointment.data,
@@ -154,7 +168,7 @@ def update_appointment(appointment_id):
 def admin_appointments():
     if current_user.access_level < 2:
         return redirect(url_for('main.home'))
-    
+
     form = AppointmentAdminForm()
 
     members = db.get_member_names()
@@ -194,7 +208,7 @@ def admin_appointments():
     form.service.choices = services_list
     form.slot.choices = time_slots
     form.venue.choices = venue
-    
+
     if form.validate_on_submit():
 
         status = 1

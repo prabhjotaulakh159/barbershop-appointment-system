@@ -22,12 +22,12 @@
         <a href="{{ url_for('user.logout') }}">Logout</a>
         <a href="{{ url_for('user.update_profile', user_id=current_user.user_id) }}">Update Profile</a>
         <a href="{{ url_for('user.change_password', user_id=current_user.user_id) }}">Change Password</a>
+        {% if (current_user.access_level >= 2) %}
+        <a href="{{ url_for('appointment.admin_appointments') }}">Admin appointments</a>
+        {% else %}
         <a href="{{ url_for('appointment.add_appointment') }}">Make an appointment</a>
         <a href="{{ url_for('appointment.my_appointments') }}">My appointments</a>
         {% endif %}
-
-        {% if (current_user.access_level >= 2) %}
-        <a href="{{ url_for('appointment.admin_appointments') }}">Admin appointments</a>
         {% endif %}
 
         <a href="{{ url_for('appointment.all_appointments') }}">View all appointments</a>
