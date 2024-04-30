@@ -4,6 +4,20 @@
     <div class="form-container">
         <form method="POST" novalidate>
             {{ form.hidden_tag() }}
+
+            {% if form.member_name %}
+            <div class="input-group">
+                <div>Member:</div>
+                {{ form.member_name(class='form-field', placeholder='Enter the member') }}
+                {{ form_field_error(form.member_name.errors) }}
+            </div>
+            <div class="input-group">
+                <div>Professional:</div>
+                {{ form.prof_name(class='form-field', placeholder='Enter the professional') }}
+                {{ form_field_error(form.prof_name.errors) }}
+            </div>
+            {% endif %}
+            
             <div class="input-group">
                 <div>Date:</div>
                 {{ form.date_appointment(class='form-field', placeholder='Enter the date') }}
