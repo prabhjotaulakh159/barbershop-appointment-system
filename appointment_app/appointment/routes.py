@@ -236,3 +236,15 @@ def admin_appointments():
         names.append((client_name[4], professional_name[4], service_name[0]))
 
     return render_template("admin-appointments.html", form=form, appointments=appointments, names=names)
+
+
+@appointment.route('/delete-appointment/<int:appointment_id>')
+@login_required
+def delete_appointment(appointment_id):
+    if current_user.access_level < 2:
+        return redirect(url_for('main.home'))
+    
+    db.delete_appointment(appointment_id)
+    flash("Appointment is deleted!")
+    return redirect(url_for('appointment.admin_appointments'))
+    

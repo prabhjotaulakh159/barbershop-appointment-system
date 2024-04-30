@@ -285,7 +285,17 @@ class Database:
                 except Exception as e:
                     print(e)
 
-
+    def delete_appointment(self, appointment_id):
+        query = ''' DELETE FROM appointments WHERE appointment_id = :appointment_id '''
+        with self.connect() as connection:
+            with connection.cursor() as cursor:
+                try:
+                    cursor.execute(query, [appointment_id])
+                    connection.commit()
+                except Exception as e:
+                    print(e)
+                    
+            
 db = Database()
 
 if __name__ == '__main__':
