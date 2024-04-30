@@ -100,6 +100,19 @@ class Database:
                 except Exception as e:
                     print(e)
 
+    def get_member_names(self):
+        with self.connect() as connection:
+            with connection.cursor() as cursor:
+                qry = ''' 
+                    SELECT user_name FROM users WHERE access_level = 0  
+                    '''
+                try:
+                    cursor.execute(qry)
+                    members = cursor.fetchall()
+                    return members
+                except Exception as e:
+                    print(e)
+
     def add_user(self, user_type, user_name, pass_word, email, avatar, phone, address, age, pay_rate, specialty):
         ''' Adds a user to the database '''
         qry = "INSERT INTO users (user_type,user_name,pass_word,email,avatar,phone,address,age,pay_rate,specialty) VALUES (:user_type,:user_name,:pass_word,:email,:avatar,:phone,:address,:age,:pay_rate,:specialty)"

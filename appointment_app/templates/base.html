@@ -25,6 +25,11 @@
         <a href="{{ url_for('appointment.add_appointment') }}">Make an appointment</a>
         <a href="{{ url_for('appointment.my_appointments') }}">My appointments</a>
         {% endif %}
+
+        {% if (current_user.access_level >= 2) %}
+        <a href="{{ url_for('appointment.admin_appointments') }}">Admin appointments</a>
+        {% endif %}
+
         <a href="{{ url_for('appointment.all_appointments') }}">View all appointments</a>
     </nav>
     <div class="flashes">
