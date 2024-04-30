@@ -25,16 +25,6 @@
                     <button class="button"><a
                             href="{{url_for('appointment.update_appointment',appointment_id=appointment[0])}}"> Update my appointment </a> </button>
                 {% endif %}
-
-                {% if current_user.is_authenticated and current_user.access_level >=2 %}
-
-                <button class="button"><a
-                        href="{{url_for('appointment.update_appointment_admin',appointment_id=appointment[0])}}">Update </a>
-                </button>
-                <button class="button"><a
-                        href="{{url_for('appointment.delete_appointment',appointment_id=appointment[0])}}">Delete </a>
-                </button>
-                {% endif %}
         
             </div>
             {% else %}
