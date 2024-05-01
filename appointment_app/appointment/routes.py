@@ -19,8 +19,8 @@ def all_appointments():
 @login_required
 def appointment_view(appointment_id):
     appt = db.get_appointment(f"appointment_id = {appointment_id}")
-    client_name = db.get_user_with_id(appt[5])
-    professional_name = db.get_user_with_id(appt[6])
+    client_name = db.get_user(f"WHERE user_id = {appt[5]}")
+    professional_name = db.get_user(f"WHERE user_id = {appt[6]}")
     service_name = db.get_service_name(appt[7])[0]
 
     names = []
@@ -39,8 +39,8 @@ def my_appointments():
     names = []    
     reports = []    
     for appt in appointments:    
-        client_name = db.get_user_with_id(appt[5])
-        professional_name = db.get_user_with_id(appt[6])
+        client_name = db.get_user(f"WHERE user_id = {appt[5]}")
+        professional_name = db.get_user(f"WHERE user_id = {appt[6]}")
         service_name = db.get_service_name(appt[7])[0]
         names.append((client_name[4], professional_name[4],service_name[0]))
         reports.append(db.get_report(appt[0]))
@@ -61,10 +61,10 @@ def add_appointment():
     for service in services:
         services_list.append((service[0], service[0]))
 
-    professionals = db.get_professional_names()
+    professionals = db.get_users(f"WHERE user_type = 'Professional'")
     professionals_list = []
     for professional in professionals:
-        professionals_list.append((professional[0], professional[0]))
+        professionals_list.append((professional[4], professional[4]))
 
     form.prof_name.choices = professionals_list
     form.service.choices = services_list
@@ -74,7 +74,7 @@ def add_appointment():
 
         status = 1
         client_id = current_user.user_id
-        prof_id = db.get_user_id(f"user_name ='{form.prof_name.data}'")[0]
+        prof_id = db.get_user(f"WHERE user_name = '{form.prof_name.data}'")[0]
         service_id = db.get_service_id(form.service.data)[0]
         db.add_appointment(status, form.date_appointment.data,
                            form.slot.data, form.venue.data, client_id, prof_id, service_id)
@@ -108,10 +108,10 @@ def update_appointment(appointment_id):
         for service in services:
             services_list.append((service[0], service[0]))
 
-        professionals = db.get_professional_names()
+        professionals = db.get_users(f"WHERE user_type = 'Professional'")
         professionals_list = []
         for professional in professionals:
-            professionals_list.append((professional[0], professional[0]))
+            professionals_list.append((professional[4], professional[4]))
 
 
         form.prof_name.choices = professionals_list
@@ -120,17 +120,18 @@ def update_appointment(appointment_id):
         form.venue.choices = venues
 
         if (current_user.access_level >= 2):
-            members = db.get_member_names()
+            members = db.get_users(f"WHERE user_type = 'Member'")
             members_list = []
             for member in members:
-                members_list.append((member[0], member[0]))
+                members_list.append((member[4], member[4]))
                 form.member_name.choices = members_list
 
     else:
         service_id = db.get_service_id(form.service.data)[0]
         if (current_user.access_level >= 2):
-            client_id = db.get_user_id(f"user_name ='{form.member_name.data}'")[0]
-            prof_id = db.get_user_id(f"user_name ='{form.prof_name.data}'")[0] #admini
+            client_id = db.get_user(f"WHERE user_name = '{form.member_name.data}'")[0]
+            prof_id = db.get_user(f"WHERE user_name = '{form.prof_name.data}'")[0]
+
             db.update_appointment(appointment_id=appointment[0], date_appointment=form.date_appointment.data,
                                         slot=form.slot.data, venue=form.venue.data, client_id=client_id, professional_id=prof_id, service_id=service_id)
         else:
@@ -149,20 +150,20 @@ def admin_appointments():
 
     form = AppointmentAdminForm()
 
-    members = db.get_member_names()
+    members = db.get_users(f"WHERE user_type = 'Member'")
     members_list = []
     for member in members:
-        members_list.append((member[0], member[0]))
+        members_list.append((member[4], member[4]))
 
     services = db.get_services_name()
     services_list = []
     for service in services:
         services_list.append((service[0], service[0]))
 
-    professionals = db.get_professional_names()
+    professionals = db.get_users(f"WHERE user_type = 'Professional'")
     professionals_list = []
     for professional in professionals:
-        professionals_list.append((professional[0], professional[0]))
+        professionals_list.append((professional[4], professional[4]))
 
     form.member_name.choices = members_list
     form.prof_name.choices = professionals_list
@@ -173,8 +174,8 @@ def admin_appointments():
     if form.validate_on_submit():
 
         status = 1
-        client_id = db.get_user_id(f"user_name ='{form.member_name.data}'")[0]
-        prof_id = db.get_user_id(f"user_name ='{form.prof_name.data}'")[0]
+        client_id = db.get_user(f"WHERE user_name = '{form.member_name.data}'")[0]
+        prof_id = db.get_user(f"WHERE user_name = '{form.prof_name.data}'")[0]
         service_id = db.get_service_id(form.service.data)[0]
         db.add_appointment(status, form.date_appointment.data,
                            form.slot.data, form.venue.data, client_id, prof_id, service_id)
@@ -184,8 +185,8 @@ def admin_appointments():
     names = []
 
     for apt in appointments:
-        client_name = db.get_user_with_id(apt[5])
-        professional_name = db.get_user_with_id(apt[6])
+        client_name = db.get_user(f"WHERE user_id= {apt[5]}")
+        professional_name = db.get_user(f"WHERE user_id = {apt[6]}")
         service_name = db.get_service_name(apt[7])[0]
 
         names.append((client_name[4], professional_name[4], service_name[0]))

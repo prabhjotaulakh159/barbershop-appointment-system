@@ -38,36 +38,6 @@ class Database:
                                 print(e)
                         statement_parts = []
 
-    def get_userrr(self, username):
-        ''' Gets a user by username '''
-        with self.connect() as connection:
-            with connection.cursor() as cursor:
-                qry = '''
-                    SELECT
-                        user_id,
-                        is_enabled,
-                        access_level,
-                        user_type,
-                        user_name,
-                        pass_word,
-                        email,
-                        avatar,
-                        phone,
-                        address,
-                        age,
-                        pay_rate,
-                        specialty
-                    FROM
-                        users
-                    WHERE
-                        user_name = :username
-                    '''
-                try:
-                    cursor.execute(qry, [username])
-                    user = cursor.fetchall()[0]
-                    return user
-                except Exception as e:
-                    print(e)
 
     def get_user(self, cond):
         qry = f'''SELECT user_id, is_enabled, access_level, user_type, user_name, pass_word, 
@@ -80,48 +50,16 @@ class Database:
                     return user
                 except Exception as e:
                     print(e)
-                    
-    def get_user_with_id(self, user_id):
-        ''' Gets a user by user id '''
+    
+    def get_users(self, cond):
+        qry = f'''SELECT user_id, is_enabled, access_level, user_type, user_name, pass_word, 
+        email, avatar, phone, address, age, pay_rate, specialty FROM users {cond}'''
         with self.connect() as connection:
             with connection.cursor() as cursor:
-                qry = '''
-                    SELECT
-                        user_id,
-                        is_enabled,
-                        access_level,
-                        user_type,
-                        user_name,
-                        pass_word,
-                        email,
-                        avatar,
-                        phone,
-                        address,
-                        age,
-                        pay_rate,
-                        specialty
-                    FROM
-                        users
-                    WHERE
-                        user_id = :user_id
-                    '''
-                try:
-                    cursor.execute(qry, [user_id])
-                    user = cursor.fetchall()[0]
-                    return user
-                except Exception as e:
-                    print(e)
-
-    def get_member_names(self):
-        with self.connect() as connection:
-            with connection.cursor() as cursor:
-                qry = '''
-                    SELECT user_name FROM users WHERE user_type = 'Member'
-                    '''
                 try:
                     cursor.execute(qry)
-                    members = cursor.fetchall()
-                    return members
+                    user = cursor.fetchall()
+                    return user
                 except Exception as e:
                     print(e)
 
@@ -182,31 +120,6 @@ class Database:
                     cursor.execute(qry, [service_id])
                     services = cursor.fetchall()
                     return services
-                except Exception as e:
-                    print(e)
-
-    def get_professional_names(self):
-        ''' Gets all professionals' name'''
-        with self.connect() as connection:
-            with connection.cursor() as cursor:
-                qry = "SELECT user_name FROM Users WHERE user_type = 'Professional'"
-                try:
-                    cursor.execute(qry)
-                    professional = cursor.fetchall()
-                    return professional
-                except Exception as e:
-                    print(e)
-
-    def get_user_id(self, cond):
-        ''' Gets professional's id by name '''
-        with self.connect() as connection:
-            with connection.cursor() as cursor:
-                qry = f"SELECT user_id FROM Users WHERE {cond}"
-                print(qry)
-                try:
-                    cursor.execute(qry)
-                    professional = cursor.fetchall()[0]
-                    return professional
                 except Exception as e:
                     print(e)
 
