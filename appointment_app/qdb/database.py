@@ -99,39 +99,27 @@ class Database:
                 except Exception as e:
                     print(e)
 
-    def get_services_name(self):
+    def get_services(self):
         ''' Gets all services' name '''
         with self.connect() as connection:
             with connection.cursor() as cursor:
-                qry = "SELECT service_name FROM services"
+                qry = "SELECT service_id, service_name, service_duration, service_price, service_materials FROM services"
                 try:
                     cursor.execute(qry)
                     services = cursor.fetchall()
                     return services
                 except Exception as e:
                     print(e)
-
-    def get_service_name(self, service_id):
+    
+    def get_service(self, cond):
         ''' Gets all services' name '''
         with self.connect() as connection:
             with connection.cursor() as cursor:
-                qry = "SELECT service_name FROM Services WHERE service_id = :service_id"
+                qry = f"SELECT service_id, service_name, service_duration, service_price, service_materials FROM services {cond}"
                 try:
-                    cursor.execute(qry, [service_id])
-                    services = cursor.fetchall()
+                    cursor.execute(qry)
+                    services = cursor.fetchall()[0]
                     return services
-                except Exception as e:
-                    print(e)
-
-    def get_service_id(self, service_name):
-        ''' Gets service's id by name '''
-        with self.connect() as connection:
-            with connection.cursor() as cursor:
-                qry = "SELECT service_id FROM services WHERE service_name = :service_name"
-                try:
-                    cursor.execute(qry, [service_name])
-                    professional = cursor.fetchall()[0]
-                    return professional
                 except Exception as e:
                     print(e)
 

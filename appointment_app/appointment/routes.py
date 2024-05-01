@@ -21,7 +21,7 @@ def appointment_view(appointment_id):
     appt = db.get_appointment(f"appointment_id = {appointment_id}")
     client_name = db.get_user(f"WHERE user_id = {appt[5]}")
     professional_name = db.get_user(f"WHERE user_id = {appt[6]}")
-    service_name = db.get_service_name(appt[7])[0]
+    service_name = db.get_service(f"WHERE service_id = {appt[7]}")[0]
 
     names = []
     names.append(client_name[4])
@@ -41,7 +41,7 @@ def my_appointments():
     for appt in appointments:    
         client_name = db.get_user(f"WHERE user_id = {appt[5]}")
         professional_name = db.get_user(f"WHERE user_id = {appt[6]}")
-        service_name = db.get_service_name(appt[7])[0]
+        service_name = db.get_service(f"WHERE service_id = {appt[7]}")[0]
         names.append((client_name[4], professional_name[4],service_name[0]))
         reports.append(db.get_report(appt[0]))
     return render_template("my-appointments.html", appointments=appointments, names=names, reports=reports)
@@ -55,11 +55,11 @@ def add_appointment():
     # import pdb
     form = AppointmentForm()
 
-    services = db.get_services_name()
+    services = db.get_services()
     services_list = []
     # pdb.set_trace()
     for service in services:
-        services_list.append((service[0], service[0]))
+        services_list.append((service[1], service[1]))
 
     professionals = db.get_users(f"WHERE user_type = 'Professional'")
     professionals_list = []
@@ -75,7 +75,7 @@ def add_appointment():
         status = 1
         client_id = current_user.user_id
         prof_id = db.get_user(f"WHERE user_name = '{form.prof_name.data}'")[0]
-        service_id = db.get_service_id(form.service.data)[0]
+        service_id = db.get_service(f"WHERE service_name = '{form.service.data}'")[0]
         db.add_appointment(status, form.date_appointment.data,
                            form.slot.data, form.venue.data, client_id, prof_id, service_id)
         flash('Appointment is created!')
@@ -101,12 +101,12 @@ def update_appointment(appointment_id):
         form.date_appointment.data = appointment[2]
         form.slot.data = appointment[3]
         form.venue.data = appointment[4]
-        form.service.data = db.get_service_name(appointment[7])[0][0]
-        services = db.get_services_name()
+        form.service.data = db.get_service(f"WHERE service_id = {appointment[7]}")[1]
+        services = db.get_services()
         services_list = []
 
         for service in services:
-            services_list.append((service[0], service[0]))
+            services_list.append((service[1], service[1]))
 
         professionals = db.get_users(f"WHERE user_type = 'Professional'")
         professionals_list = []
@@ -127,7 +127,7 @@ def update_appointment(appointment_id):
                 form.member_name.choices = members_list
 
     else:
-        service_id = db.get_service_id(form.service.data)[0]
+        service_id = db.get_service(f"WHERE service_name = '{form.service.data}'")[0]
         if (current_user.access_level >= 2):
             client_id = db.get_user(f"WHERE user_name = '{form.member_name.data}'")[0]
             prof_id = db.get_user(f"WHERE user_name = '{form.prof_name.data}'")[0]
@@ -155,10 +155,10 @@ def admin_appointments():
     for member in members:
         members_list.append((member[4], member[4]))
 
-    services = db.get_services_name()
+    services = db.get_services()
     services_list = []
     for service in services:
-        services_list.append((service[0], service[0]))
+        services_list.append((service[1], service[1]))
 
     professionals = db.get_users(f"WHERE user_type = 'Professional'")
     professionals_list = []
@@ -176,7 +176,7 @@ def admin_appointments():
         status = 1
         client_id = db.get_user(f"WHERE user_name = '{form.member_name.data}'")[0]
         prof_id = db.get_user(f"WHERE user_name = '{form.prof_name.data}'")[0]
-        service_id = db.get_service_id(form.service.data)[0]
+        service_id = db.get_service(f"WHERE service_name = '{form.service.data}'")[0]
         db.add_appointment(status, form.date_appointment.data,
                            form.slot.data, form.venue.data, client_id, prof_id, service_id)
         flash('Appointment is created!')
@@ -187,9 +187,9 @@ def admin_appointments():
     for apt in appointments:
         client_name = db.get_user(f"WHERE user_id= {apt[5]}")
         professional_name = db.get_user(f"WHERE user_id = {apt[6]}")
-        service_name = db.get_service_name(apt[7])[0]
+        service_name = db.get_service(f"WHERE service_id = {apt[7]}")
 
-        names.append((client_name[4], professional_name[4], service_name[0]))
+        names.append((client_name[4], professional_name[4], service_name[1]))
 
     return render_template("admin-appointments.html", form=form, appointments=appointments, names=names)
 
