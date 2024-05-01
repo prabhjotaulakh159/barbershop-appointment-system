@@ -1,5 +1,7 @@
 class Appointment:
-    def __init__(self, appointment_id, status, date_appointment, slot, venue, client_id, prof_id, service_id):
+    '''class representing an Appointment'''
+    def __init__(self, appointment_id, status, date_appointment,
+                 slot, venue, client_id, prof_id, service_id):
         self.appointment_id = appointment_id
         self.status = status
         self.date_appointment = date_appointment

@@ -4,7 +4,7 @@ from flask_login import login_required, current_user
 from appointment_app.qdb.database import db
 from appointment_app.appointment.forms import AppointmentForm, AppointmentAdminForm
 from appointment_app.appointment.utility import time_slots, venues
-import pdb
+
 appointment = Blueprint('appointment', __name__, template_folder="templates")
 
 
@@ -46,7 +46,7 @@ def my_appointments():
         service_name = db.get_service(f"WHERE service_id = {appt[7]}")
         names.append((client_name[4], professional_name[4],service_name[1]))
         reports.append(db.get_report(appt[0]))
-    return render_template("my-appointments.html", appointments=appointments, 
+    return render_template("my-appointments.html", appointments=appointments,
                            names=names, reports=reports)
 
 
@@ -92,7 +92,8 @@ def update_appointment(appointment_id):
     if current_user.user_type == 'Professional':
         return redirect(url_for('main.home'))
     appt = db.get_appointment(f"WHERE appointment_id = {appointment_id}")
-    if (current_user.user_id != appt[5] and current_user.user_id != appt[6]) and current_user.access_level < 2:
+    if (current_user.user_id != appt[5]
+        and current_user.user_id != appt[6]) and current_user.access_level < 2:
         return redirect(url_for('main.home'))
 
     if current_user.access_level >= 2:
@@ -198,7 +199,7 @@ def admin_appointments():
 
         names.append((client_name[4], professional_name[4], service_name[1]))
 
-    return render_template("admin-appointments.html", form=form, 
+    return render_template("admin-appointments.html", form=form,
                            appointments=appointments, names=names)
 
 
