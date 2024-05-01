@@ -153,7 +153,7 @@ class Database:
 
     def get_appointment(self, cond):
         query = f''' SELECT appointment_id, status, date_appointment, slot, venue,
-            client_id, professional_id, service_id, number_services FROM appointments WHERE {cond}'''
+            client_id, professional_id, service_id, number_services FROM appointments {cond}'''
         with self.connect() as connection:
             with connection.cursor() as cursor:
                 try:

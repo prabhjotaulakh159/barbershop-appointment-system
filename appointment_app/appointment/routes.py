@@ -18,7 +18,7 @@ def all_appointments():
 @appointment.route('/all-appointments/<int:appointment_id>')
 @login_required
 def appointment_view(appointment_id):
-    appt = db.get_appointment(f"appointment_id = {appointment_id}")
+    appt = db.get_appointment(f"WHERE appointment_id = {appointment_id}")
     client_name = db.get_user(f"WHERE user_id = {appt[5]}")
     professional_name = db.get_user(f"WHERE user_id = {appt[6]}")
     service_name = db.get_service(f"WHERE service_id = {appt[7]}")[0]
@@ -88,7 +88,7 @@ def add_appointment():
 def update_appointment(appointment_id):
     if current_user.user_type == 'Professional':
         return redirect(url_for('main.home'))
-    appointment = db.get_appointment(f"appointment_id = {appointment_id}")
+    appointment = db.get_appointment(f"WHERE appointment_id = {appointment_id}")
     if (current_user.user_id != appointment[5] and current_user.user_id != appointment[6]) and current_user.access_level < 2:
         return redirect(url_for('main.home'))
 

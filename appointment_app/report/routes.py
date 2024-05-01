@@ -9,7 +9,7 @@ report = Blueprint('report', __name__, template_folder="templates")
 @report.route("/report/<int:appointment_id>", methods=['GET', 'POST'])
 @login_required
 def update_report(appointment_id):
-    appointment = db.get_appointment(f"appointment_id = {appointment_id}")
+    appointment = db.get_appointment(f"WHERE appointment_id = {appointment_id}")
     if current_user.user_id != appointment[5] and current_user.user_id != appointment[6]:
         return redirect(url_for('main.home'))
     if not db.check_if_appointment_already_has_report(appointment_id=appointment_id):
