@@ -42,12 +42,12 @@ class Database:
         ''' Gets a user by username '''
         with self.connect() as connection:
             with connection.cursor() as cursor:
-                qry = ''' 
-                    SELECT 
+                qry = '''
+                    SELECT
                         user_id,
                         is_enabled,
                         access_level,
-                        user_type, 
+                        user_type,
                         user_name,
                         pass_word,
                         email,
@@ -57,10 +57,10 @@ class Database:
                         age,
                         pay_rate,
                         specialty
-                    FROM 
-                        users 
+                    FROM
+                        users
                     WHERE
-                        user_name = :username 
+                        user_name = :username
                     '''
                 try:
                     cursor.execute(qry, [username])
@@ -73,12 +73,12 @@ class Database:
         ''' Gets a user by user id '''
         with self.connect() as connection:
             with connection.cursor() as cursor:
-                qry = ''' 
-                    SELECT 
+                qry = '''
+                    SELECT
                         user_id,
                         is_enabled,
                         access_level,
-                        user_type, 
+                        user_type,
                         user_name,
                         pass_word,
                         email,
@@ -88,10 +88,10 @@ class Database:
                         age,
                         pay_rate,
                         specialty
-                    FROM 
-                        users 
+                    FROM
+                        users
                     WHERE
-                        user_id = :user_id 
+                        user_id = :user_id
                     '''
                 try:
                     cursor.execute(qry, [user_id])
@@ -103,8 +103,8 @@ class Database:
     def get_member_names(self):
         with self.connect() as connection:
             with connection.cursor() as cursor:
-                qry = ''' 
-                    SELECT user_name FROM users WHERE user_type = 'Member'  
+                qry = '''
+                    SELECT user_name FROM users WHERE user_type = 'Member'
                     '''
                 try:
                     cursor.execute(qry)
@@ -216,13 +216,18 @@ class Database:
         with self.connect() as connection:
             with connection.cursor() as cursor:
                 try:
-                    cursor.execute(qry, [status, date_appointment, slot, venue, client_id, professional_id, service_id])
+                    cursor.execute(qry, [
+                                   status, date_appointment, slot, venue, client_id, professional_id, service_id])
                     connection.commit()
                 except Exception as e:
                     print(e)
 
-    def get_appointments(self):
-        query = ''' SELECT appointment_id, status, date_appointment, slot, venue,
+    def get_appointments(self, cond=None):
+        if cond:
+            query = f''' SELECT appointment_id, status, date_appointment, slot, venue,
+            client_id, professional_id, service_id, number_services FROM appointments {cond}'''
+        else:
+            query = ''' SELECT appointment_id, status, date_appointment, slot, venue,
             client_id, professional_id, service_id, number_services FROM appointments'''
         with self.connect() as connection:
             with connection.cursor() as cursor:
@@ -246,41 +251,46 @@ class Database:
                 except Exception as e:
                     print(e)
 
-    def get_my_appointments(self, cond):
-        query = f''' SELECT appointment_id, status, date_appointment, slot, venue,
-            client_id, professional_id, service_id, number_services FROM appointments WHERE {cond}'''
-        with self.connect() as connection:
-            with connection.cursor() as cursor:
-                try:
-                    cursor.execute(query)
-                    appointments = cursor.fetchall()
-                    return appointments
-                except Exception as e:
-                    print(e)
+    def update_appointment(self, appointment_id, **kwargs):
+        set_values = ""
+        data_list = []
+        for key, value in kwargs.items():
+            set_values += f"{key} = :{key}, "
+            data_list.append(value)
+        data_list.append(appointment_id)
+        
+        set_values = set_values[:-2] # to remove last comma + space
 
-    def update_appointment(self, appointment_id, date_appointment, slot, venue, service_id):
-        query = ''' UPDATE Appointments SET date_appointment = :date_appointment,
-                    slot = :slot, venue = :venue, service_id = :service_id
-                    WHERE appointment_id = :appointment_id '''
+        query = f'''UPDATE Appointments SET {set_values} WHERE appointment_id = :appointment_id'''
         with self.connect() as connection:
             with connection.cursor() as cursor:
                 try:
-                    cursor.execute(query, [
-                        date_appointment, slot, venue, service_id, appointment_id])
+                    cursor.execute(query, data_list)
                     connection.commit()
                 except Exception as e:
                     print(e)
                     
+    def delete_appointment(self, appointment_id):
+        query = ''' DELETE FROM appointments WHERE appointment_id = : appointment_id '''
+        with self.connect() as connection:
+            with connection.cursor() as cursor:
+                try:
+                    cursor.execute(query, [appointment_id])
+                    connection.commit()
+                except Exception as e:
+                    print(e)
+
     def add_report(self, feedback_client, feedback_professional, date_of_report, appointment_id):
         query = 'INSERT INTO reports(feedback_client, feedback_professional, date_of_report, appointment_id) VALUES (:feedback_client, :feedback_professional, :date_of_report, :appointment_id)'
         with self.connect() as connection:
             with connection.cursor() as cursor:
                 try:
-                    cursor.execute(query, [feedback_client, feedback_professional, date_of_report, appointment_id])
+                    cursor.execute(
+                        query, [feedback_client, feedback_professional, date_of_report, appointment_id])
                     connection.commit()
                 except Exception as e:
                     print(e)
-    
+
     def get_report(self, appointment_id):
         query = 'SELECT feedback_client, feedback_professional FROM reports WHERE appointment_id = :appointment_id'
         with self.connect() as connection:
@@ -290,10 +300,10 @@ class Database:
                     return cursor.fetchall()[0]
                 except Exception as e:
                     print(e)
-    
+
     def update_client_report(self, feedback_client, appointment_id):
-        query = ''' UPDATE reports SET feedback_client = :feedback_client
-                    WHERE appointment_id = :appointment_id'''
+        query = ''' UPDATE reports SET feedback_client = : feedback_client
+                    WHERE appointment_id = : appointment_id'''
         with self.connect() as connection:
             with connection.cursor() as cursor:
                 try:
@@ -301,18 +311,19 @@ class Database:
                     connection.commit()
                 except Exception as e:
                     print(e)
-    
+
     def update_professional_report(self, feedback_professional, appointment_id):
-        query = ''' UPDATE reports SET feedback_professional = :feedback_professional
-                    WHERE appointment_id = :appointment_id'''
+        query = ''' UPDATE reports SET feedback_professional = : feedback_professional
+                    WHERE appointment_id = : appointment_id'''
         with self.connect() as connection:
             with connection.cursor() as cursor:
                 try:
-                    cursor.execute(query, [feedback_professional, appointment_id])
+                    cursor.execute(
+                        query, [feedback_professional, appointment_id])
                     connection.commit()
                 except Exception as e:
                     print(e)
-                     
+
     def check_if_appointment_already_has_report(self, appointment_id):
         query = 'SELECT report_id FROM reports WHERE appointment_id = :appointment_id'
         with self.connect() as connection:
@@ -324,31 +335,8 @@ class Database:
                 except Exception as e:
                     print(e)
 
-    def update_appointment_admin(self, appointment_id, date_appointment, slot, venue, client_id, professional_id, service_id):
-        query = ''' UPDATE Appointments SET date_appointment = :date_appointment,
-                    slot = :slot, venue = :venue, client_id = :client_id, professional_id = :professional_id, service_id = :service_id
-                    WHERE appointment_id = :appointment_id '''
-        with self.connect() as connection:
-            with connection.cursor() as cursor:
-                try:
-                    cursor.execute(query, [
-                        date_appointment, slot, venue, client_id, professional_id, service_id, appointment_id])
-                    connection.commit()
-                except Exception as e:
-                    print(e)
 
 
-    def delete_appointment(self, appointment_id):
-        query = ''' DELETE FROM appointments WHERE appointment_id = :appointment_id '''
-        with self.connect() as connection:
-            with connection.cursor() as cursor:
-                try:
-                    cursor.execute(query, [appointment_id])
-                    connection.commit()
-                except Exception as e:
-                    print(e)
-                    
-            
 db = Database()
 
 if __name__ == '__main__':
