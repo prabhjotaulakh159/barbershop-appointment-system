@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% from "macros.html" import form_field_error with context %}
+{% block content %}
+    <div id="user-container">
+        {% for user in users %}
+            <div class="user-box">
+                <span>{{ user[0] }}</span>
+                <span>{{ user[1] }}</span>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock content %}

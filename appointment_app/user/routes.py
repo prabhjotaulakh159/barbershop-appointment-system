@@ -138,3 +138,9 @@ def change_password(user_id):
         flash("You have successfully updated your password !", "success")
         return redirect(url_for('user.login'))
     return render_template('change-password.html', form=form)
+
+@user.route("/all-users", methods=['GET', 'POST'])
+@login_required
+def all_users():
+    users = db.get_all_users()
+    return render_template('all-users.html', users=users)

@@ -114,8 +114,7 @@ class Database:
         ''' Gets all services' name '''
         with self.connect() as connection:
             with connection.cursor() as cursor:
-                qry = f"SELECT service_id, service_name, service_duration, service_price, service_materials FROM services {
-                    cond}"
+                qry = f"SELECT service_id, service_name, service_duration, service_price, service_materials FROM services {cond}"
                 try:
                     cursor.execute(qry)
                     services = cursor.fetchall()[0]
@@ -249,6 +248,18 @@ class Database:
                 except Exception as e:
                     print(e)
 
+    def get_all_users(self):
+        query = ''' SELECT user_id, is_enabled, user_type, user_name, 
+                    email, phone, address, age, pay_rate, specialty
+                    FROM users WHERE access_level = 0'''
+        with self.connect() as connection:
+            with connection.cursor() as cursor:
+                try:
+                    cursor.execute(query)
+                    rows = cursor.fetchall()
+                    return rows
+                except Exception as e:
+                    print(e)
 
 db = Database()
 
