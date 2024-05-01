@@ -15,7 +15,7 @@ def login():
         return redirect(url_for('main.home'))
     form = LoginForm()
     if form.validate_on_submit():
-        user = db.get_user(form.username.data)
+        user = db.get_user(f"WHERE user_name = '{form.username.data}'")
         if not user:
             flash(f"You provided invalid credentials", "error")
             return redirect(url_for('user.login'))
@@ -60,7 +60,7 @@ def register():
     #pdb.set_trace()
     if form.validate_on_submit():
         username = form.username.data
-        user_exist = db.get_user(username)
+        user_exist = db.get_user(f"WHERE user_name = '{username}'")
         if user_exist:
             flash(f'{username} already in db. Choose another username', 'error')
             return redirect(url_for('user.register'))
@@ -105,7 +105,7 @@ def update_profile(user_id):
         form.specialty.data = current_user.specialty
     else:
         if form.username.data != current_user.user_name:    
-            user_already_exists = db.get_user(form.username.data)
+            user_already_exists = db.get_user(f"WHERE user_name = '{form.username.data}'")
             if user_already_exists:
                 flash("Username already taken !", "error")
                 return redirect(url_for('user.login'))
@@ -126,7 +126,7 @@ def change_password(user_id):
         return redirect(url_for('main.home'))
     form = ChangePasswordForm()
     if form.validate_on_submit():
-        user = db.get_user(current_user.user_name)
+        user = db.get_user(f"WHERE user_name = '{current_user.user_name}'")
         bcrypt = Bcrypt()
         if not bcrypt.check_password_hash(user[5], form.old_password.data):
             flash("You have provided invalid credentials !", "error")

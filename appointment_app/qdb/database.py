@@ -38,7 +38,7 @@ class Database:
                                 print(e)
                         statement_parts = []
 
-    def get_user(self, username):
+    def get_userrr(self, username):
         ''' Gets a user by username '''
         with self.connect() as connection:
             with connection.cursor() as cursor:
@@ -69,6 +69,18 @@ class Database:
                 except Exception as e:
                     print(e)
 
+    def get_user(self, cond):
+        qry = f'''SELECT user_id, is_enabled, access_level, user_type, user_name, pass_word, 
+        email, avatar, phone, address, age, pay_rate, specialty FROM users {cond}'''
+        with self.connect() as connection:
+            with connection.cursor() as cursor:
+                try:
+                    cursor.execute(qry)
+                    user = cursor.fetchall()[0]
+                    return user
+                except Exception as e:
+                    print(e)
+                    
     def get_user_with_id(self, user_id):
         ''' Gets a user by user id '''
         with self.connect() as connection:
@@ -258,10 +270,11 @@ class Database:
             set_values += f"{key} = :{key}, "
             data_list.append(value)
         data_list.append(appointment_id)
-        
-        set_values = set_values[:-2] # to remove last comma + space
 
-        query = f'''UPDATE Appointments SET {set_values} WHERE appointment_id = :appointment_id'''
+        set_values = set_values[:-2]  # to remove last comma + space
+
+        query = f'''UPDATE Appointments SET {
+            set_values} WHERE appointment_id = :appointment_id'''
         with self.connect() as connection:
             with connection.cursor() as cursor:
                 try:
@@ -269,7 +282,7 @@ class Database:
                     connection.commit()
                 except Exception as e:
                     print(e)
-                    
+
     def delete_appointment(self, appointment_id):
         query = ''' DELETE FROM appointments WHERE appointment_id = : appointment_id '''
         with self.connect() as connection:
@@ -334,7 +347,6 @@ class Database:
                     return rows
                 except Exception as e:
                     print(e)
-
 
 
 db = Database()
