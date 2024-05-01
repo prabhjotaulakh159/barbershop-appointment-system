@@ -1,3 +1,4 @@
+'''import oracledb and its methods'''
 import oracledb
 from appointment_app.qdb.config_db import host, usr, sn, pw
 
@@ -5,7 +6,6 @@ from appointment_app.qdb.config_db import host, usr, sn, pw
 class Database:
     ''' Performs actions on the database '''
 
-    # had to re-add __init__ and __connect method to run the teacher's run_file method to update database.
     def __init__(self, autocommit=True):
         self.__connection = self.__connect()
         self.__connection.autocommit = autocommit
@@ -39,6 +39,7 @@ class Database:
                         statement_parts = []
 
     def get_user(self, cond):
+        '''function to get a specific user with condition'''
         qry = f'''SELECT user_id, is_enabled, access_level, user_type, user_name, pass_word,
         email, avatar, phone, address, age, pay_rate, specialty FROM users {cond}'''
         with self.connect() as connection:
@@ -51,6 +52,7 @@ class Database:
                     print(e)
 
     def get_users(self, cond):
+        '''function to get all users with condition'''
         qry = f'''SELECT user_id, is_enabled, access_level, user_type, user_name, pass_word,
         email, avatar, phone, address, age, pay_rate, specialty FROM users {cond}'''
         with self.connect() as connection:
@@ -75,6 +77,7 @@ class Database:
                     print(e)
 
     def update_user(self, user_id, user_name, email, avatar, phone, address, age, pay_rate, specialty):
+        '''function that update user's info'''
         query = ''' UPDATE users SET user_name = :user_name,
                     email = :email, avatar = :avatar, phone = :phone, address = :address, age = :age,
                     pay_rate = :pay_rate, specialty = :specialty
@@ -89,6 +92,7 @@ class Database:
                     print(e)
 
     def change_password(self, user_id, pass_word):
+        '''function that changes the user's password'''
         query = ''' UPDATE users SET pass_word = :pass_word WHERE user_id = :user_id '''
         with self.connect() as connection:
             with connection.cursor() as cursor:
@@ -99,7 +103,7 @@ class Database:
                     print(e)
 
     def get_services(self):
-        ''' Gets all services' name '''
+        ''' function that gets all services' name '''
         with self.connect() as connection:
             with connection.cursor() as cursor:
                 qry = "SELECT service_id, service_name, service_duration, service_price, service_materials FROM services"
@@ -111,7 +115,7 @@ class Database:
                     print(e)
 
     def get_service(self, cond):
-        ''' Gets all services' name '''
+        ''' function that gets a specific service' name '''
         with self.connect() as connection:
             with connection.cursor() as cursor:
                 qry = f"SELECT service_id, service_name, service_duration, service_price, service_materials FROM services {cond}"
@@ -135,6 +139,7 @@ class Database:
                     print(e)
 
     def get_appointments(self, cond=None):
+        '''function that gets an appointment with/without condition'''
         if cond:
             query = f''' SELECT appointment_id, status, date_appointment, slot, venue,
             client_id, professional_id, service_id, number_services FROM appointments {cond}'''
@@ -151,6 +156,7 @@ class Database:
                     print(e)
 
     def get_appointment(self, cond):
+        '''function that gets an appointment with condition'''
         query = f''' SELECT appointment_id, status, date_appointment, slot, venue,
             client_id, professional_id, service_id, number_services FROM appointments {cond}'''
         with self.connect() as connection:
@@ -164,6 +170,7 @@ class Database:
                     print(e)
 
     def update_appointment(self, appointment_id, **kwargs):
+        '''function that updates a specific appointment's info'''
         set_values = ""
         data_list = []
         for key, value in kwargs.items():
@@ -184,6 +191,7 @@ class Database:
                     print(e)
 
     def delete_appointment(self, appointment_id):
+        '''function that deletes a specific appointment through appointment_id'''
         query = ''' DELETE FROM appointments WHERE appointment_id = : appointment_id '''
         with self.connect() as connection:
             with connection.cursor() as cursor:
@@ -194,6 +202,7 @@ class Database:
                     print(e)
 
     def add_report(self, feedback_client, feedback_professional, date_of_report, appointment_id):
+        '''function that adds a report'''
         query = 'INSERT INTO reports(feedback_client, feedback_professional, date_of_report, appointment_id) VALUES (:feedback_client, :feedback_professional, :date_of_report, :appointment_id)'
         with self.connect() as connection:
             with connection.cursor() as cursor:
@@ -205,6 +214,7 @@ class Database:
                     print(e)
 
     def get_report(self, appointment_id):
+        '''function that gets a specific report with appointment_id'''
         query = 'SELECT feedback_client, feedback_professional FROM reports WHERE appointment_id = :appointment_id'
         with self.connect() as connection:
             with connection.cursor() as cursor:
@@ -215,6 +225,7 @@ class Database:
                     print(e)
 
     def update_client_report(self, feedback_client, appointment_id):
+        '''function that updates the client's feedback'''
         query = ''' UPDATE reports SET feedback_client = : feedback_client
                     WHERE appointment_id = : appointment_id'''
         with self.connect() as connection:
@@ -226,6 +237,7 @@ class Database:
                     print(e)
 
     def update_professional_report(self, feedback_professional, appointment_id):
+        '''function that updates the professional's feedback'''
         query = ''' UPDATE reports SET feedback_professional = : feedback_professional
                     WHERE appointment_id = : appointment_id'''
         with self.connect() as connection:
@@ -238,6 +250,7 @@ class Database:
                     print(e)
 
     def check_if_appointment_already_has_report(self, appointment_id):
+        '''function that check existing report on specific appointment'''
         query = 'SELECT report_id FROM reports WHERE appointment_id = :appointment_id'
         with self.connect() as connection:
             with connection.cursor() as cursor:

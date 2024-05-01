@@ -1,3 +1,4 @@
+'''Utility class containing static data'''
 time_slots = [
     ('10-11', '10am - 11am'),
     ('11-12', '11am - 12pm'),

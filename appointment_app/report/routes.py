@@ -1,14 +1,16 @@
+'''import flask and its methods'''
+from datetime import date
 from flask import Blueprint, render_template, flash, url_for, redirect
+from flask_login import login_required, current_user
 from appointment_app.qdb.database import db
 from appointment_app.report.forms import AddReportForm
-from datetime import date
-from flask_login import login_required, current_user
 
 report = Blueprint('report', __name__, template_folder="templates")
-    
+
 @report.route("/report/<int:appointment_id>", methods=['GET', 'POST'])
 @login_required
 def update_report(appointment_id):
+    '''function updating a specific report with appointment_id'''
     appointment = db.get_appointment(f"WHERE appointment_id = {appointment_id}")
     if current_user.user_id != appointment[5] and current_user.user_id != appointment[6]:
         return redirect(url_for('main.home'))
