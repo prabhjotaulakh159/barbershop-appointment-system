@@ -1,28 +1,31 @@
+""" Contains all database methods """
 import oracledb
-from appointment_app.qdb.config_db import host, usr, sn, pw
+from flask import abort
+from appointment_app.qdb.config_db import host, usr, SN, pw
 
 
 class Database:
     ''' Performs actions on the database '''
-
-    # had to re-add __init__ and __connect method to run the teacher's run_file method to update database.
+    # had to re-add __init__ and __connect method to run the teacher's
+    # run_file method to update database.
     def __init__(self, autocommit=True):
         self.__connection = self.__connect()
         self.__connection.autocommit = autocommit
 
     def __connect(self):
-        return oracledb.connect(user=usr, password=pw, host=host,  service_name=sn)
+        return oracledb.connect(user=usr, password=pw, host=host,
+                                service_name=SN)
 
     def connect(self):
         ''' Create a connection to oracle '''
         return oracledb.connect(user=usr, password=pw, host=host,
-                                service_name=sn)
+                                service_name=SN)
 
     def run_file(self, file_path):
         ''' Runs an SQL script in isolation '''
         statement_parts = []
         with self.__connection.cursor() as cursor:
-            with open(file_path, 'r') as f:
+            with open(file_path, 'r', encoding='UTF-8') as f:
                 for line in f:
                     if line[:2] == '--':
                         continue
@@ -32,138 +35,175 @@ class Database:
                             statement_parts).strip().rstrip(';')
                         if statement:
                             try:
-                                # pdb.set_trace()
                                 cursor.execute(statement)
-                            except Exception as e:
+                            except oracledb.Error as e:
                                 print(e)
                         statement_parts = []
 
     def get_user(self, cond):
-        qry = f'''SELECT user_id, is_enabled, access_level, user_type, user_name, pass_word,
-        email, avatar, phone, address, age, pay_rate, specialty FROM users {cond}'''
+        """ Gets a user from the database based on a condition """
+        qry = f'''  SELECT user_id, is_enabled, access_level, user_type,
+                    user_name, pass_word, email, avatar, phone, address,
+                    age, pay_rate, specialty FROM users {cond} '''
         with self.connect() as connection:
             with connection.cursor() as cursor:
                 try:
                     cursor.execute(qry)
                     user = cursor.fetchall()[0]
                     return user
-                except Exception as e:
+                except oracledb.Error as e:
                     print(e)
+                    abort(500)
 
     def get_users(self, cond):
-        qry = f'''SELECT user_id, is_enabled, access_level, user_type, user_name, pass_word,
-        email, avatar, phone, address, age, pay_rate, specialty FROM users {cond}'''
+        """ Gets multiple users based on a condition """
+        qry = f''' SELECT user_id, is_enabled, access_level, user_type,
+        user_name, pass_word, email, avatar, phone, address, age, pay_rate,
+        specialty FROM users {cond} '''
         with self.connect() as connection:
             with connection.cursor() as cursor:
                 try:
                     cursor.execute(qry)
                     user = cursor.fetchall()
                     return user
-                except Exception as e:
+                except oracledb.Error as e:
                     print(e)
+                    abort(500)
 
-    def add_user(self, user_type, user_name, pass_word, email, avatar, phone, address, age, pay_rate, specialty):
+    def add_user(self, user_type, user_name, pass_word, email, avatar, phone,
+                 address, age, pay_rate, specialty):
         ''' Adds a user to the database '''
-        qry = "INSERT INTO users (user_type,user_name,pass_word,email,avatar,phone,address,age,pay_rate,specialty) VALUES (:user_type,:user_name,:pass_word,:email,:avatar,:phone,:address,:age,:pay_rate,:specialty)"
+        qry = '''   INSERT INTO users (user_type, user_name, pass_word, email,
+                    avatar, phone, address, age, pay_rate, specialty)
+                    VALUES (:user_type,:user_name,:pass_word,:email,:avatar,
+                    :phone,:address,:age,:pay_rate,:specialty) '''
         with self.connect() as connection:
             with connection.cursor() as cursor:
                 try:
                     cursor.execute(
-                        qry, [user_type, user_name, pass_word, email, avatar, phone, address, age, pay_rate, specialty])
+                        qry, [user_type, user_name, pass_word, email, avatar,
+                              phone, address, age, pay_rate, specialty])
                     connection.commit()
-                except Exception as e:
+                except oracledb.Error as e:
                     print(e)
+                    abort(500)
 
-    def update_user(self, user_id, user_name, email, avatar, phone, address, age, pay_rate, specialty):
+    def update_user(self, user_id, user_name, email, avatar, phone, address,
+                    age, pay_rate, specialty):
+        ''' Updates a based on an ID '''
         query = ''' UPDATE users SET user_name = :user_name,
-                    email = :email, avatar = :avatar, phone = :phone, address = :address, age = :age,
+                    email = :email, avatar = :avatar, phone = :phone,
+                    address = :address, age = :age,
                     pay_rate = :pay_rate, specialty = :specialty
                     WHERE user_id = :user_id '''
         with self.connect() as connection:
             with connection.cursor() as cursor:
                 try:
                     cursor.execute(query, [
-                                   user_name, email, avatar, phone, address, age, pay_rate, specialty, user_id])
+                                   user_name, email, avatar, phone, address,
+                                   age, pay_rate, specialty, user_id])
                     connection.commit()
-                except Exception as e:
+                except oracledb.Error as e:
                     print(e)
+                    abort(500)
 
     def change_password(self, user_id, pass_word):
-        query = ''' UPDATE users SET pass_word = :pass_word WHERE user_id = :user_id '''
+        ''' Changes a users password '''
+        query = ''' UPDATE users SET pass_word = :pass_word
+                    WHERE user_id = :user_id '''
         with self.connect() as connection:
             with connection.cursor() as cursor:
                 try:
                     cursor.execute(query, [pass_word, user_id])
                     connection.commit()
-                except Exception as e:
+                except oracledb.Error as e:
                     print(e)
+                    abort(500)
 
     def get_services(self):
         ''' Gets all services' name '''
         with self.connect() as connection:
             with connection.cursor() as cursor:
-                qry = "SELECT service_id, service_name, service_duration, service_price, service_materials FROM services"
+                qry = '''   SELECT service_id, service_name, service_duration,
+                            service_price, service_materials FROM services '''
                 try:
                     cursor.execute(qry)
                     services = cursor.fetchall()
                     return services
-                except Exception as e:
+                except oracledb.Error as e:
                     print(e)
+                    abort(500)
 
     def get_service(self, cond):
         ''' Gets all services' name '''
         with self.connect() as connection:
             with connection.cursor() as cursor:
-                qry = f"SELECT service_id, service_name, service_duration, service_price, service_materials FROM services {cond}"
+                qry = f'''  SELECT service_id, service_name, service_duration,
+                            service_price, service_materials
+                            FROM services {cond} '''
                 try:
                     cursor.execute(qry)
                     services = cursor.fetchall()[0]
                     return services
-                except Exception as e:
+                except oracledb.Error as e:
                     print(e)
+                    abort(500)
 
-    def add_appointment(self, status, date_appointment, slot, venue, client_id, professional_id, service_id):
+    def add_appointment(self, status, date_appointment, slot, venue, client_id,
+                        professional_id, service_id):
         ''' Adds appointment to the database '''
-        qry = "INSERT INTO Appointments (status,date_appointment,slot,venue,client_id,professional_id,service_id) VALUES (:status,:date_appointment,:slot,:venue,:client_id,:professional_id,:service_id)"
+        qry = '''   INSERT INTO Appointments (status, date_appointment, slot,
+                    venue, client_id, professional_id, service_id)
+                    VALUES (:status, :date_appointment, :slot,:venue,
+                    :client_id, :professional_id,:service_id) '''
         with self.connect() as connection:
             with connection.cursor() as cursor:
                 try:
-                    cursor.execute(qry, [
-                                   status, date_appointment, slot, venue, client_id, professional_id, service_id])
+                    cursor.execute(qry, [status, date_appointment, slot, venue,
+                                         client_id, professional_id,
+                                         service_id])
                     connection.commit()
-                except Exception as e:
+                except oracledb.Error as e:
                     print(e)
+                    abort(500)
 
     def get_appointments(self, cond=None):
+        """ Gets appointments """
         if cond:
-            query = f''' SELECT appointment_id, status, date_appointment, slot, venue,
-            client_id, professional_id, service_id, number_services FROM appointments {cond}'''
+            query = f''' SELECT appointment_id, status, date_appointment,
+                         slot, venue, client_id, professional_id, service_id,
+                         number_services FROM appointments {cond} '''
         else:
-            query = ''' SELECT appointment_id, status, date_appointment, slot, venue,
-            client_id, professional_id, service_id, number_services FROM appointments'''
+            query = ''' SELECT appointment_id, status, date_appointment, slot,
+            venue, client_id, professional_id, service_id, number_services
+            FROM appointments '''
         with self.connect() as connection:
             with connection.cursor() as cursor:
                 try:
                     cursor.execute(query)
                     appointments = cursor.fetchall()
                     return appointments
-                except Exception as e:
+                except oracledb.Error as e:
                     print(e)
+                    abort(500)
 
     def get_appointment(self, cond):
-        query = f''' SELECT appointment_id, status, date_appointment, slot, venue,
-            client_id, professional_id, service_id, number_services FROM appointments {cond}'''
+        """ Gets an appointment """
+        query = f''' SELECT appointment_id, status, date_appointment, slot,
+                     venue, client_id, professional_id, service_id,
+                     number_services FROM appointments {cond} '''
         with self.connect() as connection:
             with connection.cursor() as cursor:
                 try:
                     cursor.execute(query)
                     appointment = cursor.fetchall()[0]
-
                     return appointment
-                except Exception as e:
+                except oracledb.Error as e:
                     print(e)
+                    abort(500)
 
     def update_appointment(self, appointment_id, **kwargs):
+        """ Updates an appointment """
         set_values = ""
         data_list = []
         for key, value in kwargs.items():
@@ -180,41 +220,56 @@ class Database:
                 try:
                     cursor.execute(query, data_list)
                     connection.commit()
-                except Exception as e:
+                except oracledb.Error as e:
                     print(e)
+                    abort(500)
 
     def delete_appointment(self, appointment_id):
-        query = ''' DELETE FROM appointments WHERE appointment_id = : appointment_id '''
+        ''' Deletes an appointment '''
+        query = ''' DELETE FROM appointments
+                    WHERE appointment_id = : appointment_id '''
         with self.connect() as connection:
             with connection.cursor() as cursor:
                 try:
                     cursor.execute(query, [appointment_id])
                     connection.commit()
-                except Exception as e:
+                except oracledb.Error as e:
                     print(e)
+                    abort(500)
 
-    def add_report(self, feedback_client, feedback_professional, date_of_report, appointment_id):
-        query = 'INSERT INTO reports(feedback_client, feedback_professional, date_of_report, appointment_id) VALUES (:feedback_client, :feedback_professional, :date_of_report, :appointment_id)'
+    def add_report(self, feedback_client, feedback_professional,
+                   date_of_report, appointment_id):
+        ''' Adds a report '''
+        query = ''' INSERT INTO reports(feedback_client, feedback_professional,
+                    date_of_report, appointment_id) VALUES (:feedback_client,
+                    :feedback_professional, :date_of_report, :appointment_id)
+                    '''
         with self.connect() as connection:
             with connection.cursor() as cursor:
                 try:
                     cursor.execute(
-                        query, [feedback_client, feedback_professional, date_of_report, appointment_id])
+                        query, [feedback_client, feedback_professional,
+                                date_of_report, appointment_id])
                     connection.commit()
-                except Exception as e:
+                except oracledb.Error as e:
                     print(e)
+                    abort(500)
 
     def get_report(self, appointment_id):
-        query = 'SELECT feedback_client, feedback_professional FROM reports WHERE appointment_id = :appointment_id'
+        ''' Gets a report for an appointment '''
+        query = ''' SELECT feedback_client, feedback_professional FROM reports
+                    WHERE appointment_id = :appointment_id '''
         with self.connect() as connection:
             with connection.cursor() as cursor:
                 try:
-                    report = cursor.execute(query, [appointment_id])
+                    cursor.execute(query, [appointment_id])
                     return cursor.fetchall()[0]
-                except Exception as e:
+                except oracledb.Error as e:
                     print(e)
+                    abort(500)
 
     def update_client_report(self, feedback_client, appointment_id):
+        ''' Updates a client report '''
         query = ''' UPDATE reports SET feedback_client = : feedback_client
                     WHERE appointment_id = : appointment_id'''
         with self.connect() as connection:
@@ -222,11 +277,15 @@ class Database:
                 try:
                     cursor.execute(query, [feedback_client, appointment_id])
                     connection.commit()
-                except Exception as e:
+                except oracledb.Error as e:
                     print(e)
+                    abort(500)
 
-    def update_professional_report(self, feedback_professional, appointment_id):
-        query = ''' UPDATE reports SET feedback_professional = : feedback_professional
+    def update_professional_report(self, feedback_professional,
+                                   appointment_id):
+        ''' Updates a professional report '''
+        query = ''' UPDATE reports SET
+                    feedback_professional = : feedback_professional
                     WHERE appointment_id = : appointment_id'''
         with self.connect() as connection:
             with connection.cursor() as cursor:
@@ -234,22 +293,27 @@ class Database:
                     cursor.execute(
                         query, [feedback_professional, appointment_id])
                     connection.commit()
-                except Exception as e:
+                except oracledb.Error as e:
                     print(e)
+                    abort(500)
 
     def check_if_appointment_already_has_report(self, appointment_id):
-        query = 'SELECT report_id FROM reports WHERE appointment_id = :appointment_id'
+        ''' Checks if an appointment already has a report '''
+        query = ''' SELECT report_id FROM reports
+                    WHERE appointment_id = :appointment_id'''
         with self.connect() as connection:
             with connection.cursor() as cursor:
                 try:
                     cursor.execute(query, [appointment_id])
                     rows = cursor.fetchall()
                     return rows
-                except Exception as e:
+                except oracledb.Error as e:
                     print(e)
+                    abort(500)
 
     def get_all_users(self):
-        query = ''' SELECT user_id, is_enabled, user_type, user_name, 
+        ''' Gets all users in the database who are not admins '''
+        query = ''' SELECT user_id, is_enabled, user_type, user_name,
                     email, phone, address, age, pay_rate, specialty
                     FROM users WHERE access_level = 0'''
         with self.connect() as connection:
@@ -258,8 +322,10 @@ class Database:
                     cursor.execute(query)
                     rows = cursor.fetchall()
                     return rows
-                except Exception as e:
+                except oracledb.Error as e:
                     print(e)
+                    abort(500)
+
 
 db = Database()
 
