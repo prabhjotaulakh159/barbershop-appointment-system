@@ -1,15 +1,16 @@
 '''import flask and its methods'''
 from flask import Blueprint, redirect, render_template, flash, request, url_for
 from flask_login import login_required, current_user
-from appointment_app.appointment.appointment import Appointment
 from appointment_app.qdb.database import db
 from appointment_app.appointment.forms import AppointmentForm, AppointmentAdminForm
-import pdb
+from appointment_app.appointment.utility import time_slots, venues
+
 appointment = Blueprint('appointment', __name__, template_folder="templates")
 
 
 @appointment.route('/all-appointments')
 def all_appointments():
+    '''function rendering all appointments'''
     appointments = db.get_appointments()
     return render_template("all-appointments.html", appointments=appointments)
 
@@ -17,15 +18,16 @@ def all_appointments():
 @appointment.route('/all-appointments/<int:appointment_id>')
 @login_required
 def appointment_view(appointment_id):
-    appt = db.get_appointment(f"appointment_id = {appointment_id}")
-    client_name = db.get_user_with_id(appt[5])
-    professional_name = db.get_user_with_id(appt[6])
-    service_name = db.get_service_name(appt[7])[0]
+    '''function rendering specific appointment with appointment_id'''
+    appt = db.get_appointment(f"WHERE appointment_id = {appointment_id}")
+    client_name = db.get_user(f"WHERE user_id = {appt[5]}")
+    professional_name = db.get_user(f"WHERE user_id = {appt[6]}")
+    service_name = db.get_service(f"WHERE service_id = {appt[7]}")
 
     names = []
     names.append(client_name[4])
     names.append(professional_name[4])
-    names.append(service_name[0])
+    names.append(service_name[1])
 
     return render_template("specific-appointment.html", appointment=appt, names=names)
 
@@ -33,65 +35,49 @@ def appointment_view(appointment_id):
 @appointment.route('/my-appointments')
 @login_required
 def my_appointments():
-    appointments = db.get_my_appointments(
-        f"client_id = {current_user.user_id} OR professional_id = {current_user.user_id}")
-    names = []    
+    '''function rendering user's appointments'''
+    appointments = db.get_appointments(
+        f"WHERE client_id = {current_user.user_id} OR professional_id = {current_user.user_id}")
+    names = []
     reports = []
-    for appt in appointments:    
-        client_name = db.get_user_with_id(appt[5])
-        professional_name = db.get_user_with_id(appt[6])
-        service_name = db.get_service_name(appt[7])[0]
-        names.append((client_name[4], professional_name[4],service_name[0]))
+    for appt in appointments:
+        client_name = db.get_user(f"WHERE user_id = {appt[5]}")
+        professional_name = db.get_user(f"WHERE user_id = {appt[6]}")
+        service_name = db.get_service(f"WHERE service_id = {appt[7]}")
+        names.append((client_name[4], professional_name[4],service_name[1]))
         reports.append(db.get_report(appt[0]))
-    return render_template("my-appointments.html", appointments=appointments, names=names, reports=reports)
+    return render_template("my-appointments.html", appointments=appointments,
+                           names=names, reports=reports)
 
 
 @appointment.route("/add-appointment", methods=["GET", "POST"])
 @login_required
 def add_appointment():
+    '''function that adds an appointments'''
     if current_user.user_type == 'Professional':
         return redirect(url_for('main.home'))
-    # import pdb
+
     form = AppointmentForm()
-
-    services = db.get_services_name()
+    services = db.get_services()
     services_list = []
-    # pdb.set_trace()
     for service in services:
-        services_list.append((service[0], service[0]))
+        services_list.append((service[1], service[1]))
 
-    professionals = db.get_professional_names()
+    professionals = db.get_users("WHERE user_type = 'Professional'")
     professionals_list = []
     for professional in professionals:
-        professionals_list.append((professional[0], professional[0]))
-
-    time_slots = [
-        ('10-11', '10am - 11am'),
-        ('11-12', '11am - 12pm'),
-        ('12-1', '12pm - 1pm'),
-        ('1-2', '1pm - 2pm'),
-        ('2-3', '2pm - 3pm'),
-        ('3-4', '3pm - 4pm')
-    ]
-
-    venue = [
-        ('Venue A', 'Venue A'),
-        ('Venue B', 'Venue B'),
-        ('Venue C', 'Venue C'),
-        ('Venue D', 'Venue D'),
-        ('Venue E', 'Venue E'),
-    ]
+        professionals_list.append((professional[4], professional[4]))
 
     form.prof_name.choices = professionals_list
     form.service.choices = services_list
     form.slot.choices = time_slots
-    form.venue.choices = venue
+    form.venue.choices = venues
     if form.validate_on_submit():
 
         status = 1
         client_id = current_user.user_id
-        prof_id = db.get_user_id(f"user_name ='{form.prof_name.data}'")[0]
-        service_id = db.get_service_id(form.service.data)[0]
+        prof_id = db.get_user(f"WHERE user_name = '{form.prof_name.data}'")[0]
+        service_id = db.get_service(f"WHERE service_name = '{form.service.data}'")[0]
         db.add_appointment(status, form.date_appointment.data,
                            form.slot.data, form.venue.data, client_id, prof_id, service_id)
         flash('Appointment is created!')
@@ -102,72 +88,61 @@ def add_appointment():
 @appointment.route("/update-appointment/<int:appointment_id>", methods=['GET', 'POST'])
 @login_required
 def update_appointment(appointment_id):
+    '''function updating specific appointments with appointment_id'''
     if current_user.user_type == 'Professional':
         return redirect(url_for('main.home'))
-    appointment = db.get_appointment(f"appointment_id = {appointment_id}")
-    if (current_user.user_id != appointment[5] and current_user.user_id != appointment[6]) and current_user.access_level < 2:
+    appt = db.get_appointment(f"WHERE appointment_id = {appointment_id}")
+    if (current_user.user_id != appt[5]
+        and current_user.user_id != appt[6]) and current_user.access_level < 2:
         return redirect(url_for('main.home'))
 
-    if (current_user.access_level >= 2):
+    if current_user.access_level >= 2:
         form = AppointmentAdminForm()
     else:
         form = AppointmentForm()
 
     if request.method == 'GET':
-        form.date_appointment.data = appointment[2]
-        form.slot.data = appointment[3]
-        form.venue.data = appointment[4]
-        form.service.data = db.get_service_name(form.service.data)
-
-        services = db.get_services_name()
+        form.date_appointment.data = appt[2]
+        form.slot.data = appt[3]
+        form.venue.data = appt[4]
+        form.service.data = db.get_service(f"WHERE service_id = {appt[7]}")[1]
+        services = db.get_services()
         services_list = []
 
         for service in services:
-            services_list.append((service[0], service[0]))
+            services_list.append((service[1], service[1]))
 
-        professionals = db.get_professional_names()
+        professionals = db.get_users("WHERE user_type = 'Professional'")
         professionals_list = []
         for professional in professionals:
-            professionals_list.append((professional[0], professional[0]))
+            professionals_list.append((professional[4], professional[4]))
 
-        time_slots = [
-            ('10-11', '10am - 11am'),
-            ('11-12', '11am - 12pm'),
-            ('12-1', '12pm - 1pm'),
-            ('1-2', '1pm - 2pm'),
-            ('2-3', '2pm - 3pm'),
-            ('3-4', '3pm - 4pm')
-        ]
-
-        venue = [
-            ('Venue A', 'Venue A'),
-            ('Venue B', 'Venue B'),
-            ('Venue C', 'Venue C'),
-            ('Venue D', 'Venue D'),
-            ('Venue E', 'Venue E'),
-        ]
 
         form.prof_name.choices = professionals_list
         form.service.choices = services_list
         form.slot.choices = time_slots
-        form.venue.choices = venue
+        form.venue.choices = venues
 
-        if (current_user.access_level >= 2):
-            members = db.get_member_names()
+        if current_user.access_level >= 2:
+            members = db.get_users("WHERE user_type = 'Member'")
             members_list = []
             for member in members:
-                members_list.append((member[0], member[0]))
+                members_list.append((member[4], member[4]))
                 form.member_name.choices = members_list
 
     else:
-        service_id = db.get_service_id(form.service.data)[0]
-        if (current_user.access_level >= 2):
-            client_id = db.get_user_id(f"user_name ='{form.member_name.data}'")[0]
-            prof_id = db.get_user_id(f"user_name ='{form.prof_name.data}'")[0]
-            db.update_appointment_admin(appointment_id=appointment[0], date_appointment=form.date_appointment.data,
-                                        slot=form.slot.data, venue=form.venue.data, client_id=client_id, professional_id=prof_id, service_id=service_id)
+        service_id = db.get_service(f"WHERE service_name = '{form.service.data}'")[0]
+        if current_user.access_level >= 2:
+            client_id = db.get_user(f"WHERE user_name = '{form.member_name.data}'")[0]
+            prof_id = db.get_user(f"WHERE user_name = '{form.prof_name.data}'")[0]
+
+            db.update_appointment(appointment_id=appt[0],
+                                  date_appointment=form.date_appointment.data,
+                                  slot=form.slot.data, venue=form.venue.data, client_id=client_id,
+                                  professional_id=prof_id, service_id=service_id)
         else:
-            db.update_appointment(appointment_id=appointment[0], date_appointment=form.date_appointment.data,
+            db.update_appointment(appointment_id=appt[0],
+                                  date_appointment=form.date_appointment.data,
                                   slot=form.slot.data, venue=form.venue.data, service_id=service_id)
         flash("You have successfully updated the appointment!", "success")
         return redirect(url_for('main.home'))
@@ -177,55 +152,39 @@ def update_appointment(appointment_id):
 @appointment.route('/admin-appointments', methods=["GET", "POST"])
 @login_required
 def admin_appointments():
+    '''function to add and list all appointments for admin_appoint'''
     if current_user.access_level < 2:
         return redirect(url_for('main.home'))
 
     form = AppointmentAdminForm()
 
-    members = db.get_member_names()
+    members = db.get_users("WHERE user_type = 'Member'")
     members_list = []
     for member in members:
-        members_list.append((member[0], member[0]))
+        members_list.append((member[4], member[4]))
 
-    services = db.get_services_name()
+    services = db.get_services()
     services_list = []
     for service in services:
-        services_list.append((service[0], service[0]))
+        services_list.append((service[1], service[1]))
 
-    professionals = db.get_professional_names()
+    professionals = db.get_users("WHERE user_type = 'Professional'")
     professionals_list = []
     for professional in professionals:
-        professionals_list.append((professional[0], professional[0]))
-
-    time_slots = [
-        ('10-11', '10am - 11am'),
-        ('11-12', '11am - 12pm'),
-        ('12-1', '12pm - 1pm'),
-        ('1-2', '1pm - 2pm'),
-        ('2-3', '2pm - 3pm'),
-        ('3-4', '3pm - 4pm')
-    ]
-
-    venue = [
-        ('Venue A', 'Venue A'),
-        ('Venue B', 'Venue B'),
-        ('Venue C', 'Venue C'),
-        ('Venue D', 'Venue D'),
-        ('Venue E', 'Venue E'),
-    ]
+        professionals_list.append((professional[4], professional[4]))
 
     form.member_name.choices = members_list
     form.prof_name.choices = professionals_list
     form.service.choices = services_list
     form.slot.choices = time_slots
-    form.venue.choices = venue
+    form.venue.choices = venues
 
     if form.validate_on_submit():
 
         status = 1
-        client_id = db.get_user_id(f"user_name ='{form.member_name.data}'")[0]
-        prof_id = db.get_user_id(f"user_name ='{form.prof_name.data}'")[0]
-        service_id = db.get_service_id(form.service.data)[0]
+        client_id = db.get_user(f"WHERE user_name = '{form.member_name.data}'")[0]
+        prof_id = db.get_user(f"WHERE user_name = '{form.prof_name.data}'")[0]
+        service_id = db.get_service(f"WHERE service_name = '{form.service.data}'")[0]
         db.add_appointment(status, form.date_appointment.data,
                            form.slot.data, form.venue.data, client_id, prof_id, service_id)
         flash('Appointment is created!')
@@ -234,22 +193,23 @@ def admin_appointments():
     names = []
 
     for apt in appointments:
-        client_name = db.get_user_with_id(apt[5])
-        professional_name = db.get_user_with_id(apt[6])
-        service_name = db.get_service_name(apt[7])[0]
+        client_name = db.get_user(f"WHERE user_id= {apt[5]}")
+        professional_name = db.get_user(f"WHERE user_id = {apt[6]}")
+        service_name = db.get_service(f"WHERE service_id = {apt[7]}")
 
-        names.append((client_name[4], professional_name[4], service_name[0]))
+        names.append((client_name[4], professional_name[4], service_name[1]))
 
-    return render_template("admin-appointments.html", form=form, appointments=appointments, names=names)
+    return render_template("admin-appointments.html", form=form,
+                           appointments=appointments, names=names)
 
 
 @appointment.route('/delete-appointment/<int:appointment_id>')
 @login_required
 def delete_appointment(appointment_id):
+    '''function deleting specific appointment with appointment_id'''
     if current_user.access_level < 2:
         return redirect(url_for('main.home'))
-    
+
     db.delete_appointment(appointment_id)
     flash("Appointment is deleted!")
     return redirect(url_for('appointment.admin_appointments'))
-    

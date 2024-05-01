@@ -1,3 +1,4 @@
+'''import oracledb and its methods'''
 import oracledb
 from appointment_app.qdb.config_db import host, usr, sn, pw
 
@@ -5,7 +6,6 @@ from appointment_app.qdb.config_db import host, usr, sn, pw
 class Database:
     ''' Performs actions on the database '''
 
-    # had to re-add __init__ and __connect method to run the teacher's run_file method to update database.
     def __init__(self, autocommit=True):
         self.__connection = self.__connect()
         self.__connection.autocommit = autocommit
@@ -38,78 +38,29 @@ class Database:
                                 print(e)
                         statement_parts = []
 
-    def get_user(self, username):
-        ''' Gets a user by username '''
+    def get_user(self, cond):
+        '''function to get a specific user with condition'''
+        qry = f'''SELECT user_id, is_enabled, access_level, user_type, user_name, pass_word,
+        email, avatar, phone, address, age, pay_rate, specialty FROM users {cond}'''
         with self.connect() as connection:
             with connection.cursor() as cursor:
-                qry = ''' 
-                    SELECT 
-                        user_id,
-                        is_enabled,
-                        access_level,
-                        user_type, 
-                        user_name,
-                        pass_word,
-                        email,
-                        avatar,
-                        phone,
-                        address,
-                        age,
-                        pay_rate,
-                        specialty
-                    FROM 
-                        users 
-                    WHERE
-                        user_name = :username 
-                    '''
-                try:
-                    cursor.execute(qry, [username])
-                    user = cursor.fetchall()[0]
-                    return user
-                except Exception as e:
-                    print(e)
-
-    def get_user_with_id(self, user_id):
-        ''' Gets a user by user id '''
-        with self.connect() as connection:
-            with connection.cursor() as cursor:
-                qry = ''' 
-                    SELECT 
-                        user_id,
-                        is_enabled,
-                        access_level,
-                        user_type, 
-                        user_name,
-                        pass_word,
-                        email,
-                        avatar,
-                        phone,
-                        address,
-                        age,
-                        pay_rate,
-                        specialty
-                    FROM 
-                        users 
-                    WHERE
-                        user_id = :user_id 
-                    '''
-                try:
-                    cursor.execute(qry, [user_id])
-                    user = cursor.fetchall()[0]
-                    return user
-                except Exception as e:
-                    print(e)
-
-    def get_member_names(self):
-        with self.connect() as connection:
-            with connection.cursor() as cursor:
-                qry = ''' 
-                    SELECT user_name FROM users WHERE user_type = 'Member'  
-                    '''
                 try:
                     cursor.execute(qry)
-                    members = cursor.fetchall()
-                    return members
+                    user = cursor.fetchall()[0]
+                    return user
+                except Exception as e:
+                    print(e)
+
+    def get_users(self, cond):
+        '''function to get all users with condition'''
+        qry = f'''SELECT user_id, is_enabled, access_level, user_type, user_name, pass_word,
+        email, avatar, phone, address, age, pay_rate, specialty FROM users {cond}'''
+        with self.connect() as connection:
+            with connection.cursor() as cursor:
+                try:
+                    cursor.execute(qry)
+                    user = cursor.fetchall()
+                    return user
                 except Exception as e:
                     print(e)
 
@@ -126,6 +77,7 @@ class Database:
                     print(e)
 
     def update_user(self, user_id, user_name, email, avatar, phone, address, age, pay_rate, specialty):
+        '''function that update user's info'''
         query = ''' UPDATE users SET user_name = :user_name,
                     email = :email, avatar = :avatar, phone = :phone, address = :address, age = :age,
                     pay_rate = :pay_rate, specialty = :specialty
@@ -140,6 +92,7 @@ class Database:
                     print(e)
 
     def change_password(self, user_id, pass_word):
+        '''function that changes the user's password'''
         query = ''' UPDATE users SET pass_word = :pass_word WHERE user_id = :user_id '''
         with self.connect() as connection:
             with connection.cursor() as cursor:
@@ -149,11 +102,11 @@ class Database:
                 except Exception as e:
                     print(e)
 
-    def get_services_name(self):
-        ''' Gets all services' name '''
+    def get_services(self):
+        ''' function that gets all services' name '''
         with self.connect() as connection:
             with connection.cursor() as cursor:
-                qry = "SELECT service_name FROM services"
+                qry = "SELECT service_id, service_name, service_duration, service_price, service_materials FROM services"
                 try:
                     cursor.execute(qry)
                     services = cursor.fetchall()
@@ -161,52 +114,16 @@ class Database:
                 except Exception as e:
                     print(e)
 
-    def get_service_name(self, service_id):
-        ''' Gets all services' name '''
+    def get_service(self, cond):
+        ''' function that gets a specific service' name '''
         with self.connect() as connection:
             with connection.cursor() as cursor:
-                qry = "SELECT service_name FROM Services WHERE service_id = :service_id"
+                qry = f"SELECT service_id, service_name, service_duration, service_price, service_materials FROM services {
+                    cond}"
                 try:
-                    cursor.execute(qry, [service_id])
-                    services = cursor.fetchall()
+                    cursor.execute(qry)
+                    services = cursor.fetchall()[0]
                     return services
-                except Exception as e:
-                    print(e)
-
-    def get_professional_names(self):
-        ''' Gets all professionals' name'''
-        with self.connect() as connection:
-            with connection.cursor() as cursor:
-                qry = "SELECT user_name FROM Users WHERE user_type = 'Professional'"
-                try:
-                    cursor.execute(qry)
-                    professional = cursor.fetchall()
-                    return professional
-                except Exception as e:
-                    print(e)
-
-    def get_user_id(self, cond):
-        ''' Gets professional's id by name '''
-        with self.connect() as connection:
-            with connection.cursor() as cursor:
-                qry = f"SELECT user_id FROM Users WHERE {cond}"
-                print(qry)
-                try:
-                    cursor.execute(qry)
-                    professional = cursor.fetchall()[0]
-                    return professional
-                except Exception as e:
-                    print(e)
-
-    def get_service_id(self, service_name):
-        ''' Gets service's id by name '''
-        with self.connect() as connection:
-            with connection.cursor() as cursor:
-                qry = "SELECT service_id FROM services WHERE service_name = :service_name"
-                try:
-                    cursor.execute(qry, [service_name])
-                    professional = cursor.fetchall()[0]
-                    return professional
                 except Exception as e:
                     print(e)
 
@@ -216,13 +133,19 @@ class Database:
         with self.connect() as connection:
             with connection.cursor() as cursor:
                 try:
-                    cursor.execute(qry, [status, date_appointment, slot, venue, client_id, professional_id, service_id])
+                    cursor.execute(qry, [
+                                   status, date_appointment, slot, venue, client_id, professional_id, service_id])
                     connection.commit()
                 except Exception as e:
                     print(e)
 
-    def get_appointments(self):
-        query = ''' SELECT appointment_id, status, date_appointment, slot, venue,
+    def get_appointments(self, cond=None):
+        '''function that gets an appointment with/without condition'''
+        if cond:
+            query = f''' SELECT appointment_id, status, date_appointment, slot, venue,
+            client_id, professional_id, service_id, number_services FROM appointments {cond}'''
+        else:
+            query = ''' SELECT appointment_id, status, date_appointment, slot, venue,
             client_id, professional_id, service_id, number_services FROM appointments'''
         with self.connect() as connection:
             with connection.cursor() as cursor:
@@ -234,8 +157,9 @@ class Database:
                     print(e)
 
     def get_appointment(self, cond):
+        '''function that gets an appointment with condition'''
         query = f''' SELECT appointment_id, status, date_appointment, slot, venue,
-            client_id, professional_id, service_id, number_services FROM appointments WHERE {cond}'''
+            client_id, professional_id, service_id, number_services FROM appointments {cond}'''
         with self.connect() as connection:
             with connection.cursor() as cursor:
                 try:
@@ -246,42 +170,52 @@ class Database:
                 except Exception as e:
                     print(e)
 
-    def get_my_appointments(self, cond):
-        query = f''' SELECT appointment_id, status, date_appointment, slot, venue,
-            client_id, professional_id, service_id, number_services FROM appointments WHERE {cond}'''
-        with self.connect() as connection:
-            with connection.cursor() as cursor:
-                try:
-                    cursor.execute(query)
-                    appointments = cursor.fetchall()
-                    return appointments
-                except Exception as e:
-                    print(e)
+    def update_appointment(self, appointment_id, **kwargs):
+        '''function that updates a specific appointment's info'''
+        set_values = ""
+        data_list = []
+        for key, value in kwargs.items():
+            set_values += f"{key} = :{key}, "
+            data_list.append(value)
+        data_list.append(appointment_id)
 
-    def update_appointment(self, appointment_id, date_appointment, slot, venue, service_id):
-        query = ''' UPDATE Appointments SET date_appointment = :date_appointment,
-                    slot = :slot, venue = :venue, service_id = :service_id
-                    WHERE appointment_id = :appointment_id '''
+        set_values = set_values[:-2]  # to remove last comma + space
+
+        query = f'''UPDATE Appointments SET {
+            set_values} WHERE appointment_id = :appointment_id'''
         with self.connect() as connection:
             with connection.cursor() as cursor:
                 try:
-                    cursor.execute(query, [
-                        date_appointment, slot, venue, service_id, appointment_id])
+                    cursor.execute(query, data_list)
                     connection.commit()
                 except Exception as e:
                     print(e)
-                    
+
+    def delete_appointment(self, appointment_id):
+        '''function that deletes a specific appointment through appointment_id'''
+        query = ''' DELETE FROM appointments WHERE appointment_id = : appointment_id '''
+        with self.connect() as connection:
+            with connection.cursor() as cursor:
+                try:
+                    cursor.execute(query, [appointment_id])
+                    connection.commit()
+                except Exception as e:
+                    print(e)
+
     def add_report(self, feedback_client, feedback_professional, date_of_report, appointment_id):
+        '''function that adds a report'''
         query = 'INSERT INTO reports(feedback_client, feedback_professional, date_of_report, appointment_id) VALUES (:feedback_client, :feedback_professional, :date_of_report, :appointment_id)'
         with self.connect() as connection:
             with connection.cursor() as cursor:
                 try:
-                    cursor.execute(query, [feedback_client, feedback_professional, date_of_report, appointment_id])
+                    cursor.execute(
+                        query, [feedback_client, feedback_professional, date_of_report, appointment_id])
                     connection.commit()
                 except Exception as e:
                     print(e)
-    
+
     def get_report(self, appointment_id):
+        '''function that gets a specific report with appointment_id'''
         query = 'SELECT feedback_client, feedback_professional FROM reports WHERE appointment_id = :appointment_id'
         with self.connect() as connection:
             with connection.cursor() as cursor:
@@ -290,10 +224,11 @@ class Database:
                     return cursor.fetchall()[0]
                 except Exception as e:
                     print(e)
-    
+
     def update_client_report(self, feedback_client, appointment_id):
-        query = ''' UPDATE reports SET feedback_client = :feedback_client
-                    WHERE appointment_id = :appointment_id'''
+        '''function that updates the client's feedback'''
+        query = ''' UPDATE reports SET feedback_client = : feedback_client
+                    WHERE appointment_id = : appointment_id'''
         with self.connect() as connection:
             with connection.cursor() as cursor:
                 try:
@@ -301,19 +236,22 @@ class Database:
                     connection.commit()
                 except Exception as e:
                     print(e)
-    
+
     def update_professional_report(self, feedback_professional, appointment_id):
-        query = ''' UPDATE reports SET feedback_professional = :feedback_professional
-                    WHERE appointment_id = :appointment_id'''
+        '''function that updates the professional's feedback'''
+        query = ''' UPDATE reports SET feedback_professional = : feedback_professional
+                    WHERE appointment_id = : appointment_id'''
         with self.connect() as connection:
             with connection.cursor() as cursor:
                 try:
-                    cursor.execute(query, [feedback_professional, appointment_id])
+                    cursor.execute(
+                        query, [feedback_professional, appointment_id])
                     connection.commit()
                 except Exception as e:
                     print(e)
-                     
+
     def check_if_appointment_already_has_report(self, appointment_id):
+        '''function that check existing report on specific appointment'''
         query = 'SELECT report_id FROM reports WHERE appointment_id = :appointment_id'
         with self.connect() as connection:
             with connection.cursor() as cursor:
@@ -324,31 +262,7 @@ class Database:
                 except Exception as e:
                     print(e)
 
-    def update_appointment_admin(self, appointment_id, date_appointment, slot, venue, client_id, professional_id, service_id):
-        query = ''' UPDATE Appointments SET date_appointment = :date_appointment,
-                    slot = :slot, venue = :venue, client_id = :client_id, professional_id = :professional_id, service_id = :service_id
-                    WHERE appointment_id = :appointment_id '''
-        with self.connect() as connection:
-            with connection.cursor() as cursor:
-                try:
-                    cursor.execute(query, [
-                        date_appointment, slot, venue, client_id, professional_id, service_id, appointment_id])
-                    connection.commit()
-                except Exception as e:
-                    print(e)
 
-
-    def delete_appointment(self, appointment_id):
-        query = ''' DELETE FROM appointments WHERE appointment_id = :appointment_id '''
-        with self.connect() as connection:
-            with connection.cursor() as cursor:
-                try:
-                    cursor.execute(query, [appointment_id])
-                    connection.commit()
-                except Exception as e:
-                    print(e)
-                    
-            
 db = Database()
 
 if __name__ == '__main__':

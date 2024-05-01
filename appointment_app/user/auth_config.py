@@ -31,8 +31,8 @@ class User(UserMixin):
 
 
 @login_manager.user_loader
-def load_user(user_id):
-    user = db.get_user(user_id)
+def load_user(username):
+    user = db.get_user(f"WHERE user_name = '{username}'")
     return User(user[0], user[1], user[2], user[3], user[4], user[5], user[6], user[7], user[8], user[9], user[10], user[11], user[12])
 
 @login_manager.unauthorized_handler

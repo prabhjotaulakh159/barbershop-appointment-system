@@ -21,10 +21,10 @@
                 <div class="section">Venue: {{ appointment[4] }}</div>
                 <div class="section">Time-Slot: {{ appointment[3] }}</div>
                 <div class="section">Service: {{names[loop.index0][2]}}</div>
-                {% for report in reports %}
-                    <p>Feedback client: {{ report[0] }}</p>
-                    <p>Feedback professional: {{ report[1] }}</p>
-                {% endfor %}
+                
+                    <p>Feedback client: {{ reports[loop.index0][0] }}</p>
+                    <p>Feedback professional: {{ reports[loop.index0][1] }}</p>
+                
                 <a href="{{url_for('appointment.update_appointment',appointment_id=appointment[0])}}">
                     <button class="button">Update appointment</button>
                 </a> 
