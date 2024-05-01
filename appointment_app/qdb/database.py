@@ -121,7 +121,7 @@ class Database:
                     abort(500)
 
     def get_services(self):
-        ''' Gets all services' name '''
+        ''' function that gets all services' name '''
         with self.connect() as connection:
             with connection.cursor() as cursor:
                 qry = '''   SELECT service_id, service_name, service_duration,
@@ -135,7 +135,7 @@ class Database:
                     abort(500)
 
     def get_service(self, cond):
-        ''' Gets all services' name '''
+        ''' function that gets a specific service' name '''
         with self.connect() as connection:
             with connection.cursor() as cursor:
                 qry = f'''  SELECT service_id, service_name, service_duration,
