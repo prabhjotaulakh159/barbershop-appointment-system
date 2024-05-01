@@ -38,9 +38,8 @@ class Database:
                                 print(e)
                         statement_parts = []
 
-
     def get_user(self, cond):
-        qry = f'''SELECT user_id, is_enabled, access_level, user_type, user_name, pass_word, 
+        qry = f'''SELECT user_id, is_enabled, access_level, user_type, user_name, pass_word,
         email, avatar, phone, address, age, pay_rate, specialty FROM users {cond}'''
         with self.connect() as connection:
             with connection.cursor() as cursor:
@@ -50,9 +49,9 @@ class Database:
                     return user
                 except Exception as e:
                     print(e)
-    
+
     def get_users(self, cond):
-        qry = f'''SELECT user_id, is_enabled, access_level, user_type, user_name, pass_word, 
+        qry = f'''SELECT user_id, is_enabled, access_level, user_type, user_name, pass_word,
         email, avatar, phone, address, age, pay_rate, specialty FROM users {cond}'''
         with self.connect() as connection:
             with connection.cursor() as cursor:
@@ -110,12 +109,13 @@ class Database:
                     return services
                 except Exception as e:
                     print(e)
-    
+
     def get_service(self, cond):
         ''' Gets all services' name '''
         with self.connect() as connection:
             with connection.cursor() as cursor:
-                qry = f"SELECT service_id, service_name, service_duration, service_price, service_materials FROM services {cond}"
+                qry = f"SELECT service_id, service_name, service_duration, service_price, service_materials FROM services {
+                    cond}"
                 try:
                     cursor.execute(qry)
                     services = cursor.fetchall()[0]
