@@ -1,0 +1,94 @@
+.container {
+    width: 100%;
+    padding: 1rem;
+    margin-right: auto;
+    margin-left: auto;
+    display:flex;
+    flex-wrap:wrap;
+    
+}
+
+.wrapper {
+    padding: 20px 25px;
+}
+
+.table-title {
+    background: #435d7d;
+    color: #fff;
+    padding: 16px 30px;
+    min-width: 100%;
+    margin: 5px 5px 5px;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    border-collapse: collapse;
+    margin: 5px 5px 5px;
+    background-color:blanchedalmond;
+
+    table-layout: auto;
+}
+
+table,
+thead,
+tbody,
+td,
+th {
+    border: 1px solid black;
+    text-align: center;
+}
+
+td,
+th {
+}
+
+main {
+    display: flex;
+    flex-wrap:wrap;
+    width:100%;
+
+}
+
+.left-side {
+    flex: 1 ;
+    flex-shrink: 0;
+    box-sizing:border-box;
+}
+
+.right-side {
+    flex: 3 ;
+    background-color: #cb997e;
+    overflow-y: auto;
+}
+
+@media (max-width: 1000px) { /* Adjust the breakpoint as needed */
+    .left-side,.right-side {
+         flex: 1 1 100%; /* Each section takes the full width */
+         flex-basis:100%;
+     }
+ }
+.report-action {
+    width: 100px;
+}
+
+table th,table td {
+    width: auto; /* Allow cells to adjust their width */
+    padding: 12px 15px;
+}
+
+.button {
+    display: inline-block;
+    background-color: lightgreen;
+    padding: 10px 20px;
+    text-align: center;
+    font-size: 16px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 8px;
+}

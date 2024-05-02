@@ -1,36 +1,59 @@
 {% extends "base.html" %}
 {% from "macros.html" import form_field_error with context %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='/appointment.css') }}" />
+{% endblock css %}
+
 {% block content %}
 
-<div id="flex">
-    <section id="left-side">
-        <section>All-appointments</section>
-    </section>
+<section class="left-side">
+    <section>All-appointments</section>
+</section>
 
-    <section id="right-side">
-        <div class="container">
+<section class="right-side">
+    <div class="container">
+        <div class="wrapper">
+
+            <div class="table-title">
+                <div class="row">
+                    <h2>All appointments</h2>
+                </div>
+            </div>
             {% if appointments %}
             {% for appointment in appointments %}
-            <h1>Appointment ID {{appointment[0]}}</h1>
-
-            <div class="listing">
-                <div class="section">Client ID: {{ appointment[5] }}</div>
-                <div class="section">Professional ID: {{ appointment[6] }}</div>
-                <div class="section">Date: {{ appointment[2] }}</div>
-                <div class="section">Time-Slot: {{ appointment[3] }}</div>
-
-                {% if current_user.is_authenticated %}
-                <button class="button"><a
-                        href="{{url_for('appointment.appointment_view',appointment_id=appointment[0])}}">Click for
-                        detailed info </a> </button>
-                {% endif %}
-            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Appointment ID</th>
+                        <th>Client ID</th>
+                        <th>Professional ID</th>
+                        <th>Date</th>
+                        <th>Time-Slot</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ appointment[0] }}</td>
+                        <td>{{ appointment[5] }}</td>
+                        <td>{{ appointment[6] }}</td>
+                        <td>{{ appointment[2] }}</td>
+                        <td>{{ appointment[3] }}</td>
+                        {% if current_user.is_authenticated %}
+                        <td><a href="{{url_for('appointment.appointment_view',appointment_id=appointment[0])}}">Click
+                                for
+                                detailed info </a> </td>
+                        {% endif %}
+                        
+                    </tr>
+                </tbody>
+            </table>
             {% endfor %}
             {% else %}
             <div>No appointments to render</div>
             {% endif %}
         </div>
-    </section>
-</div>
-
+    </div>
+</section>
 {% endblock content %}
