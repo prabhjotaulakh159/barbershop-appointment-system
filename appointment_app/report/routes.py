@@ -14,10 +14,10 @@ def update_report(appointment_id):
     appointment = db.get_appointment(f"WHERE appointment_id = {appointment_id}")
     if current_user.user_id != appointment[5] and current_user.user_id != appointment[6]:
         return redirect(url_for('main.home'))
-    if not db.check_if_appointment_already_has_report(appointment_id=appointment_id):
+    if not db.check_if_appointment_already_has_report(
+            appointment_id=appointment_id):
         db.add_report(None, None, date.today(), appointment_id)
-    report = db.get_report(appointment_id)
-    form = AddReportForm()  
+    form = AddReportForm()
     if form.validate_on_submit():
         if current_user.user_type == 'Member':
             db.update_client_report(form.feedback.data, appointment_id)
