@@ -13,6 +13,7 @@ class AppointmentForm(FlaskForm):
     service = SelectField("Service",  validators=[DataRequired()])
     submit = SubmitField("Add Appointment")
 
+
 class AppointmentAdminForm(FlaskForm):
     '''class representing an appointment form for admin'''
     member_name = SelectField("Member name", validators=[DataRequired()])

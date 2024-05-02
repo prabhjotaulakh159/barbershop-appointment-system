@@ -29,7 +29,8 @@ def appointment_view(appointment_id):
     names.append(professional_name[4])
     names.append(service_name[1])
 
-    return render_template("specific-appointment.html", appointment=appt, names=names)
+    return render_template("specific-appointment.html",
+                           appointment=appt, names=names)
 
 
 @appointment.route('/my-appointments')
@@ -37,14 +38,15 @@ def appointment_view(appointment_id):
 def my_appointments():
     '''function rendering user's appointments'''
     appointments = db.get_appointments(
-        f"WHERE client_id = {current_user.user_id} OR professional_id = {current_user.user_id}")
+        f'''WHERE client_id = {current_user.user_id}
+            OR professional_id = {current_user.user_id}''')
     names = []
     reports = []
     for appt in appointments:
         client_name = db.get_user(f"WHERE user_id = {appt[5]}")
         professional_name = db.get_user(f"WHERE user_id = {appt[6]}")
         service_name = db.get_service(f"WHERE service_id = {appt[7]}")
-        names.append((client_name[4], professional_name[4],service_name[1]))
+        names.append((client_name[4], professional_name[4], service_name[1]))
         reports.append(db.get_report(appt[0]))
     return render_template("my-appointments.html", appointments=appointments,
                            names=names, reports=reports)
@@ -77,23 +79,25 @@ def add_appointment():
         status = 1
         client_id = current_user.user_id
         prof_id = db.get_user(f"WHERE user_name = '{form.prof_name.data}'")[0]
-        service_id = db.get_service(f"WHERE service_name = '{form.service.data}'")[0]
+        service_id = db.get_service(
+            f"WHERE service_name = '{form.service.data}'")[0]
         db.add_appointment(status, form.date_appointment.data,
-                           form.slot.data, form.venue.data, client_id, prof_id, service_id)
+                           form.slot.data, form.venue.data, 
+                           client_id, prof_id, service_id)
         flash('Appointment is created!')
 
     return render_template("add-appointment.html", form=form)
 
 
-@appointment.route("/update-appointment/<int:appointment_id>", methods=['GET', 'POST'])
+@appointment.route("/update-appointment/<int:appointment_id>",
+                   methods=['GET', 'POST'])
 @login_required
 def update_appointment(appointment_id):
     '''function updating specific appointments with appointment_id'''
     if current_user.user_type == 'Professional':
         return redirect(url_for('main.home'))
     appt = db.get_appointment(f"WHERE appointment_id = {appointment_id}")
-    if (current_user.user_id != appt[5]
-        and current_user.user_id != appt[6]) and current_user.access_level < 2:
+    if current_user.user_id not in (appt[5], appt[6]) and current_user.access_level < 2:
         return redirect(url_for('main.home'))
 
     if current_user.access_level >= 2:
@@ -116,7 +120,6 @@ def update_appointment(appointment_id):
         professionals_list = []
         for professional in professionals:
             professionals_list.append((professional[4], professional[4]))
-
 
         form.prof_name.choices = professionals_list
         form.service.choices = services_list
