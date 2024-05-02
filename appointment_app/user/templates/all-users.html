@@ -37,34 +37,38 @@
             </form>
         </div>
         <div id="users">
-            <div class="columns">
-                <div class="column">ID</div>
-                <div class="column">Enabled</div>
-                <div class="column">Level</div>
-                <div class="column">Type</div>
-                <div class="column">Name</div>
-                <div class="column">Email</div>
-                <div class="column">Phone</div>
-                <div class="column">Address</div>
-                <div class="column">Age</div>
-                <div class="column">Rate</div>
-                <div class="column">Speciality</div>
-            </div>
-            {% for user in users %}
-                <div class="columns">
-                    <div class="column">{{user[0]}}</div>
-                    <div class="column">{{user[1]}}</div>
-                    <div class="column">{{user[3]}}</div>
-                    <div class="column">{{user[4]}}</div>
-                    <div class="column">{{user[5]}}</div>
-                    <div class="column">{{user[6]}}</div>
-                    <div class="column">{{user[7]}}</div>
-                    <div class="column">{{user[8]}}</div>
-                    <div class="column">{{user[9]}}</div>
-                    <div class="column">{{user[10]}}</div>
-                    <div class="column">{{user[10]}}</div>
-                </div>
-            {% endfor %}
+            <table class="sql-result">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Enabled</th>
+                        <th>Type</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                        <th>Age</th>
+                        <th>Pay</th>
+                        <th>Speciality</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{user[0]}}</td>
+                            <td>{{user[1]}}</td>
+                            <td>{{user[2]}}</td>
+                            <td>{{user[3]}}</td>
+                            <td>{{user[4]}}</td>
+                            <td>{{user[5]}}</td>
+                            <td>{{user[6]}}</td>
+                            <td>{{user[7]}}</td>
+                            <td>{{user[8]}}</td>
+                            <td>{{user[9]}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 {% endblock content %}
