@@ -158,5 +158,7 @@ def change_password(user_id):
 @login_required
 def all_users():
     ''' Gets all users from the db'''
+    form = RegisterUserForm()
     users = db.get_all_users()
-    return render_template('all-users.html', users=users)
+    return render_template('all-users.html', users=users,
+                           form=form)

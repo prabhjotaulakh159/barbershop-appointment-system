@@ -1,23 +1,70 @@
 {% extends "base.html" %}
 {% from "macros.html" import form_field_error with context %}
 {% block content %}
-    <div id="user-container">
-        {% for user in users %}
-            <div class="user-box">
-                <span>{{ user[0] }}</span>
-                <span>{{ user[1] }}</span>
-                <span>{{ user[2] }}</span>
-                <span>{{ user[3] }}</span>
-                <span>{{ user[4] }}</span>
-                <span>{{ user[5] }}</span>
-                <span>{{ user[6] }}</span>
-                <span>{{ user[7] }}</span>
-                <span>{{ user[8] }}</span>
-                <span>{{ user[9] }}</span>
-                <span>{{ user[10] }}</span>
-                <span>{{ user[11] }}</span>
-                <span>{{ user[12] }}</span>
+    <div id="user-admin">
+        <div id="create-user-section">
+            <form method="POST" novalidate enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
+                {{ form.user_type(id='user-type') }}
+                {{ form_field_error(form.user_type.errors) }}
+                {{ form.username(class='form-field', placeholder='Enter username') }}
+                {{ form_field_error(form.username.errors) }}
+                {{ form.email(class='form-field', placeholder='example@email.com') }}
+                {{ form_field_error(form.email.errors) }}
+                {{ form.password(class='form-field', placeholder='Enter password') }}
+                {{ form_field_error(form.password.errors) }}
+                {{ form.confirm_password(class='form-field', placeholder='Retype password') }}
+                {{ form_field_error(form.confirm_password.errors) }}
+                {{ form.phone(class='form-field', placeholder='XXX-XXX-XXXX') }}
+                {{ form_field_error(form.phone.errors) }}
+                {{ form.address(class='form-field',placeholder='Enter your address ') }}
+                {{ form_field_error(form.address.errors) }}
+                {{ form.age(class='form-field',placeholder='Enter your age ') }}
+                {{ form_field_error(form.age.errors) }}
+                {{ form.pay_rate(placeholder='Enter pay rate', id='pay-rate') }}
+                {{ form_field_error(form.pay_rate.errors) }}
+                <div class="input-group">
+                    <div id="specialityLabel">Speciality</div>
+                    {{ form.specialty(id='specialty-register') }}
+                    {{ form_field_error(form.specialty.errors) }}
+                </div>
+                <div class="input-group">
+                    <div>Profile Picture</div>
+                    {{ form.avatar() }}
+                    {{ form_field_error(form.avatar.errors) }}
+                </div>
+                {{ form.submit(class='button', value='Register') }}
+            </form>
+        </div>
+        <div id="users">
+            <div class="columns">
+                <div class="column">ID</div>
+                <div class="column">Enabled</div>
+                <div class="column">Level</div>
+                <div class="column">Type</div>
+                <div class="column">Name</div>
+                <div class="column">Email</div>
+                <div class="column">Phone</div>
+                <div class="column">Address</div>
+                <div class="column">Age</div>
+                <div class="column">Rate</div>
+                <div class="column">Speciality</div>
             </div>
-        {% endfor %}
+            {% for user in users %}
+                <div class="columns">
+                    <div class="column">{{user[0]}}</div>
+                    <div class="column">{{user[1]}}</div>
+                    <div class="column">{{user[3]}}</div>
+                    <div class="column">{{user[4]}}</div>
+                    <div class="column">{{user[5]}}</div>
+                    <div class="column">{{user[6]}}</div>
+                    <div class="column">{{user[7]}}</div>
+                    <div class="column">{{user[8]}}</div>
+                    <div class="column">{{user[9]}}</div>
+                    <div class="column">{{user[10]}}</div>
+                    <div class="column">{{user[10]}}</div>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 {% endblock content %}
