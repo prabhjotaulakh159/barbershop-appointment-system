@@ -4,7 +4,7 @@ from flask_login import login_required, current_user
 from appointment_app.qdb.database import db
 from appointment_app.appointment.forms import AppointmentForm, AppointmentAdminForm
 from appointment_app.appointment.utility import time_slots, venues
-
+import pdb
 appointment = Blueprint('appointment', __name__,
                         static_folder="static", template_folder="templates")
 
@@ -159,10 +159,10 @@ def update_appointment(appointment_id):
 @appointment.route('/admin-appointments', methods=["GET", "POST"])
 @login_required
 def admin_appointments():
+
     '''function to add and list all appointments for admin_appoint'''
     if current_user.access_level < 2:
         return redirect(url_for('main.home'))
-
     form = AppointmentAdminForm()
 
     members = db.get_users("WHERE user_type = 'Member'")

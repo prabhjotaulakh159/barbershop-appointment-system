@@ -1,43 +1,82 @@
 {% extends "base.html" %}
 {% from "macros.html" import form_field_error with context %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='appointment.css') }}" />
+{% endblock css %}
+
 {% block content %}
 
-<div id="flex">
-    <section id="left-side">
-        <h1>My appointments</h1>
-    </section>
 
-    <section id="right-side">
-        <div class="container">
-            {% if appointments %}
-            {% for appointment in appointments %}
-            <div>
-                <h1>Appointment ID {{appointment[0]}}</h1>
+<section class="left-side">
+    <h1>My appointments</h1>
+</section>
+
+<section class="right-side">
+    <div class="container">
+        <div class="table-title">
+            <div class="row">
+                <h2>All my appointments</h2>
             </div>
-            <div class="listing">
-                <div class="section">Client : {{ names[loop.index0][0] }}</div>
-                <div class="section">Professional : {{ names[loop.index0][1] }}</div>
-                <div class="section">Date: {{ appointment[2] }}</div>
-                <div class="section">Venue: {{ appointment[4] }}</div>
-                <div class="section">Time-Slot: {{ appointment[3] }}</div>
-                <div class="section">Service: {{names[loop.index0][2]}}</div>
-                
-                    <p>Feedback client: {{ reports[loop.index0][0] }}</p>
-                    <p>Feedback professional: {{ reports[loop.index0][1] }}</p>
-                
-                <a href="{{url_for('appointment.update_appointment',appointment_id=appointment[0])}}">
-                    <button class="button">Update appointment</button>
-                </a> 
-                <a href="{{url_for('report.update_report',appointment_id=appointment[0])}}">
-                    <button class="button">Update your report</button>
-                </a> 
-            </div>
-            {% endfor %}
-            {% else %}
-            <div>No appointments to render</div>
-            {% endif %}
         </div>
-    </section>
-</div>
+        {% if appointments %}
+        {% for appointment in appointments %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Appointment ID</th>
+                    <th>Client</th>
+                    <th>Professional</th>
+                    <th>Date</th>
+                    <th>Venue</th>
+                    <th>Time-Slot</th>
+                    <th>Service</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ appointment[0] }}</td>
+                    <td>{{ names[loop.index0][0] }}</td>
+                    <td>{{ names[loop.index0][1] }}</td>
+                    <td>{{ appointment[2] }}</td>
+                    <td>{{ appointment[4] }}</td>
+                    <td>{{ appointment[3] }}</td>
+                    <td>{{names[loop.index0][2]}}</td>
+                    <td>
+                        <a href="{{url_for('appointment.update_appointment',appointment_id=appointment[0])}}">
+                            Update </a>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table">
+            <tr>
+                <th class="">Client feedback:</th>
+                <td>{{ reports[loop.index0][0] }}</td>
+                <td class="report-action">
+                    <a href="{{url_for('appointment.update_appointment',appointment_id=appointment[0])}}"> Update
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <th class="">Professional feedback:</th>
+                <td>{{ reports[loop.index0][1] }}</td>
+                <td class="report-action">
+                    <a href="{{url_for('report.update_report',appointment_id=appointment[0])}}"> Update
+                    </a>
+                </td>
+            </tr>
+        </table>
+        <br>
+        <br>
+        {% endfor %}
+        {% else %}
+        <div>No appointments to render</div>
+        {% endif %}
+    </div>
+</section>
+
 
 {% endblock content %}

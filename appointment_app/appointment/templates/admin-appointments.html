@@ -2,7 +2,7 @@
 {% from "macros.html" import form_field_error with context %}
 
 {% block css %}
-<link rel="stylesheet" href="{{ url_for('static', filename='appointment/static/appointment.css') }}" />
+<link rel="stylesheet" href="{{ url_for('static', filename='appointment.css') }}" />
 {% endblock css %}
 
 {% block content %}
@@ -43,78 +43,74 @@
 
 <section class="right-side">
     <div class="container">
-        <div class="wrapper">
 
-            <div class="table-title">
-                <div class="row">
-                    <h2>Manage appointments</h2>
-                </div>
-            </div>
+        <div class="table-title">
+                <h2>Manage appointments</h2>
 
-            {% if appointments %}
-            {% for appointment in appointments %}
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Appointment ID</th>
-                        <th>Client</th>
-                        <th>Professional</th>
-                        <th>Date</th>
-                        <th>Venue</th>
-                        <th>Time-Slot</th>
-                        <th>Service</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>{{ appointment[0] }}</td>
-                        <td>{{ names[loop.index0][0] }}</td>
-                        <td>{{ names[loop.index0][1] }}</td>
-                        <td>{{ appointment[2] }}</td>
-                        <td>{{ appointment[4] }}</td>
-                        <td>{{ appointment[3] }}</td>
-                        <td>{{names[loop.index0][2]}}</td>
-                        <td>
-                            <a href="{{url_for('appointment.update_appointment',appointment_id=appointment[0])}}">
-                                Update </a>
-                            <a href="{{url_for('appointment.delete_appointment',appointment_id=appointment[0])}}">Delete
-                            </a>
-                        </td>
-                    </tr>
-
-                </tbody>
-            </table>
-            <table class="table">
-                <tr>
-                    <th class="th-size">Client feedback:</th>
-                    <td>{{ reports[loop.index0][0] }}</td>
-                    <td class="report-action">
-                        <a href="{{url_for('appointment.update_appointment',appointment_id=appointment[0])}}"> Update
-                        </a>
-                        <a href="{{url_for('appointment.delete_appointment',appointment_id=appointment[0])}}">Delete
-                        </a>
-                    </td>
-                </tr>
-                <tr>
-                    <th class="th-size">Professional feedback:</th>
-                    <td>{{ reports[loop.index0][1] }}</td>
-                    <td class="report-action">
-                        <a href="{{url_for('appointment.update_appointment',appointment_id=appointment[0])}}"> Update
-                        </a>
-                        <a href="{{url_for('appointment.delete_appointment',appointment_id=appointment[0])}}">Delete
-                        </a>
-                    </td>
-                </tr>
-            </table>
-            <br>
-            <br>
-            {% endfor %}
-            {% else %}
-            <div>No appointments to render</div>
-            {% endif %}
-
-            {% endblock content %}
         </div>
+
+        {% if appointments %}
+        {% for appointment in appointments %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Appointment ID</th>
+                    <th>Client</th>
+                    <th>Professional</th>
+                    <th>Date</th>
+                    <th>Venue</th>
+                    <th>Time-Slot</th>
+                    <th>Service</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ appointment[0] }}</td>
+                    <td>{{ names[loop.index0][0] }}</td>
+                    <td>{{ names[loop.index0][1] }}</td>
+                    <td>{{ appointment[2] }}</td>
+                    <td>{{ appointment[4] }}</td>
+                    <td>{{ appointment[3] }}</td>
+                    <td>{{names[loop.index0][2]}}</td>
+                    <td>
+                        <a href="{{url_for('appointment.update_appointment',appointment_id=appointment[0])}}">
+                            Update </a>
+                        <a href="{{url_for('appointment.delete_appointment',appointment_id=appointment[0])}}">Delete
+                        </a>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table">
+            <tr>
+                <th class="">Client feedback:</th>
+                <td>{{ reports[loop.index0][0] }}</td>
+                <td class="report-action">
+                    <a href="{{url_for('appointment.update_appointment',appointment_id=appointment[0])}}"> Update
+                    </a>
+                    <a href="{{url_for('appointment.delete_appointment',appointment_id=appointment[0])}}">Delete
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <th class="">Professional feedback:</th>
+                <td>{{ reports[loop.index0][1] }}</td>
+                <td class="report-action">
+                    <a href="{{url_for('appointment.update_appointment',appointment_id=appointment[0])}}"> Update
+                    </a>
+                    <a href="{{url_for('appointment.delete_appointment',appointment_id=appointment[0])}}">Delete
+                    </a>
+                </td>
+            </tr>
+        </table>
+        <br>
+        <br>
+        {% endfor %}
+        {% else %}
+        <div>No appointments to render</div>
+        {% endif %}
     </div>
 </section>
+{% endblock content %}
