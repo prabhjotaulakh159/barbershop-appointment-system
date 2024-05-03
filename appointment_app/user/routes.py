@@ -8,7 +8,7 @@ from appointment_app.qdb.database import db
 from appointment_app.user.forms import RegisterUserForm, LoginForm, ChangePasswordForm
 
 
-user = Blueprint('user', __name__, template_folder="templates")
+user = Blueprint('user', __name__, template_folder="templates", static_folder="static", static_url_path='/static/user')
 
 
 @user.route("/login", methods=['GET', 'POST'])
