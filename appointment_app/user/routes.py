@@ -121,8 +121,23 @@ def change_password(user_id):
 
 @user.route("/all-users", methods=['GET', 'POST'])
 @login_required
-def all_users():
-    ''' Gets all users from the db'''
+def user_admin_panel():
+    ''' Loads user admin panel '''
+    if current_user.access_level != 1:
+        return redirect(url_for('main.home'))
     form = RegisterUserForm()
     users = db.get_all_users()
-    return render_template('all-users.html', users=users, form=form)
+    return render_template('user-admin-panel.html', users=users, form=form)
+
+
+@user.route("/delete-user/<int:user_id>")
+@login_required
+def delete_user(user_id):
+    ''' Admins can delete a user by their ID '''
+    if current_user.access_level != 1:
+        return redirect(url_for('main.home'))
+    if user_id == current_user.user_id:
+        return redirect(url_for('user.all_users'))
+    db.delete_user(user_id)
+    return redirect(url_for('user.user_admin_panel'))
+    

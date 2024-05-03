@@ -33,13 +33,16 @@
                     {{ form.avatar() }}
                     {{ form_field_error(form.avatar.errors) }}
                 </div>
-                {{ form.submit(class='button', value='Register') }}
+                {{ form.submit(class='button', value='Create User') }}
             </form>
         </div>
         <div id="users">
-            <table class="sql-result">
+            <table class="user-columns">
                 <thead>
                     <tr>
+                        <th>Action</th>
+                        <th>Action</th>
+                        <th>Action</th>
                         <th>ID</th>
                         <th>Enabled</th>
                         <th>Type</th>
@@ -52,19 +55,30 @@
                         <th>Speciality</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="user-body">
                     {% for user in users %}
                         <tr>
-                            <td>{{user[0]}}</td>
-                            <td>{{user[1]}}</td>
-                            <td>{{user[2]}}</td>
-                            <td>{{user[3]}}</td>
-                            <td>{{user[4]}}</td>
-                            <td>{{user[5]}}</td>
-                            <td>{{user[6]}}</td>
-                            <td>{{user[7]}}</td>
-                            <td>{{user[8]}}</td>
-                            <td>{{user[9]}}</td>
+                            <td>
+                                <a href="{{ url_for('user.delete_user', user_id=user[0]) }}">
+                                    <button type="button">Delete</button>
+                                </a>
+                            </td>
+                            <td>Update</td>
+                            <td>Disable</td>
+                            <td>{{ user[0] }}</td>
+                            {% if user[1] == 1 %}
+                                <td>Yes</td>
+                            {% else %}
+                                <td>No</td>
+                            {% endif %}
+                            <td>{{ user[2] }}</td>
+                            <td>{{ user[3] }}</td>
+                            <td>{{ user[4] }}</td>
+                            <td>{{ user[5] }}</td>
+                            <td>{{ user[6] }}</td>
+                            <td>{{ user[7] }}</td>
+                            <td>{{ user[8] }}</td>
+                            <td>{{ user[9] }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>

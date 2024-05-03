@@ -316,8 +316,18 @@ class Database:
                 except oracledb.Error as e:
                     print(e)
                     abort(500)
-
-
+                    
+    def delete_user(self, user_id):
+        ''' Deletes a user from the database with the given user id '''
+        query = ''' DELETE FROM users WHERE user_id = :user_id '''
+        with self.__connect() as connection:
+            with connection.cursor() as cursor:
+                try:
+                    cursor.execute(query, [user_id])
+                    connection.commit()
+                except oracledb.Error as e:
+                    print(e)
+                    abort(500)
 db = Database()
 
 if __name__ == '__main__':
