@@ -4,9 +4,9 @@ from flask_login import login_required, current_user
 from appointment_app.qdb.database import db
 from appointment_app.appointment.forms import AppointmentForm, AppointmentAdminForm
 from appointment_app.appointment.utility import time_slots, venues
-import pdb
+
 appointment = Blueprint('appointment', __name__,
-                        static_folder="static", template_folder="templates")
+                        static_folder="static", template_folder="templates", static_url_path="/static/appointment")
 
 
 @appointment.route('/all-appointments')
