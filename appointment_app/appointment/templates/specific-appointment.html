@@ -1,38 +1,60 @@
 {% extends "base.html" %}
 {% from "macros.html" import form_field_error with context %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('appointment.static', filename='specific-appointment.css') }}" />
+{% endblock css %}
+
 {% block content %}
 
-<div id="flex">
-    <section id="left-side">
-        <h1>Specific appointment in details</h1>
-    </section>
+    <h1>Specific appointment in details</h1>
 
-    <section id="right-side">
-        <div class="container">
-            {% if appointment %}
-            <div>
-                <h1>Appointment ID {{appointment[0]}}</h1>
-            </div>
-            <div class="listing">
-                <div class="section">Client : {{ names[0] }}</div>
-                <div class="section">Professional : {{ names[1] }}</div>
-                <div class="section">Date: {{ appointment[2] }}</div>
-                <div class="section">Venue: {{ appointment[4] }}</div>
-                <div class="section">Time-Slot: {{ appointment[3] }}</div>
-                <div class="section">Service: {{names[2]}}</div>
-
-                {% if current_user.is_authenticated and (current_user.user_id == appointment[5] or current_user.user_id == appointment[6]) %}
-                    <button class="button"><a
-                            href="{{url_for('appointment.update_appointment',appointment_id=appointment[0])}}"> Update my appointment </a> </button>
+    {% if appointment %}
+    <table>
+        <tbody>
+            <tr>
+                <th>Appointment ID</th>
+                <td>{{ appointment[0] }}</td>
+            </tr>
+            <tr>
+                <th>Client</th>
+                <td>{{ names[0] }}</td>
+            </tr>
+            <tr>
+                <th>Professional</th>
+                <td>{{ names[1] }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ appointment[2] }}</td>
+            </tr>
+            <tr>
+                <th>Venue</th>
+                <td>{{ appointment[4] }}</td>
+            </tr>
+            <tr>
+                <th>Time-Slot</th>
+                <td>{{ appointment[3] }}</td>
+            </tr>
+            <tr>
+                <th>Service</th>
+                <td>{{ names[2] }}</td>
+            </tr>
+            <tr>
+                <th>Action</th>
+                {% if current_user.is_authenticated and (current_user.user_id == appointment[5] or current_user.user_id
+                == appointment[6]) %}
+                <td><a href="{{url_for('appointment.update_appointment',appointment_id=appointment[0])}}">
+                        Update my appointment </a></td>
+                {% else %}
+                <td>None</td>
                 {% endif %}
-        
-            </div>
-            {% else %}
-            <div>No appointments to render</div>
+            </tr>
+        </tbody>
+    </table>
 
-            {% endif %}
-        </div>
-    </section>
-</div>
+    {% else %}
+    <div>No appointments to render</div>
+    {% endif %}
 
 {% endblock content %}

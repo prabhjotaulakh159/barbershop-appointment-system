@@ -5,7 +5,8 @@ from appointment_app.qdb.database import db
 from appointment_app.appointment.forms import AppointmentForm, AppointmentAdminForm
 from appointment_app.appointment.utility import time_slots, venues
 
-appointment = Blueprint('appointment', __name__, template_folder="templates")
+appointment = Blueprint('appointment', __name__,
+                        static_folder="static", template_folder="templates", static_url_path="/static/appointment")
 
 
 @appointment.route('/all-appointments')
@@ -134,10 +135,13 @@ def update_appointment(appointment_id):
                 form.member_name.choices = members_list
 
     else:
-        service_id = db.get_service(f"WHERE service_name = '{form.service.data}'")[0]
+        service_id = db.get_service(f"WHERE service_name = '{
+                                    form.service.data}'")[0]
         if current_user.access_level >= 2:
-            client_id = db.get_user(f"WHERE user_name = '{form.member_name.data}'")[0]
-            prof_id = db.get_user(f"WHERE user_name = '{form.prof_name.data}'")[0]
+            client_id = db.get_user(f"WHERE user_name = '{
+                                    form.member_name.data}'")[0]
+            prof_id = db.get_user(f"WHERE user_name = '{
+                                  form.prof_name.data}'")[0]
 
             db.update_appointment(appointment_id=appt[0],
                                   date_appointment=form.date_appointment.data,
@@ -155,10 +159,10 @@ def update_appointment(appointment_id):
 @appointment.route('/admin-appointments', methods=["GET", "POST"])
 @login_required
 def admin_appointments():
+
     '''function to add and list all appointments for admin_appoint'''
     if current_user.access_level < 2:
         return redirect(url_for('main.home'))
-
     form = AppointmentAdminForm()
 
     members = db.get_users("WHERE user_type = 'Member'")
@@ -185,25 +189,27 @@ def admin_appointments():
     if form.validate_on_submit():
 
         status = 1
-        client_id = db.get_user(f"WHERE user_name = '{form.member_name.data}'")[0]
+        client_id = db.get_user(f"WHERE user_name = '{
+                                form.member_name.data}'")[0]
         prof_id = db.get_user(f"WHERE user_name = '{form.prof_name.data}'")[0]
-        service_id = db.get_service(f"WHERE service_name = '{form.service.data}'")[0]
+        service_id = db.get_service(f"WHERE service_name = '{
+                                    form.service.data}'")[0]
         db.add_appointment(status, form.date_appointment.data,
                            form.slot.data, form.venue.data, client_id, prof_id, service_id)
         flash('Appointment is created!')
 
     appointments = db.get_appointments()
     names = []
-
+    reports = []
     for apt in appointments:
         client_name = db.get_user(f"WHERE user_id= {apt[5]}")
         professional_name = db.get_user(f"WHERE user_id = {apt[6]}")
         service_name = db.get_service(f"WHERE service_id = {apt[7]}")
 
         names.append((client_name[4], professional_name[4], service_name[1]))
-
+        reports.append(db.get_report(apt[0]))
     return render_template("admin-appointments.html", form=form,
-                           appointments=appointments, names=names)
+                           appointments=appointments, names=names, reports=reports)
 
 
 @appointment.route('/delete-appointment/<int:appointment_id>')
