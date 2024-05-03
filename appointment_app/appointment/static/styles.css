@@ -89,7 +89,7 @@ html {
 main {
     background-color: var(--fifth-clr);
     flex: 1;
-    height: 100%;
+    height: auto;
 }
 
 .form-container {
@@ -191,7 +191,6 @@ footer {
     text-align: center;
     padding: 2em;
     font-weight: bold;
-    border: 1px solid black;
 }
 
 /*-------------Appointment css----------------------*/
@@ -265,7 +264,5 @@ section#right-side {
     cursor: pointer;
     border-radius: 8px;
 }
-<<<<<<< HEAD
-=======
 
 ----------------------------------- */

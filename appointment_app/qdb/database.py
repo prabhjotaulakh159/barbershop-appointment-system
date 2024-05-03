@@ -255,9 +255,9 @@ class Database:
                 try:
                     cursor.execute(query, [appointment_id])
                     return cursor.fetchall()[0]
-                except oracledb.Error as e:
+                except Exception as e:
                     print(e)
-                    abort(500)
+
 
     def update_client_report(self, feedback_client, appointment_id):
         ''' Updates a client report '''
