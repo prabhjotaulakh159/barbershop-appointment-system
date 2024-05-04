@@ -44,9 +44,9 @@ class Database:
                 cursor.execute(qry)
                 user = cursor.fetchall()[0]
                 return user
-            except oracledb.Error as e:
+            except Exception as e:
                 print(e)
-                abort(500)
+                
 
     def get_users(self, cond):
         """ Gets multiple users based on a condition """
@@ -238,7 +238,7 @@ class Database:
 
     def get_report(self, appointment_id):
         ''' Gets a report for an appointment '''
-        query = ''' SELECT feedback_client, feedback_professional FROM reports
+        query = ''' SELECT feedback_client, feedback_professional, report_id FROM reports
                     WHERE appointment_id = :appointment_id '''
         with self.connection.cursor() as cursor:
             try:
@@ -247,6 +247,17 @@ class Database:
             except Exception as e:
                 print(e)
 
+    def delete_report(self, report_id):
+        ''' Deletes a report '''
+        query = ''' DELETE FROM reports
+                    WHERE report_id = : report_id '''
+        with self.connection.cursor() as cursor:
+            try:
+                cursor.execute(query, [report_id])
+                self.connection.commit()
+            except oracledb.Error as e:
+                print(e)
+                abort(500)
 
     def update_client_report(self, feedback_client, appointment_id):
         ''' Updates a client report '''

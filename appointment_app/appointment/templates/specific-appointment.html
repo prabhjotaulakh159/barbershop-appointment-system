@@ -7,54 +7,51 @@
 
 {% block content %}
 
-    <h1>Specific appointment in details</h1>
+<h1>Specific appointment in details</h1>
 
-    {% if appointment %}
-    <table>
-        <tbody>
-            <tr>
-                <th>Appointment ID</th>
-                <td>{{ appointment[0] }}</td>
-            </tr>
-            <tr>
-                <th>Client</th>
-                <td>{{ names[0] }}</td>
-            </tr>
-            <tr>
-                <th>Professional</th>
-                <td>{{ names[1] }}</td>
-            </tr>
-            <tr>
-                <th>Date</th>
-                <td>{{ appointment[2] }}</td>
-            </tr>
-            <tr>
-                <th>Venue</th>
-                <td>{{ appointment[4] }}</td>
-            </tr>
-            <tr>
-                <th>Time-Slot</th>
-                <td>{{ appointment[3] }}</td>
-            </tr>
-            <tr>
-                <th>Service</th>
-                <td>{{ names[2] }}</td>
-            </tr>
-            <tr>
-                <th>Action</th>
-                {% if current_user.is_authenticated and (current_user.user_id == appointment[5] or current_user.user_id
-                == appointment[6]) %}
-                <td><a href="{{url_for('appointment.update_appointment',appointment_id=appointment[0])}}">
-                        Update my appointment </a></td>
-                {% else %}
-                <td>None</td>
-                {% endif %}
-            </tr>
-        </tbody>
-    </table>
+{% if appointment %}
+<table>
+    <tbody>
+        <tr>
+            <th>Appointment ID</th>
+            <td>{{ appointment[0] }}</td>
+        </tr>
+        <tr>
+            <th>Client</th>
+            <td>{{ names[0] }}</td>
+        </tr>
+        <tr>
+            <th>Professional</th>
+            <td>{{ names[1] }}</td>
+        </tr>
+        <tr>
+            <th>Date</th>
+            <td>{{ appointment[2] }}</td>
+        </tr>
+        <tr>
+            <th>Venue</th>
+            <td>{{ appointment[4] }}</td>
+        </tr>
+        <tr>
+            <th>Time-Slot</th>
+            <td>{{ appointment[3] }}</td>
+        </tr>
+        <tr>
+            <th>Service</th>
+            <td>{{ names[2] }}</td>
+        </tr>
+        {% if current_user.is_authenticated and (current_user.user_id == appointment[5]) %}
+        <tr>
+            <th>Action</th>
+            <td><a class="button" href="{{url_for('appointment.update_appointment',appointment_id=appointment[0])}}">
+                    Update my appointment </a></td>
+        </tr>
+        {% endif %}
+    </tbody>
+</table>
 
-    {% else %}
-    <div>No appointments to render</div>
-    {% endif %}
+{% else %}
+<div>No appointments to render</div>
+{% endif %}
 
 {% endblock content %}

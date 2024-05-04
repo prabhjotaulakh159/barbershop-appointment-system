@@ -62,10 +62,23 @@ table th,table td {
 .button {
     display: inline-block;
     background-color: lightgreen;
-    padding: 10px 20px;
+    padding: 10px 10px;
     text-align: center;
-    font-size: 16px;
     margin: 5px;
     cursor: pointer;
     border-radius: 8px;
+}
+
+.delete-button {
+    display: inline-block;
+    background-color: lightcoral;
+    padding: 10px 10px;
+    text-align: center;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+form{
+    padding:1rem;
 }
