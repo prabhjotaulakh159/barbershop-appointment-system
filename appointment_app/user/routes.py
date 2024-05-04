@@ -51,17 +51,17 @@ def register():
     if form.validate_on_submit():
         user_exist = db.get_user(f"WHERE user_name = '{form.username.data}'")
         if user_exist:
-            flash(f'{form.data.username} taken, choose another username', 'error')
+            flash(f'{form.username.data} taken, choose another username', 'error')
             return redirect(url_for('user.register'))
         bcrypt = Bcrypt()
         avatar = '/images/avatar.png'
         if form.avatar.data:
             avatar = '/images/' + save_file(form.avatar.data)
         if form.user_type.data == "Member":
-            form.payrate.data = None
+            form.pay_rate.data = None
             form.specialty.data = None
         db.add_user(form.user_type.data, form.username.data, bcrypt.generate_password_hash(form.password.data).decode("utf-8"), form.email.data, avatar, form.phone.data, form.address.data, form.age.data, form.pay_rate.data, form.specialty.data)
-        flash(f'Welcome {form.username.da} you are now a user', 'success')
+        flash(f'Welcome {form.username.data} you are now a user', 'success')
         return redirect(url_for('user.login'))
     return render_template("register.html", form=form)
 
@@ -96,6 +96,37 @@ def update_profile(user_id):
         return redirect(url_for('main.home'))
     return render_template('update-profile.html', current_user=current_user, form=form)
 
+
+@user.route("/update-user/<int:user_id>", methods=["GET", "POST"])
+@login_required
+def update_user(user_id):
+    ''' Admin updates another user '''
+    if current_user.user_type != 'Admin' or current_user.access_level not in (1, 3) or user_id == current_user.user_id:
+        return redirect(url_for('main.home'))
+    userdb = db.get_user(f"WHERE user_id = {user_id}")
+    form = RegisterUserForm()
+    if request.method == 'GET':
+        form.username.data = userdb[4]
+        form.email.data = userdb[6]
+        form.phone.data = userdb[8]
+        form.user_type.data = userdb[3]
+        form.age.data = userdb[10]
+        form.address.data = userdb[9]
+        form.pay_rate.data = userdb[11]
+        form.specialty.data = userdb[12]
+    else:
+        if form.username.data != userdb[4]:
+            user_already_exists = db.get_user(f"WHERE user_name = '{form.username.data}'")
+            if user_already_exists:
+                flash("Username already taken !", "error")
+                return redirect(url_for('user.login'))
+        current_avatar = userdb[7]
+        if form.avatar.data:
+            current_avatar = '/images/' + save_file(form.avatar.data)
+        db.update_user(user_id, form.username.data, form.email.data, current_avatar, form.phone.data, form.address.data, form.age.data, form.pay_rate.data, form.specialty.data)
+        flash("Successfully updated user", "success")
+        return redirect(url_for('user.user_admin_panel'))
+    return render_template('update-user.html', form=form, user=userdb)
 
 @user.route("/change-password/<int:user_id>", methods=['GET', 'POST'])
 @login_required

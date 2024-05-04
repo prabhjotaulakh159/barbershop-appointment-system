@@ -89,7 +89,6 @@ html {
 main {
     background-color: var(--fifth-clr);
     flex: 1;
-    height: 100%;
 }
 
 .form-container {

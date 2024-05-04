@@ -2,7 +2,7 @@
 import oracledb
 from flask import abort
 from appointment_app.qdb.config_db import host, usr, SN, pw
-
+import traceback
 
 class Database:
     ''' Performs actions on the database '''
@@ -27,7 +27,7 @@ class Database:
                             if statement:
                                 try:
                                     cursor.execute(statement)
-                                except oracledb.Error as e:
+                                except Exception as e:
                                     print(e)
                             statement_parts = []
 
@@ -40,10 +40,12 @@ class Database:
             with connection.cursor() as cursor:
                 try:
                     cursor.execute(qry)
-                    user = cursor.fetchall()[0]
-                    return user
-                except oracledb.Error as e:
-                    print(e)
+                    user = cursor.fetchall()
+                    if not user:
+                        return None
+                    return user[0]
+                except Exception:
+                    print(traceback.format_exc())
                     abort(500)
 
     def get_users(self, cond):
@@ -57,7 +59,7 @@ class Database:
                     cursor.execute(qry)
                     user = cursor.fetchall()
                     return user
-                except oracledb.Error as e:
+                except Exception as e:
                     print(e)
                     abort(500)
 
@@ -75,8 +77,8 @@ class Database:
                         qry, [user_type, user_name, pass_word, email, avatar,
                                 phone, address, age, pay_rate, specialty])
                     connection.commit()
-                except oracledb.Error as e:
-                    print(e)
+                except Exception:
+                    print(traceback.format_exc())
                     abort(500)
 
     def update_user(self, user_id, user_name, email, avatar, phone, address,
@@ -94,8 +96,8 @@ class Database:
                                     user_name, email, avatar, phone, address,
                                     age, pay_rate, specialty, user_id])
                     connection.commit()
-                except oracledb.Error as e:
-                    print(e)
+                except Exception:
+                    print(traceback.format_exc())
                     abort(500)
 
     def change_password(self, user_id, pass_word):
@@ -107,7 +109,7 @@ class Database:
                 try:
                     cursor.execute(query, [pass_word, user_id])
                     connection.commit()
-                except oracledb.Error as e:
+                except Exception as e:
                     print(e)
                     abort(500)
 
@@ -121,7 +123,7 @@ class Database:
                     cursor.execute(qry)
                     services = cursor.fetchall()
                     return services
-                except oracledb.Error as e:
+                except Exception as e:
                     print(e)
                     abort(500)
 
@@ -136,7 +138,7 @@ class Database:
                     cursor.execute(qry)
                     services = cursor.fetchall()[0]
                     return services
-                except oracledb.Error as e:
+                except Exception as e:
                     print(e)
                     abort(500)
 
@@ -154,7 +156,7 @@ class Database:
                                             client_id, professional_id,
                                             service_id])
                     connection.commit()
-                except oracledb.Error as e:
+                except Exception as e:
                     print(e)
                     abort(500)
 
@@ -174,7 +176,7 @@ class Database:
                     cursor.execute(query)
                     appointments = cursor.fetchall()
                     return appointments
-                except oracledb.Error as e:
+                except Exception as e:
                     print(e)
                     abort(500)
 
@@ -189,7 +191,7 @@ class Database:
                     cursor.execute(query)
                     appointment = cursor.fetchall()[0]
                     return appointment
-                except oracledb.Error as e:
+                except Exception as e:
                     print(e)
                     abort(500)
 
@@ -211,7 +213,7 @@ class Database:
                 try:
                     cursor.execute(query, data_list)
                     connection.commit()
-                except oracledb.Error as e:
+                except Exception as e:
                     print(e)
                     abort(500)
 
@@ -224,7 +226,7 @@ class Database:
                 try:
                     cursor.execute(query, [appointment_id])
                     connection.commit()
-                except oracledb.Error as e:
+                except Exception as e:
                     print(e)
                     abort(500)
 
@@ -242,7 +244,7 @@ class Database:
                         query, [feedback_client, feedback_professional,
                                 date_of_report, appointment_id])
                     connection.commit()
-                except oracledb.Error as e:
+                except Exception as e:
                     print(e)
                     abort(500)
 
@@ -268,7 +270,7 @@ class Database:
                 try:
                     cursor.execute(query, [feedback_client, appointment_id])
                     connection.commit()
-                except oracledb.Error as e:
+                except Exception as e:
                     print(e)
                     abort(500)
 
@@ -284,7 +286,7 @@ class Database:
                     cursor.execute(
                         query, [feedback_professional, appointment_id])
                     connection.commit()
-                except oracledb.Error as e:
+                except Exception as e:
                     print(e)
                     abort(500)
 
@@ -298,7 +300,7 @@ class Database:
                     cursor.execute(query, [appointment_id])
                     rows = cursor.fetchall()
                     return rows
-                except oracledb.Error as e:
+                except Exception as e:
                     print(e)
                     abort(500)
 
@@ -313,7 +315,7 @@ class Database:
                     cursor.execute(query)
                     rows = cursor.fetchall()
                     return rows
-                except oracledb.Error as e:
+                except Exception as e:
                     print(e)
                     abort(500)
                     
@@ -325,7 +327,7 @@ class Database:
                 try:
                     cursor.execute(query, [user_id])
                     connection.commit()
-                except oracledb.Error as e:
+                except Exception as e:
                     print(e)
                     abort(500)
 db = Database()

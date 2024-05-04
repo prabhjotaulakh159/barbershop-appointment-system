@@ -63,7 +63,11 @@
                                     <button type="button">Delete</button>
                                 </a>
                             </td>
-                            <td>Update</td>
+                            <td>
+                                <a href="{{ url_for('user.update_user', user_id=user[0]) }}">
+                                    <button type="button">Update</button>
+                                </a>
+                            </td>
                             <td>Disable</td>
                             <td>{{ user[0] }}</td>
                             {% if user[1] == 1 %}
