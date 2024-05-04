@@ -12,7 +12,7 @@ report = Blueprint('report', __name__, template_folder="templates")
 def update_report(appointment_id):
     '''function updating a specific report with appointment_id'''
     appointment = db.get_appointment(f"WHERE appointment_id = {appointment_id}")
-    if current_user.user_id != appointment[5] and current_user.user_id != appointment[6]:
+    if current_user.user_id not in (appointment[5], appointment[6]) and current_user.access_level < 2:
         return redirect(url_for('main.home'))
     if not db.check_if_appointment_already_has_report(
             appointment_id=appointment_id):
