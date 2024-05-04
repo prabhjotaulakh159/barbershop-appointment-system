@@ -182,8 +182,8 @@ def update_appointment(appointment_id):
 @appointment.route('/admin-appointments', methods=["GET", "POST"])
 @login_required
 def admin_appointments():
-
     '''function to add and list all appointments for admin_appoint'''
+    
     if current_user.access_level < 2:
         return redirect(url_for('main.home'))
     form = AppointmentAdminForm()
@@ -219,7 +219,12 @@ def admin_appointments():
                            form.slot.data, form.venue.data, client_id, prof_id, service_id)
         flash('Appointment is created!','success')
 
-    appointments = db.get_appointments()
+    order_by = request.args.get('order_by')
+    cond = None
+    if order_by:
+        cond = f"ORDER BY {order_by}"
+    
+    appointments = db.get_appointments(cond)
     names = []
     reports = []
     for apt in appointments:
