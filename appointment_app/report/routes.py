@@ -34,7 +34,6 @@ def delete_report(report_id):
     '''function deleting specific report with report_id'''
     if current_user.access_level < 2:
         return redirect(url_for('main.home'))
-
-    db.delete_appointment(report_id)
+    db.delete_report(report_id)
     flash("Report is deleted!")
     return redirect(url_for('appointment.admin_appointments'))

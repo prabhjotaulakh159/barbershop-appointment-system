@@ -78,7 +78,10 @@
                             Update </a>
                         <a href="{{url_for('appointment.delete_appointment',appointment_id=appointment[0])}}">Delete
                         </a>
-                      
+                        {% if reports[loop.index0][1] %}
+                        <a href="{{url_for('report.delete_report',report_id=reports[loop.index0][2])}}">Delete report
+                        </a>
+                        {% endif %}
                     </td>
                 </tr>
 
