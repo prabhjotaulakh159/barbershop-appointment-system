@@ -44,9 +44,9 @@ class Database:
                 cursor.execute(qry)
                 user = cursor.fetchall()[0]
                 return user
-            except oracledb.Error as e:
+            except Exception as e:
                 print(e)
-                abort(500)
+                
 
     def get_users(self, cond):
         """ Gets multiple users based on a condition """
@@ -159,6 +159,7 @@ class Database:
             query = f''' SELECT appointment_id, status, date_appointment,
                          slot, venue, client_id, professional_id, service_id,
                          number_services FROM appointments {cond} '''
+            print(query)
         else:
             query = ''' SELECT appointment_id, status, date_appointment, slot,
             venue, client_id, professional_id, service_id, number_services

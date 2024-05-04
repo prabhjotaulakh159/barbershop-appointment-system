@@ -10,6 +10,17 @@
 
 <section class="left-side">
     <h1>My appointments</h1>
+    <form action="{{ url_for('appointment.my_appointments') }}" method="GET">
+
+        <label for="order_by">Order by:</label>
+        <select name="order_by" id="order_by">
+            <option value="appointment_id">Appointment ID</option>
+            <option value="venue">Venue</option>
+            <option value="date_appointment">Date</option>
+        </select>
+
+        <button type="submit">Apply</button>
+    </form>
 </section>
 
 <section class="right-side">
@@ -56,7 +67,7 @@
                 <th class="">Client feedback:</th>
                 <td>{{ reports[loop.index0][0] }}</td>
                 <td class="report-action">
-                    <a href="{{url_for('appointment.update_appointment',appointment_id=appointment[0])}}"> Update
+                    <a href="{{url_for('report.update_report',appointment_id=appointment[0])}}"> Update
                     </a>
                 </td>
             </tr>

@@ -55,9 +55,15 @@ def appointment_view(appointment_id):
 @login_required
 def my_appointments():
     '''function rendering user's appointments'''
-    appointments = db.get_appointments(
-        f'''WHERE client_id = {current_user.user_id}
-            OR professional_id = {current_user.user_id}''')
+    order_by = request.args.get('order_by')
+    
+    cond = f'''WHERE client_id = {current_user.user_id}
+            OR professional_id = {current_user.user_id}'''
+            
+    if order_by:
+        cond = cond + f" ORDER BY {order_by}"        
+            
+    appointments = db.get_appointments(cond)
     names = []
     reports = []
     for appt in appointments:
