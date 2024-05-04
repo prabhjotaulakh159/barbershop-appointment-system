@@ -12,7 +12,24 @@ appointment = Blueprint('appointment', __name__,
 @appointment.route('/all-appointments')
 def all_appointments():
     '''function rendering all appointments'''
-    appointments = db.get_appointments()
+    
+    filter_by = request.args.get('filter')
+    search = request.args.get('search')
+    order_by = request.args.get('order_by')
+    
+    if filter_by and search:
+        cond = f"WHERE {filter_by} = '{search}'"
+    else:
+        cond = None
+
+    if order_by:
+        if cond:
+            cond = cond+f" ORDER BY {order_by}"
+        else:
+            cond = f"ORDER BY {order_by}"
+            
+    
+    appointments = db.get_appointments(cond)
     return render_template("all-appointments.html", appointments=appointments)
 
 
@@ -38,9 +55,15 @@ def appointment_view(appointment_id):
 @login_required
 def my_appointments():
     '''function rendering user's appointments'''
-    appointments = db.get_appointments(
-        f'''WHERE client_id = {current_user.user_id}
-            OR professional_id = {current_user.user_id}''')
+    order_by = request.args.get('order_by')
+    
+    cond = f'''WHERE client_id = {current_user.user_id}
+            OR professional_id = {current_user.user_id}'''
+            
+    if order_by:
+        cond = cond + f" ORDER BY {order_by}"        
+            
+    appointments = db.get_appointments(cond)
     names = []
     reports = []
     for appt in appointments:
@@ -149,15 +172,15 @@ def update_appointment(appointment_id):
                                   date_appointment=form.date_appointment.data,
                                   slot=form.slot.data, venue=form.venue.data, service_id=service_id)
         flash("You have successfully updated the appointment!", "success")
-        return redirect(url_for('main.home'))
+        return redirect(url_for('appointment.appointment_view', appointment_id=appt[0]))
     return render_template('update-appointment.html', current_user=current_user, form=form)
 
 
 @appointment.route('/admin-appointments', methods=["GET", "POST"])
 @login_required
 def admin_appointments():
-
     '''function to add and list all appointments for admin_appoint'''
+    
     if current_user.access_level < 2:
         return redirect(url_for('main.home'))
     form = AppointmentAdminForm()
@@ -191,9 +214,14 @@ def admin_appointments():
         service_id = db.get_service(f"WHERE service_name = '{form.service.data}'")[0]
         db.add_appointment(status, form.date_appointment.data,
                            form.slot.data, form.venue.data, client_id, prof_id, service_id)
-        flash('Appointment is created!')
+        flash('Appointment is created!','success')
 
-    appointments = db.get_appointments()
+    order_by = request.args.get('order_by')
+    cond = None
+    if order_by:
+        cond = f"ORDER BY {order_by}"
+    
+    appointments = db.get_appointments(cond)
     names = []
     reports = []
     for apt in appointments:
@@ -203,6 +231,7 @@ def admin_appointments():
 
         names.append((client_name[4], professional_name[4], service_name[1]))
         reports.append(db.get_report(apt[0]))
+    print(reports)
     return render_template("admin-appointments.html", form=form,
                            appointments=appointments, names=names, reports=reports)
 
@@ -215,5 +244,5 @@ def delete_appointment(appointment_id):
         return redirect(url_for('main.home'))
 
     db.delete_appointment(appointment_id)
-    flash("Appointment is deleted!")
+    flash("Appointment is deleted!", 'success')
     return redirect(url_for('appointment.admin_appointments'))
