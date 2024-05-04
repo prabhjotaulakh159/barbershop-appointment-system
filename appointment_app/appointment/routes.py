@@ -15,11 +15,20 @@ def all_appointments():
     
     filter_by = request.args.get('filter')
     search = request.args.get('search')
+    order_by = request.args.get('order_by')
+    
     if filter_by and search:
-        cond = f"WHERE {filter_by} = {search}"
+        cond = f"WHERE {filter_by} = '{search}'"
     else:
         cond = None
-        
+
+    if order_by:
+        if cond:
+            cond = cond+f" ORDER BY {order_by}"
+        else:
+            cond = f"ORDER BY {order_by}"
+            
+    
     appointments = db.get_appointments(cond)
     return render_template("all-appointments.html", appointments=appointments)
 
@@ -28,10 +37,10 @@ def all_appointments():
 @login_required
 def appointment_view(appointment_id):
     '''function rendering specific appointment with appointment_id'''
-    appt = db.get_appointment(f"WHERE appointment_id = {appointment_id}")[0]
-    client_name = db.get_user(f"WHERE user_id = {appt[5]}")[0]
-    professional_name = db.get_user(f"WHERE user_id = {appt[6]}")[0]
-    service_name = db.get_service(f"WHERE service_id = {appt[7]}")[0]
+    appt = db.get_appointment(f"WHERE appointment_id = {appointment_id}")
+    client_name = db.get_user(f"WHERE user_id = {appt[5]}")
+    professional_name = db.get_user(f"WHERE user_id = {appt[6]}")
+    service_name = db.get_service(f"WHERE service_id = {appt[7]}")
 
     names = []
     names.append(client_name[4])

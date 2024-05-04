@@ -3,6 +3,7 @@
 
 {% block css %}
 <link rel="stylesheet" href="{{ url_for('appointment.static', filename='all-appointments.css') }}" />
+<script src="{{ url_for('appointment.static', filename='filter.js') }}"></script>
 {% endblock css %}
 
 {% block content %}
@@ -15,9 +16,20 @@
         <select name="filter" id="filter">
             <option value="client_id">Client ID</option>
             <option value="professional_id">Professional ID</option>
+            <option value="slot">Time</option>
         </select>
-        <input type="text" name="search" placeholder="Search">
-        <button type="submit">Filter</button>
+        <input type="number" name="search" id="search" placeholder="Enter ID">
+
+
+        <label for="order_by">Order by:</label>
+        <select name="order_by" id="order_by">
+            <option value="appointment_id">Appointment ID</option>
+            <option value="client_id">Client ID</option>
+            <option value="professional_id">Professional ID</option>
+            <option value="slot">Time</option>
+        </select>
+
+        <button type="submit">Apply</button>
     </form>
 
 </section>
