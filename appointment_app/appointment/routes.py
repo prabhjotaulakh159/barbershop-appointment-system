@@ -175,7 +175,7 @@ def update_appointment(appointment_id):
                                   date_appointment=form.date_appointment.data,
                                   slot=form.slot.data, venue=form.venue.data, service_id=service_id)
         flash("You have successfully updated the appointment!", "success")
-        return redirect(url_for('main.home'))
+        return redirect(url_for('appointment.appointment_view', appointment_id=appt[0]))
     return render_template('update-appointment.html', current_user=current_user, form=form)
 
 
@@ -217,7 +217,7 @@ def admin_appointments():
         service_id = db.get_service(f"WHERE service_name = '{form.service.data}'")[0]
         db.add_appointment(status, form.date_appointment.data,
                            form.slot.data, form.venue.data, client_id, prof_id, service_id)
-        flash('Appointment is created!')
+        flash('Appointment is created!','success')
 
     appointments = db.get_appointments()
     names = []

@@ -23,7 +23,7 @@ def update_report(appointment_id):
             db.update_client_report(form.feedback.data, appointment_id)
         else:
             db.update_professional_report(form.feedback.data, appointment_id)
-        flash("Successfully added report !", "Success")
+        flash("Successfully added report !", "success")
         return redirect(url_for('appointment.my_appointments'))
     return render_template('update-report.html', form=form, current_user=current_user)
 
