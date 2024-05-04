@@ -128,6 +128,7 @@ def update_user(user_id):
         return redirect(url_for('user.user_admin_panel'))
     return render_template('update-user.html', form=form, user=userdb)
 
+
 @user.route("/change-password/<int:user_id>", methods=['GET', 'POST'])
 @login_required
 def change_password(user_id):
@@ -158,6 +159,21 @@ def user_admin_panel():
         return redirect(url_for('main.home'))
     form = RegisterUserForm()
     users = db.get_all_users()
+    if form.validate_on_submit():
+        user_exist = db.get_user(f"WHERE user_name = '{form.username.data}'")
+        if user_exist:
+            flash(f'{form.username.data} taken, choose another username', 'error')
+            return redirect(url_for('user.user_admin_panel', users=users, form=form))
+        bcrypt = Bcrypt()
+        avatar = '/images/avatar.png'
+        if form.avatar.data:
+            avatar = '/images/' + save_file(form.avatar.data)
+        if form.user_type.data == "Member":
+            form.pay_rate.data = None
+            form.specialty.data = None
+        db.add_user(form.user_type.data, form.username.data, bcrypt.generate_password_hash(form.password.data).decode("utf-8"), form.email.data, avatar, form.phone.data, form.address.data, form.age.data, form.pay_rate.data, form.specialty.data)
+        flash('User has been created !', 'success')
+        return redirect(url_for('user.user_admin_panel', users=users, form=form))
     return render_template('user-admin-panel.html', users=users, form=form)
 
 
@@ -170,5 +186,6 @@ def delete_user(user_id):
     if user_id == current_user.user_id:
         return redirect(url_for('user.all_users'))
     db.delete_user(user_id)
+    flash("User deleted", "success")
     return redirect(url_for('user.user_admin_panel'))
     
