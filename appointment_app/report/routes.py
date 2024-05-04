@@ -26,3 +26,15 @@ def update_report(appointment_id):
         flash("Successfully added report !", "Success")
         return redirect(url_for('appointment.my_appointments'))
     return render_template('update-report.html', form=form, current_user=current_user)
+
+
+@report.route('/delete-report/<int:report_id>')
+@login_required
+def delete_report(report_id):
+    '''function deleting specific report with report_id'''
+    if current_user.access_level < 2:
+        return redirect(url_for('main.home'))
+
+    db.delete_appointment(report_id)
+    flash("Report is deleted!")
+    return redirect(url_for('appointment.admin_appointments'))
