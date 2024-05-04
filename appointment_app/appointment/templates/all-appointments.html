@@ -9,6 +9,17 @@
 
 <section class="left-side">
     <section>All-appointments</section>
+
+    <form action="{{ url_for('appointment.all_appointments') }}" method="GET">
+        <label for="filter">Filter by:</label>
+        <select name="filter" id="filter">
+            <option value="client_id">Client ID</option>
+            <option value="professional_id">Professional ID</option>
+        </select>
+        <input type="text" name="search" placeholder="Search">
+        <button type="submit">Filter</button>
+    </form>
+
 </section>
 
 <section class="right-side">

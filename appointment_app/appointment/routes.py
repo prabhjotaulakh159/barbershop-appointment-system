@@ -12,7 +12,15 @@ appointment = Blueprint('appointment', __name__,
 @appointment.route('/all-appointments')
 def all_appointments():
     '''function rendering all appointments'''
-    appointments = db.get_appointments()
+    
+    filter_by = request.args.get('filter')
+    search = request.args.get('search')
+    if filter_by and search:
+        cond = f"WHERE {filter_by} = {search}"
+    else:
+        cond = None
+        
+    appointments = db.get_appointments(cond)
     return render_template("all-appointments.html", appointments=appointments)
 
 
@@ -20,10 +28,10 @@ def all_appointments():
 @login_required
 def appointment_view(appointment_id):
     '''function rendering specific appointment with appointment_id'''
-    appt = db.get_appointment(f"WHERE appointment_id = {appointment_id}")
-    client_name = db.get_user(f"WHERE user_id = {appt[5]}")
-    professional_name = db.get_user(f"WHERE user_id = {appt[6]}")
-    service_name = db.get_service(f"WHERE service_id = {appt[7]}")
+    appt = db.get_appointment(f"WHERE appointment_id = {appointment_id}")[0]
+    client_name = db.get_user(f"WHERE user_id = {appt[5]}")[0]
+    professional_name = db.get_user(f"WHERE user_id = {appt[6]}")[0]
+    service_name = db.get_service(f"WHERE service_id = {appt[7]}")[0]
 
     names = []
     names.append(client_name[4])
@@ -189,11 +197,9 @@ def admin_appointments():
     if form.validate_on_submit():
 
         status = 1
-        client_id = db.get_user(f"WHERE user_name = '{
-                                form.member_name.data}'")[0]
+        client_id = db.get_user(f"WHERE user_name = '{form.member_name.data}'")[0]
         prof_id = db.get_user(f"WHERE user_name = '{form.prof_name.data}'")[0]
-        service_id = db.get_service(f"WHERE service_name = '{
-                                    form.service.data}'")[0]
+        service_id = db.get_service(f"WHERE service_name = '{form.service.data}'")[0]
         db.add_appointment(status, form.date_appointment.data,
                            form.slot.data, form.venue.data, client_id, prof_id, service_id)
         flash('Appointment is created!')
