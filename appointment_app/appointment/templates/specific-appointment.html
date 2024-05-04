@@ -40,8 +40,7 @@
             <th>Service</th>
             <td>{{ names[2] }}</td>
         </tr>
-        {% if current_user.is_authenticated and (current_user.user_id == appointment[5] or current_user.user_id
-        == appointment[6]) %}
+        {% if current_user.is_authenticated and (current_user.user_id == appointment[5]) %}
         <tr>
             <th>Action</th>
             <td><a href="{{url_for('appointment.update_appointment',appointment_id=appointment[0])}}">
