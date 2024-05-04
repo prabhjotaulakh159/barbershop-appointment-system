@@ -65,7 +65,7 @@
                         <td>{{ appointment[2] }}</td>
                         <td>{{ appointment[3] }}</td>
                         {% if current_user.is_authenticated %}
-                        <td><a href="{{url_for('appointment.appointment_view',appointment_id=appointment[0])}}">Click
+                        <td><a class= "button" href="{{url_for('appointment.appointment_view',appointment_id=appointment[0])}}">Click
                                 for
                                 detailed info </a> </td>
                         {% endif %}

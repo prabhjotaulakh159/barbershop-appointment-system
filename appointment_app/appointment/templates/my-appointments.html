@@ -58,7 +58,7 @@
                     <td>{{names[loop.index0][2]}}</td>
                     {% if current_user.user_type == 'Member' %}
                     <td>
-                        <a href="{{url_for('appointment.update_appointment',appointment_id=appointment[0])}}">
+                        <a class="button" href="{{url_for('appointment.update_appointment',appointment_id=appointment[0])}}">
                             Update </a>
                     </td>
                     {% endif %}
@@ -73,7 +73,7 @@
                 
                 {% if current_user.user_type == 'Member' %}
                 <td class="report-action">
-                    <a href="{{url_for('report.update_report',appointment_id=appointment[0])}}"> Update report
+                    <a class="button" href="{{url_for('report.update_report',appointment_id=appointment[0])}}"> Update report
                     </a>
                 </td>
                 {% endif %}
@@ -84,7 +84,7 @@
 
                 {% if current_user.user_type == 'Professional' %}
                 <td class="report-action">
-                    <a href="{{url_for('report.update_report',appointment_id=appointment[0])}}"> Update report
+                    <a class="button" href="{{url_for('report.update_report',appointment_id=appointment[0])}}"> Update report
                     </a>
                 </td>
                 {% endif %}
