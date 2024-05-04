@@ -159,7 +159,6 @@ class Database:
             query = f''' SELECT appointment_id, status, date_appointment,
                          slot, venue, client_id, professional_id, service_id,
                          number_services FROM appointments {cond} '''
-            print(query)
         else:
             query = ''' SELECT appointment_id, status, date_appointment, slot,
             venue, client_id, professional_id, service_id, number_services

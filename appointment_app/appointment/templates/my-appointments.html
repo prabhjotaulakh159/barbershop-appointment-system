@@ -66,18 +66,26 @@
             <tr>
                 <th class="">Client feedback:</th>
                 <td>{{ reports[loop.index0][0] }}</td>
+                
+                {% if current_user.user_type == 'Member' %}
+
                 <td class="report-action">
                     <a href="{{url_for('report.update_report',appointment_id=appointment[0])}}"> Update
                     </a>
                 </td>
+                {% endif %}
             </tr>
             <tr>
                 <th class="">Professional feedback:</th>
                 <td>{{ reports[loop.index0][1] }}</td>
+
+                {% if current_user.user_type == 'Professional' %}
+
                 <td class="report-action">
                     <a href="{{url_for('report.update_report',appointment_id=appointment[0])}}"> Update
                     </a>
                 </td>
+                {% endif %}
             </tr>
         </table>
         <br>
