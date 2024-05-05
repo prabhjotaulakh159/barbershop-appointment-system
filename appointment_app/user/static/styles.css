@@ -40,7 +40,6 @@
     background-color: var(--primary-clr);
 }
 
-.user-body tr td button{
-    width: 100%;
-    height: 100%;
+.user-body tr td a{
+    display: block;
 }
