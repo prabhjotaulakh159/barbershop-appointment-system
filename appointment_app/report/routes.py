@@ -1,6 +1,6 @@
 '''import flask and its methods'''
 from datetime import date
-from flask import Blueprint, render_template, flash, url_for, redirect
+from flask import Blueprint, render_template, flash, url_for, redirect, request
 from flask_login import login_required, current_user
 from appointment_app.qdb.database import db
 from appointment_app.report.forms import AddReportForm
@@ -18,14 +18,19 @@ def update_report(appointment_id):
             appointment_id=appointment_id):
         db.add_report(None, None, date.today(), appointment_id)
     form = AddReportForm()
+    member_to_update = request.args.get('member_to_update')
     if form.validate_on_submit():
-        if current_user.user_type == 'Member':
+        if current_user.user_type == 'Member' or member_to_update=="Member":
             db.update_client_report(form.feedback.data, appointment_id)
         else:
             db.update_professional_report(form.feedback.data, appointment_id)
         flash("Successfully added report !", "success")
-        return redirect(url_for('appointment.my_appointments'))
-    return render_template('update-report.html', form=form, current_user=current_user)
+       
+        if current_user.user_type == "Admin_appoint":
+            return redirect(url_for('appointment.admin_appointments'))
+        else:
+            return redirect(url_for('appointment.my_appointments'))
+    return render_template('update-report.html', form=form, current_user=current_user, member_to_update=member_to_update )
 
 
 @report.route('/delete-report/<int:report_id>')
