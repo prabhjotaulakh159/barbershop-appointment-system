@@ -269,7 +269,7 @@ class Database:
                 try:
                     cursor.execute(query, [report_id])
                     connection.commit()
-                except oracledb.Error as e:
+                except oracledb.Error:
                     print(traceback.format_exc())
                     abort(500)
 
@@ -357,8 +357,9 @@ class Database:
                         disable_query = ''' UPDATE users SET is_enabled = 1 WHERE user_id = :user_id '''
                     cursor.execute(disable_query, [user_id])
                     connection.commit()
-                except Exception as e:
-                    
+                except Exception:
+                    print(traceback.format_exc())
+                    abort(500)
 
 db = Database()
 

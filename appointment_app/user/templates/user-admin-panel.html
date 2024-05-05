@@ -68,6 +68,15 @@
                                     <button type="button">Update</button>
                                 </a>
                             </td>
+                            <td>
+                                <a href="{{ url_for('user.toggle_activation', user_id=user[0]) }}">
+                                    {% if user[1] == 1 %}
+                                        <button type="button">Disable</button>
+                                    {% else %}
+                                        <button type="button">Enable</button>
+                                    {% endif %}
+                                </a>
+                            </td>
                             <td>Disable</td>
                             <td>{{ user[0] }}</td>
                             {% if user[1] == 1 %}

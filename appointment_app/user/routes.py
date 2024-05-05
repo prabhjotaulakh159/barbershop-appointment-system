@@ -192,7 +192,7 @@ def delete_user(user_id):
 
 @user.route("/disable-user/<int:user_id>")
 @login_required
-def disable_user(user_id):
+def toggle_activation(user_id):
     ''' Admins can disable a user '''
     if current_user.access_level not in (1,3):
         return redirect(url_for('main.home'))
