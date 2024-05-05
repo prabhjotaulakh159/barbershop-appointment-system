@@ -40,6 +40,6 @@
     background-color: var(--primary-clr);
 }
 
-.user-body tr td a{
-    display: block;
+.action-col:hover {
+    background-color: var(--primary-clr);
 }

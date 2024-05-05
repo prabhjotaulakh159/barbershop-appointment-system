@@ -22,6 +22,9 @@ def login():
         if not userdb:
             flash("You provided invalid credentials", "error")
             return redirect(url_for('user.login'))
+        if userdb[1] == 0:
+            flash("Your account is locked, please get in touch with an administrator", "error")
+            return redirect(url_for('user.login'))
         bcrypt = Bcrypt()
         if not bcrypt.check_password_hash(userdb[5], form.password.data):
             flash("You provided invalid credentials", "error")

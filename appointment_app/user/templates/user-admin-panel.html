@@ -58,14 +58,14 @@
                 <tbody class="user-body">
                     {% for user in users %}
                         <tr>
-                            <td><a href="{{ url_for('user.delete_user', user_id = user[0])}}">Delete</a></td>
-                            <td><a href="{{ url_for('user.update_user', user_id=user[0]) }}">Update</a></td>
-                            <td>
+                            <td class="action-col"><a href="{{ url_for('user.delete_user', user_id = user[0])}}">Delete</a></td>
+                            <td class="action-col"><a href="{{ url_for('user.update_user', user_id=user[0]) }}">Update</a></td>
+                            <td class="action-col">
                                 <a href="{{ url_for('user.toggle_activation', user_id=user[0]) }}">
                                     {% if user[1] == 1 %}
-                                        <button type="button">Disable</button>
+                                        Disable
                                     {% else %}
-                                        <button type="button">Enable</button>
+                                        Enable
                                     {% endif %}
                                 </a>
                             </td>
