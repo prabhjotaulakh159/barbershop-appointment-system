@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% from "macros.html" import form_field_error with context %}
+{% block content %}
+    <div class="form-container">
+        <form method="POST" novalidate enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            {{ form.username(class='form-field', placeholder='Enter username') }}
+            {{ form_field_error(form.username.errors) }}
+            {{ form.email(class='form-field', placeholder='Enter email') }}
+            {{ form_field_error(form.email.errors) }}
+            {{ form.phone(class='form-field', placeholder='Enter your phone number') }}
+            {{ form_field_error(form.phone.errors) }}
+            {{ form.address(class='form-field',placeholder='Enter your address ') }}
+            {{ form_field_error(form.address.errors) }}
+            {{ form.age(class='form-field',placeholder='Enter your age ') }}
+            {{ form_field_error(form.age.errors) }}
+            
+            {% if user[3] == 'Professional' %}
+                {{ form.pay_rate(placeholder='Enter pay rate') }}
+                {{ form_field_error(form.pay_rate.errors) }}
+                <div class="input-group">
+                    <div>Speciality</div>
+                    {{ form.specialty() }}
+                    {{ form_field_error(form.specialty.errors) }}
+                </div>
+            {% endif %}
+            <div class="input-group">
+                <div>Profile Picture</div>
+                {{ form.avatar() }}
+                {{ form_field_error(form.avatar.errors) }}
+            </div>
+            {{ form.submit(class='button', value='Update user') }}
+        </form>
+    </div>
+{% endblock content %}

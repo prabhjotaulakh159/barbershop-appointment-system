@@ -158,13 +158,10 @@ def update_appointment(appointment_id):
                 form.member_name.choices = members_list
 
     else:
-        service_id = db.get_service(f"WHERE service_name = '{
-                                    form.service.data}'")[0]
+        service_id = db.get_service(f"WHERE service_name = '{form.service.data}'")[0]
         if current_user.access_level >= 2:
-            client_id = db.get_user(f"WHERE user_name = '{
-                                    form.member_name.data}'")[0]
-            prof_id = db.get_user(f"WHERE user_name = '{
-                                  form.prof_name.data}'")[0]
+            client_id = db.get_user(f"WHERE user_name = '{form.member_name.data}'")[0]
+            prof_id = db.get_user(f"WHERE user_name = '{ form.prof_name.data}'")[0]
 
             db.update_appointment(appointment_id=appt[0],
                                   date_appointment=form.date_appointment.data,

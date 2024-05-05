@@ -20,8 +20,7 @@ CREATE TABLE users (
     
     
     CONSTRAINT user_id_PK               PRIMARY KEY (user_id),
-    CONSTRAINT user_name_Usr            UNIQUE (user_name),
-    CONSTRAINT email_Usr                UNIQUE (email)
+    CONSTRAINT user_name_Usr            UNIQUE (user_name)
 );
 
 
@@ -63,7 +62,6 @@ CREATE TABLE reports (
     CONSTRAINT report_id_PK                     PRIMARY KEY (report_id),
     CONSTRAINT appointment_id_FK                FOREIGN KEY (appointment_id) REFERENCES appointments (appointment_id) ON DELETE CASCADE 
 );
-
 
 INSERT INTO services (service_name, service_duration, service_price, service_materials)
 VALUES ('Haircut', 30, 50, 'Scissors, Comb, Hair Dryer');
