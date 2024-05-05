@@ -181,11 +181,23 @@ def user_admin_panel():
 @login_required
 def delete_user(user_id):
     ''' Admins can delete a user by their ID '''
-    if current_user.access_level != 1:
+    if current_user.access_level not in (1, 3):
         return redirect(url_for('main.home'))
     if user_id == current_user.user_id:
         return redirect(url_for('user.all_users'))
     db.delete_user(user_id)
     flash("User deleted", "success")
     return redirect(url_for('user.user_admin_panel'))
-    
+   
+
+@user.route("/disable-user/<int:user_id>")
+@login_required
+def disable_user(user_id):
+    ''' Admins can disable a user '''
+    if current_user.access_level not in (1,3):
+        return redirect(url_for('main.home'))
+    if user_id == current_user.user_id:
+        return redirect(url_for('main.home'))
+    db.toggle_enable_disable(user_id)
+    flash("User has been disabled", "success")
+    return redirect(url_for('user.user_admin_panel'))

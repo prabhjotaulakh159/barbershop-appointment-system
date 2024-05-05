@@ -264,13 +264,14 @@ class Database:
         ''' Deletes a report '''
         query = ''' DELETE FROM reports
                     WHERE report_id = : report_id '''
-        with self.connection.cursor() as cursor:
-            try:
-                cursor.execute(query, [report_id])
-                self.connection.commit()
-            except oracledb.Error as e:
-                print(e)
-                abort(500)
+        with self.__connect() as connection:
+            with connection.cursor() as cursor:
+                try:
+                    cursor.execute(query, [report_id])
+                    connection.commit()
+                except oracledb.Error as e:
+                    print(traceback.format_exc())
+                    abort(500)
 
     def update_client_report(self, feedback_client, appointment_id):
         ''' Updates a client report '''
@@ -341,6 +342,24 @@ class Database:
                 except Exception as e:
                     print(e)
                     abort(500)
+                    
+    def toggle_enable_disable(self, user_id):
+        ''' Disables the specified user from the database '''
+        get_user_query = ''' SELECT is_enabled FROM users WHERE user_id = :user_id '''
+        with self.__connect() as connection:
+            with connection.cursor() as cursor:
+                try:
+                    cursor.execute(get_user_query, [user_id])
+                    is_enabled = cursor.fetchall()[0]
+                    if is_enabled == 1:
+                        disable_query = ''' UPDATE users SET is_enabled = 0 WHERE user_id = :user_id '''
+                    else:
+                        disable_query = ''' UPDATE users SET is_enabled = 1 WHERE user_id = :user_id '''
+                    cursor.execute(disable_query, [user_id])
+                    connection.commit()
+                except Exception as e:
+                    
+
 db = Database()
 
 if __name__ == '__main__':
