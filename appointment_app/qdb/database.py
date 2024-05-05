@@ -344,13 +344,15 @@ class Database:
                     abort(500)
                     
     def toggle_enable_disable(self, user_id):
+        # import pdb
         ''' Disables the specified user from the database '''
         get_user_query = ''' SELECT is_enabled FROM users WHERE user_id = :user_id '''
         with self.__connect() as connection:
             with connection.cursor() as cursor:
                 try:
                     cursor.execute(get_user_query, [user_id])
-                    is_enabled = cursor.fetchall()[0]
+                    # pdb.set_trace()
+                    is_enabled = cursor.fetchall()[0][0]
                     if is_enabled == 1:
                         disable_query = ''' UPDATE users SET is_enabled = 0 WHERE user_id = :user_id '''
                     else:
