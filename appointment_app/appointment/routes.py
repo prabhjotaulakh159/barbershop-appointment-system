@@ -231,7 +231,7 @@ def admin_appointments():
 
         names.append((client_name[4], professional_name[4], service_name[1]))
         reports.append(db.get_report(apt[0]))
-    print(reports)
+        
     return render_template("admin-appointments.html", form=form,
                            appointments=appointments, names=names, reports=reports)
 
