@@ -5,7 +5,7 @@
 		<form method="POST" novalidate>
 			{{ form.hidden_tag() }}    
             <div class="input-group">
-                {% if current_user.user_type == 'Professional' %}
+                {% if current_user.user_type == 'Professional' or member_to_update == 'Professional' %}
                     <div>Professional feedback</div>
                 {% else %}
                     <div>Client feedback</div>
