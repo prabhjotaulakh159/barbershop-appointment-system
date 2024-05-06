@@ -103,4 +103,4 @@ class Appointment(Resource):
     
     
 api.add_resource(Appointments, "/appointments")
-api.add_resource(Appointments , "/appointments/<int:appointment_id>")
+api.add_resource(Appointment , "/appointments/<int:appointment_id>")
