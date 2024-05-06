@@ -9,7 +9,7 @@ api = Api(api_blueprint)
 
 
 class Appointments(Resource):
-    '''resources for appointments'''
+    '''resources for all appointments'''
     def get(self):
         '''get a list of appointments'''
         appts = db.get_appointments(cond=None)
@@ -53,3 +53,22 @@ class Appointments(Resource):
                            client_id=data['client_id'],
                            professional_id=data['professional_id'],
                            service_id=data['service_id'])
+        
+
+class Appointment(Resource):
+    '''resource for single appointment'''
+    def get(self, appointment_id):
+        '''get a single appointment'''
+        
+        # check if the appointment exists
+        if not self.__exists(appointment_id):
+            abort(code=400, message="Appointment not found")
+        
+        # get the appointment
+        appt = db.get_appointment(f"WHERE appointment_id={appointment_id}")
+        return appt
+    
+    def __exists(self, appointment_id):
+        '''Check if the appointment exists in the database'''
+        appt = db.get_appointment(f"WHERE appointment_id = {appointment_id}")
+        return appt
