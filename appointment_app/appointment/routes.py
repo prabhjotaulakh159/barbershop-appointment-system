@@ -246,3 +246,7 @@ def delete_appointment(appointment_id):
     db.delete_appointment(appointment_id)
     flash("Appointment is deleted!", 'success')
     return redirect(url_for('appointment.admin_appointments'))
+
+
+
+# peackaboo tommy
