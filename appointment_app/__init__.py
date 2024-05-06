@@ -12,12 +12,14 @@ def create_app(config=ConfigDev):
     from appointment_app.user.routes import user
     from appointment_app.report.routes import report
     from appointment_app.user.auth_config import login_manager
+    from appointment_app.api.routes import api_blueprint
 
     app.register_blueprint(main)
     app.register_blueprint(administration)
     app.register_blueprint(appointment)
     app.register_blueprint(user)
     app.register_blueprint(report)
+    app.register_blueprint(api_blueprint)
     
     login_manager.init_app(app)
     

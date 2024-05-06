@@ -100,3 +100,7 @@ class Appointment(Resource):
         '''Check if the appointment exists in the database'''
         appt = db.get_appointment(f"WHERE appointment_id = {appointment_id}")
         return appt
+    
+    
+api.add_resource(Appointments, "/appointments")
+api.add_resource(Appointments , "/appointments/<int:appointment_id>")
