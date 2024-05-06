@@ -53,6 +53,7 @@ class Appointments(Resource):
                            client_id=data['client_id'],
                            professional_id=data['professional_id'],
                            service_id=data['service_id'])
+        return ('', 200)
         
 
 class Appointment(Resource):
@@ -67,6 +68,33 @@ class Appointment(Resource):
         # get the appointment
         appt = db.get_appointment(f"WHERE appointment_id={appointment_id}")
         return appt
+    
+    def delete(self, appointment_id):
+        '''Delete a appointment'''
+        if not self.__exists(appointment_id):
+            abort(code=400, message="Appointment not found")
+        db.delete_appointment(appointment_id)
+        return ('',200)
+
+    def patch(self, appointment_id):
+        '''Update a appointment in the database'''
+        if not self.__exists(appointment_id):
+            abort(400, message='Appointment does not exist')
+        data = request.json
+        # check all fields to make an appointments object are there
+        required_fields = ['status', 'date_appointment', 'slot', 'venue', 'service_id']
+        for field in required_fields:
+            if field not in data:
+                abort(code=400, message=f"Missing field: {field}", )
+        service = db.get_service(f"WHERE service_id = {data['service_id']}")
+        if not service:
+            abort(code=400, message="Service not found")
+        db.update_appointment(  appointment_id, 
+                                date_appointment=data['date_appointment'],
+                                slot=data['slot'], 
+                                venue=data['venue'], 
+                                service_id=data['service_id'])
+        return ('', 200)
     
     def __exists(self, appointment_id):
         '''Check if the appointment exists in the database'''
