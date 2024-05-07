@@ -2,7 +2,8 @@
 from flask import Blueprint, render_template
 from flask_login import current_user
 
-main = Blueprint('main', __name__, template_folder="templates")
+
+main = Blueprint('main', __name__, template_folder="templates", static_folder='static', static_url_path='/static/main')
 
 
 @main.route("/")
