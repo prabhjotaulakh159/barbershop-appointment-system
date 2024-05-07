@@ -2,7 +2,7 @@
 from flask import Blueprint, request, abort
 from flask_restful import Api, Resource
 from appointment_app.qdb.database import db
-
+from oracledb import Date
 
 api_blueprint = Blueprint("api", __name__)
 api = Api(api_blueprint)
@@ -13,7 +13,19 @@ class Appointments(Resource):
     def get(self):
         '''get a list of appointments'''
         appts = db.get_appointments(cond=None)
-        return appts
+        appts_dict_list = []
+        for appt in appts:
+            appts_dict_list.append({
+                'appointment_id': appt[0],
+                'status': appt[1],
+                'date': str(appt[2]),
+                'slot': appt[3],
+                'venue': appt[4],
+                'client_id': appt[5],
+                'profession_id': appt[6],
+                'service_id': appt[7],
+            })
+        return appts_dict_list
     
     def post(self):
         '''post a new appointment'''
@@ -22,32 +34,32 @@ class Appointments(Resource):
         
         # if the request is empty
         if not data:
-            abort(code=400, message="Missing data")
+            abort(400, "Missing data")
         
         # check all fields to make an appointments object are there
         required_fields = ['status', 'date_appointment', 'slot', 'venue', 'client_id', 'professional_id', 'service_id']
         for field in required_fields:
             if field not in data:
-                abort(code=400, message=f"Missing field: {field}")
+                abort(400, f"Missing field: {field}")
         
         # check if client exists
-        client = db.get_user(f"WHERE client_id = {data['client_id']}")
+        client = db.get_user(f"WHERE user_id = {data['client_id']}")
         if not client:
-            abort(code=400, message="Client ID not found")
+            abort(400, "Client ID not found")
             
         # check if professional exists
-        prof = db.get_user(f"WHERE professional_id = {data['professional_id']}")
+        prof = db.get_user(f"WHERE user_id = {data['professional_id']}")
         if not prof:
-            abort(code=400, message="Professional ID not found")
+            abort(400, "Professional ID not found")
             
         # check if service exists
         service = db.get_service(f"WHERE service_id = {data['service_id']}")
         if not service:
-            abort(code=400, message="Service not found")
+            abort(400, "Service not found")
         
         # make an appointment model
         db.add_appointment(status=data['status'],
-                           date_appointment=data['date_appointment'],
+                           date_appointment=Date.fromisoformat(data['date_appointment'].split(' ')[0]),
                            slot=data['slot'],
                            venue=data['venue'],
                            client_id=data['client_id'],
@@ -63,16 +75,26 @@ class Appointment(Resource):
         
         # check if the appointment exists
         if not self.__exists(appointment_id):
-            abort(code=400, message="Appointment not found")
+            abort(400, "Appointment not found")
         
         # get the appointment
         appt = db.get_appointment(f"WHERE appointment_id={appointment_id}")
-        return appt
+        appts_dict_list = {
+            'appointment_id': appt[0],
+            'status': appt[1],
+            'date': str(appt[2]),
+            'slot': appt[3],
+            'venue': appt[4],
+            'client_id': appt[5],
+            'profession_id': appt[6],
+            'service_id': appt[7],
+        }
+        return appts_dict_list
     
     def delete(self, appointment_id):
         '''Delete a appointment'''
         if not self.__exists(appointment_id):
-            abort(code=400, message="Appointment not found")
+            abort(400, "Appointment not found")
         db.delete_appointment(appointment_id)
         return ('',200)
 
@@ -82,15 +104,15 @@ class Appointment(Resource):
             abort(400, message='Appointment does not exist')
         data = request.json
         # check all fields to make an appointments object are there
-        required_fields = ['status', 'date_appointment', 'slot', 'venue', 'service_id']
+        required_fields = ['status', 'date_appointment', 'slot', 'venue', 'service_id', 'number_of_services']
         for field in required_fields:
             if field not in data:
-                abort(code=400, message=f"Missing field: {field}", )
+                abort(400, f"Missing field: {field}", )
         service = db.get_service(f"WHERE service_id = {data['service_id']}")
         if not service:
-            abort(code=400, message="Service not found")
+            abort(400, "Service not found")
         db.update_appointment(  appointment_id, 
-                                date_appointment=data['date_appointment'],
+                                date_appointment=Date.fromisoformat(data['date_appointment'].split(' ')[0]),
                                 slot=data['slot'], 
                                 venue=data['venue'], 
                                 service_id=data['service_id'])
