@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% from "macros.html" import form_field_error with context %}
 
-{% block css %}
+{% block header %}
 <link rel="stylesheet" href="{{ url_for('appointment.static', filename='my-appointments.css') }}" />
-{% endblock css %}
+{% endblock header %}
 
 {% block content %}
 
