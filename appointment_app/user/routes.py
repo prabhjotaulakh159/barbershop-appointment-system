@@ -158,7 +158,7 @@ def change_password(user_id):
 @login_required
 def user_admin_panel():
     ''' Loads user admin panel '''
-    if current_user.access_level != 1:
+    if current_user.access_level != 1 and current_user.access_level != 3:
         return redirect(url_for('main.home'))
     form = RegisterUserForm()
     users = db.get_all_users()
