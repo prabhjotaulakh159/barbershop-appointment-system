@@ -30,8 +30,10 @@ def login():
         if not bcrypt.check_password_hash(userdb[5], form.password.data):
             flash("You provided invalid credentials", "error")
             return redirect(url_for('user.login'))
-        userdb = User(userdb[0], userdb[1], userdb[2], userdb[3], userdb[4], userdb[5], userdb[6], userdb[7], userdb[8], userdb[9], userdb[10], userdb[11], userdb[12])
-        login_user(userdb)
+        user_auth = User(userdb[0], userdb[1], userdb[2], userdb[3], userdb[4], userdb[5], userdb[6], userdb[7], userdb[8], userdb[9], userdb[10], userdb[11], userdb[12], userdb[13])
+        login_user(user_auth)
+        if userdb[13] != 0:
+            flash(f"You have {userdb[13]} warnings, please be careful", "warning")
         flash("You have sucessfully logged in !", "success")
         return redirect(url_for('main.home'))
     return render_template('login.html', form=form)
@@ -215,4 +217,17 @@ def toggle_activation(user_id):
     else:
         db.add_log(f"Enabled user ID '{user_id}'", date.today(), current_user.user_name, current_user.user_id)
         flash("User has been enabled", "success")
+    return redirect(url_for('user.user_admin_panel'))
+
+
+@user.route("/warn-user/<int:user_id>")
+@login_required
+def warn_user(user_id):
+    '''admins can warn users'''
+    if current_user.access_level not in (1,3):
+        return redirect(url_for('main.home'))
+    if user_id == current_user.user_id:
+        return redirect(url_for('main.home'))
+    db.warn_user(user_id)
+    flash("You successfully warned the user", "success")
     return redirect(url_for('user.user_admin_panel'))

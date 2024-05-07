@@ -141,7 +141,8 @@ form .button {
 }
 
 .error,
-.success {
+.success,
+.warning {
     padding: 1rem;
     color: #ffffff;
 }
@@ -150,7 +151,6 @@ form .button {
     list-style: none;
     background-color: var(--fifth-clr);
     padding: 0.5rem;
-    font-size: 0.75rem;
     font-weight: 700;
     background-color: red;
     width: 100%;
@@ -159,6 +159,13 @@ form .button {
 
 .success {
     background-color: green;
+    width: fit-content;
+    width: 100%;
+    text-align: center;
+}
+
+.warning {
+    background-color: orange;
     width: fit-content;
     width: 100%;
     text-align: center;
