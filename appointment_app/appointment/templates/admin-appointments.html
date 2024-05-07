@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 {% from "macros.html" import form_field_error with context %}
 
-{% block css %}
+{% block header %}
 <link rel="stylesheet" href="{{ url_for('appointment.static', filename='admin-appointment.css') }}" />
-{% endblock css %}
+<script src="{{ url_for('appointment.static', filename='filter.js') }}"></script>
+{% endblock header %}
 
 {% block content %}
 <div id="admin_appoint">
