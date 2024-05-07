@@ -1,5 +1,8 @@
 {% extends "base.html" %}
 {% from "macros.html" import form_field_error with context %}
+{% block css %}
+    <link rel="stylesheet" href="{{ url_for('user.static', filename='styles.css')}}"/>
+{% endblock css %}
 {% block content %}
     <div class="form-container">
         <form method="POST" novalidate enctype="multipart/form-data">
