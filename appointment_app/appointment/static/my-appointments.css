@@ -1,35 +1,9 @@
-table {
-    border: 6px solid #948473;
-    background-color: #FFE3C6;
-    width: 80%;
-    text-align: center;
-
+main{
+    display:flex;
+    height:100%;
+    flex-wrap:wrap;
+    box-sizing:border-box;
 }
-
-table td,
-table th {
-    border: 1px solid #948473;
-    padding: 4px 4px;
-}
-
-
-table th {
-    background: #948473;
-    background: -moz-linear-gradient(top, #afa396 0%, #9e9081 66%, #948473 100%);
-    background: -webkit-linear-gradient(top, #afa396 0%, #9e9081 66%, #948473 100%);
-    background: linear-gradient(to bottom, #afa396 0%, #9e9081 66%, #948473 100%);
-    border-bottom: 0px solid #444444;
-}
-
-table thead th {
-
-    font-weight: bold;
-    color: #F0F0F0;
-    text-align: center;
-    border-left: 0px solid #948473;
-}
-
-
 .left-side {
     flex: 1 ;
     flex-shrink: 0;
@@ -46,4 +20,65 @@ table thead th {
     display:flex;
     flex-wrap:wrap;
     justify-content: center;
+}
+
+.table-title {
+    background: #435d7d;
+    color: #fff;
+    padding: 15px 30px;
+    text-align:center;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color:blanchedalmond;
+    
+}
+
+table,
+thead,
+tbody,
+td,
+th {
+    border: 1px solid black;
+    text-align: center;
+}
+
+
+@media (max-width: 1000px) { /* Adjust the breakpoint as needed */
+    .left-side,.right-side {
+         flex: 1 100%;
+     }
+ }
+.report-action {
+    width: 100px;
+}
+
+table th,table td {
+    padding: 12px 15px;
+}
+
+.button {
+    display: inline-block;
+    background-color: lightgreen;
+    padding: 10px 10px;
+    text-align: center;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.delete-button {
+    display: inline-block;
+    background-color: lightcoral;
+    padding: 10px 10px;
+    text-align: center;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+form{
+    padding:1rem;
 }

@@ -2,69 +2,72 @@
 {% from "macros.html" import form_field_error with context %}
 
 {% block css %}
-<link rel="stylesheet" href="{{ url_for('appointment.static', filename='appointment.css') }}" />
+<link rel="stylesheet" href="{{ url_for('appointment.static', filename='admin-appointment.css') }}" />
 {% endblock css %}
 
 {% block content %}
-<section class="left-side">
-    <form method="POST" novalidate>
-        <h2> Add appointment</h2>
-        {{ form.hidden_tag() }}
-        <div class="input-group">
-            <div>Client:</div>
-            {{ form.member_name(class='form-field', placeholder='Choose the member') }}
-            {{ form_field_error(form.prof_name.errors) }}
-        </div>
-        <div class="input-group">
-            <div>Date:</div>
-            {{ form.date_appointment(class='form-field', placeholder='Enter the date') }}
-            {{ form_field_error(form.date_appointment.errors) }}
-        </div>
-        <div class="input-group">
-            <div>Time slot:</div>
-            {{ form.slot(class='form-field', placeholder='Enter the time slot') }}
-            {{ form_field_error(form.slot.errors) }}
-        </div>
-        {{ form.venue(class='form-field', placeholder='Enter the venue') }}
-        {{ form_field_error(form.venue.errors) }}
-        <div class="input-group">
-            <div>Professional:</div>
-            {{ form.prof_name(class='form-field', placeholder='Choose the professional') }}
-            {{ form_field_error(form.prof_name.errors) }}
-        </div>
-        <div class="input-group">
-            <div>Service:</div>
-            {{ form.service(class='form-field', placeholder='Choose the service ') }}
-            {{ form_field_error(form.service.errors) }}
-        </div>
-        {{ form.submit(class='button', value='Add an appointment') }}
-    </form>
+<div id="admin_appoint">
+    <div id="create-appointment-section">
+        <form method="POST" class="appointments" novalidate>
+            <h2> Add appointment</h2>
+            {{ form.hidden_tag() }}
+            <div class="input-group">
+                <div>Client:</div>
+                {{ form.member_name(class='form-field', placeholder='Choose the member') }}
+                {{ form_field_error(form.prof_name.errors) }}
+            </div>
+            <div class="input-group">
+                <div>Date:</div>
+                {{ form.date_appointment(class='form-field', placeholder='Enter the date') }}
+                {{ form_field_error(form.date_appointment.errors) }}
+            </div>
+            <div class="input-group">
+                <div>Time slot:</div>
+                {{ form.slot(class='form-field', placeholder='Enter the time slot') }}
+                {{ form_field_error(form.slot.errors) }}
+            </div>
+            <div class="input-group">
+                <div>Venue:</div>
+                {{ form.venue(class='form-field', placeholder='Enter the venue') }}
+                {{ form_field_error(form.venue.errors) }}
+            </div>
 
-    <form action="{{ url_for('appointment.admin_appointments') }}" method="GET">
-        <label for="order_by">Order by:</label>
-        <select name="order_by" id="order_by">
-            <option value="appointment_id">Appointment ID</option>
-            <option value="venue">Venue</option>
-            <option value="date_appointment">Date</option>
-        </select>
+            <div class="input-group">
+                <div>Professional:</div>
+                {{ form.prof_name(class='form-field', placeholder='Choose the professional') }}
+                {{ form_field_error(form.prof_name.errors) }}
+            </div>
+            <div class="input-group">
+                <div>Service:</div>
+                {{ form.service(class='form-field', placeholder='Choose the service ') }}
+                {{ form_field_error(form.service.errors) }}
+            </div>
+            {{ form.submit(class='button', value='Add an appointment') }}
+        </form>
 
-        <button type="submit">Apply</button>
-    </form>
+        <form action="{{ url_for('appointment.admin_appointments') }}" class="appointments" method="GET">
+            <label for="order_by">Order by:</label>
+            <select name="order_by" id="order_by">
+                <option value="appointment_id">Appointment ID</option>
+                <option value="venue">Venue</option>
+                <option value="date_appointment">Date</option>
+            </select>
+
+            <button type="submit">Apply</button>
+        </form>
+    </div>
 
 
-</section>
-
-<section class="right-side">
-    <div class="container">
-
-        <div class="table-title">
-            <h2>Manage appointments</h2>
-
-        </div>
-
+    <div id="appointments">
+        <ul>
+            {% if current_user.access_level == 3 %}
+            <li><a href="{{ url_for('user.user_admin_panel') }}">User Admin Panel</a> </li>
+            {% endif %}
+            <li><a href="{{ url_for('appointment.admin_appointments') }}">Appointment Admin Panel</a></li>
+        </ul>
         {% if appointments %}
         {% for appointment in appointments %}
-        <table class="table">
+        <table class="admin-table">
             <thead>
                 <tr>
                     <th>Appointment ID</th>
@@ -85,48 +88,43 @@
                     <td>{{ appointment[2] }}</td>
                     <td>{{ appointment[4] }}</td>
                     <td>{{ appointment[3] }}</td>
-                    <td>{{names[loop.index0][2]}}</td>
+                    <td>{{ names[loop.index0][2] }}</td>
                     <td>
                         <a class="button"
-                            href="{{url_for('appointment.update_appointment',appointment_id=appointment[0])}}">
-                            Update </a>
+                            href="{{ url_for('appointment.update_appointment', appointment_id=appointment[0]) }}">Update</a>
                         <a class="delete-button"
-                            href="{{url_for('appointment.delete_appointment',appointment_id=appointment[0])}}">Delete
-                        </a>
+                            href="{{ url_for('appointment.delete_appointment', appointment_id=appointment[0]) }}">Delete</a>
                         {% if reports[loop.index0] %}
                         <a class="delete-button"
-                            href="{{url_for('report.delete_report',report_id=reports[loop.index0][2])}}">Delete report
-                        </a>
+                            href="{{ url_for('report.delete_report', report_id=reports[loop.index0][2]) }}">Delete
+                            report</a>
                         {% endif %}
                     </td>
                 </tr>
-
             </tbody>
         </table>
-        <table class="table">
+        <table class="admin-table feedback-table">
             <tr>
-                <th class="">Client feedback:</th>
+                <th class="fixed-size">Client feedback:</th>
                 <td>{{ reports[loop.index0][0] }}</td>
-                <td class="report-action">
-                    <a class="button" href="{{url_for('report.update_report',appointment_id=appointment[0], member_to_update = 'Member')}}"> Update
-                    </a>
+                <td class="action-column">
+                    <a class="button"
+                        href="{{ url_for('report.update_report', appointment_id=appointment[0], member_to_update='Member') }}">Update</a>
                 </td>
             </tr>
             <tr>
-                <th class="">Professional feedback:</th>
+                <th class="fixed-size">Professional feedback:</th>
                 <td>{{ reports[loop.index0][1] }}</td>
-                <td class="report-action">
-                    <a class="button" href="{{url_for('report.update_report',appointment_id=appointment[0], member_to_update = 'Professional')}}"> Update
-                    </a>
+                <td class="action-column">
+                    <a class="button"
+                        href="{{ url_for('report.update_report', appointment_id=appointment[0], member_to_update='Professional') }}">Update</a>
                 </td>
             </tr>
         </table>
-        <br>
-        <br>
         {% endfor %}
         {% else %}
         <div>No appointments to render</div>
         {% endif %}
     </div>
-</section>
-{% endblock content %}
+    {% endblock content %}
+</div>

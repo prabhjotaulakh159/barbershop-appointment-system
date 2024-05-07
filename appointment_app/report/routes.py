@@ -22,11 +22,15 @@ def update_report(appointment_id):
     if form.validate_on_submit():
         if current_user.user_type == 'Member' or member_to_update=="Member":
             db.update_client_report(form.feedback.data, appointment_id)
+            if member_to_update =="Member":
+                db.add_log(f"Updated client's feedback for appointment ID {appointment_id}", date.today(), current_user.user_name, current_user.user_id)
         else:
             db.update_professional_report(form.feedback.data, appointment_id)
+            if member_to_update =="Professional":
+                db.add_log(f"Updated professional's feedback for appointment ID {appointment_id}", date.today(), current_user.user_name, current_user.user_id)
         flash("Successfully added report !", "success")
        
-        if current_user.user_type == "Admin_appoint":
+        if current_user.access_level >=2:
             return redirect(url_for('appointment.admin_appointments'))
         else:
             return redirect(url_for('appointment.my_appointments'))
@@ -40,5 +44,5 @@ def delete_report(report_id):
     if current_user.access_level < 2:
         return redirect(url_for('main.home'))
     db.delete_report(report_id)
-    flash("Report is deleted!")
+    flash("Report is deleted!", "success")
     return redirect(url_for('appointment.admin_appointments'))

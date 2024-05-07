@@ -2,6 +2,7 @@ DROP TABLE reports;
 DROP TABLE appointments;
 DROP TABLE services;
 DROP TABLE users;
+DROP TABLE logs;
 
 CREATE TABLE users (
     user_id         NUMBER              GENERATED ALWAYS AS IDENTITY,
@@ -61,6 +62,17 @@ CREATE TABLE reports (
     
     CONSTRAINT report_id_PK                     PRIMARY KEY (report_id),
     CONSTRAINT appointment_id_FK                FOREIGN KEY (appointment_id) REFERENCES appointments (appointment_id) ON DELETE CASCADE 
+);
+
+CREATE TABLE logs (
+    log_id                  NUMBER              GENERATED ALWAYS AS IDENTITY,
+    action                  VARCHAR2(255)       ,
+    date_of_action          DATE                NOT NULL,
+    admin_name              VARCHAR2(50)        NOT NULL,
+    admin_id                NUMBER              NOT NULL,
+    
+    CONSTRAINT log_id_PK                        PRIMARY KEY (log_id),
+    CONSTRAINT admin_id_FK                      FOREIGN KEY (admin_id) REFERENCES users (user_id) ON DELETE CASCADE 
 );
 
 INSERT INTO services (service_name, service_duration, service_price, service_materials)
