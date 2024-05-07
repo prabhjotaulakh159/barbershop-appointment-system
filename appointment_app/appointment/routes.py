@@ -1,4 +1,5 @@
 '''import flask and its methods'''
+from datetime import date
 from flask import Blueprint, redirect, render_template, flash, request, url_for
 from flask_login import login_required, current_user
 from appointment_app.qdb.database import db
@@ -167,6 +168,7 @@ def update_appointment(appointment_id):
                                   date_appointment=form.date_appointment.data,
                                   slot=form.slot.data, venue=form.venue.data, client_id=client_id,
                                   professional_id=prof_id, service_id=service_id)
+            db.add_log(f"Updated appointment ID {appt[0]}", date.today(), current_user.user_name, current_user.user_id)
         else:
             db.update_appointment(appointment_id=appt[0],
                                   date_appointment=form.date_appointment.data,
@@ -216,6 +218,8 @@ def admin_appointments():
         service_id = db.get_service(f"WHERE service_name = '{form.service.data}'")[0]
         db.add_appointment(status, form.date_appointment.data,
                            form.slot.data, form.venue.data, client_id, prof_id, service_id)
+        db.add_log(f"Created new appointment for client {form.member_name.data}", date.today(), current_user.user_name, current_user.user_id)
+        
         flash('Appointment is created!','success')
 
     order_by = request.args.get('order_by')
@@ -246,6 +250,7 @@ def delete_appointment(appointment_id):
         return redirect(url_for('main.home'))
 
     db.delete_appointment(appointment_id)
+    db.add_log(f"Deleted appointment ID {appointment_id}", date.today(), current_user.user_name, current_user.user_id)
     flash("Appointment is deleted!", 'success')
     return redirect(url_for('appointment.admin_appointments'))
 

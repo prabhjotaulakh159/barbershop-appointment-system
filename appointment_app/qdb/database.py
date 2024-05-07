@@ -363,6 +363,22 @@ class Database:
                     print(traceback.format_exc())
                     abort(500)
 
+    def add_log(self, action, date_of_action, admin_name, admin_id):
+        ''' Adds a log '''
+        query = ''' INSERT INTO logs(action, date_of_action, admin_name,
+                    admin_id) VALUES (:action,
+                    :date_of_action, :admin_name, :admin_id)
+                    '''
+        with self.__connect() as connection:
+            with connection.cursor() as cursor:
+                try:
+                    cursor.execute(
+                        query, [action, date_of_action, admin_name, admin_id])
+                    connection.commit()
+                except Exception as e:
+                    print(e)
+                    abort(500)
+    
 db = Database()
 
 if __name__ == '__main__':
