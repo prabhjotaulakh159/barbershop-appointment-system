@@ -1,8 +1,35 @@
-{% extends "base.html" %}
+{% extends "base.html" %}\
+{% block header %}
+    <link rel="stylesheet" href="{{ url_for('main.static', filename='styles.css') }}"/>
+{% endblock header %}
 {% block content %}
     {% if current_user.is_authenticated %}
-        <h1>Hello {{ current_user.user_name }}</h1>
-        <h1>{{ current_user.avatar}}</h1>
-        <img src="{{ url_for('static', filename=current_user.avatar) }}" />
+        <div id="user-profile-container">
+            <div id="user-profile-column">
+                <img src="{{ url_for('static', filename=current_user.avatar) }}" />
+                <div>{{ current_user.user_name }}</div>
+                <div>{{ current_user.user_type }}</div>
+                <div>{{ current_user.email }}</div>
+                <div>{{ current_user.phone }}</div>
+                <div>{{ current_user.age }}</div>
+                <div>{{ current_user.address }}</div>
+                {% if current_user.user_type == "Professional" %}
+                    <div>{{ current_user.pay_rate }}</div>
+                    <div>{{ current_user.specialty }}</div>
+                {% endif %}
+            </div>
+            <div id="home-message">
+                <img src="{{ url_for('static', filename='images/barber-shop.png') }}" />
+            </div>
+        </div>
+    {% else %}
+        <div id="user-profile-container">
+            <div id="user-profile-column">
+                <span id="not-logged-in-message">You are not logged in</span>
+            </div>
+            <div id="home-message">
+                <img src="{{ url_for('static', filename='images/barber-shop.png') }}" />
+            </div>
+        </div>
     {% endif %}
 {% endblock content %}
