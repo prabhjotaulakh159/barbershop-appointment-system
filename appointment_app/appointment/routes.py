@@ -172,6 +172,8 @@ def update_appointment(appointment_id):
                                   date_appointment=form.date_appointment.data,
                                   slot=form.slot.data, venue=form.venue.data, service_id=service_id)
         flash("You have successfully updated the appointment!", "success")
+        if current_user.access_level >=2:
+            return redirect(url_for('appointment.admin_appointments'))
         return redirect(url_for('appointment.appointment_view', appointment_id=appt[0]))
     return render_template('update-appointment.html', current_user=current_user, form=form)
 

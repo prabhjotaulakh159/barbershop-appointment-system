@@ -26,7 +26,7 @@ def update_report(appointment_id):
             db.update_professional_report(form.feedback.data, appointment_id)
         flash("Successfully added report !", "success")
        
-        if current_user.user_type == "Admin_appoint":
+        if current_user.access_level >=2:
             return redirect(url_for('appointment.admin_appointments'))
         else:
             return redirect(url_for('appointment.my_appointments'))
@@ -40,5 +40,5 @@ def delete_report(report_id):
     if current_user.access_level < 2:
         return redirect(url_for('main.home'))
     db.delete_report(report_id)
-    flash("Report is deleted!")
+    flash("Report is deleted!", "success")
     return redirect(url_for('appointment.admin_appointments'))
