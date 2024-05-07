@@ -189,8 +189,10 @@ class Database:
             with connection.cursor() as cursor:
                 try:
                     cursor.execute(query)
-                    appointment = cursor.fetchall()[0]
-                    return appointment
+                    appointment = cursor.fetchall()
+                    if not appointment:
+                        return None
+                    return appointment[0]
                 except Exception as e:
                     print(e)
                     abort(500)
