@@ -19,16 +19,16 @@
                 {% endif %}
             </div>
             <div id="home-message">
-                <h1>Welcome</h1>
+                <img src="{{ url_for('static', filename='images/barber-shop.png') }}" />
             </div>
         </div>
     {% else %}
         <div id="user-profile-container">
             <div id="user-profile-column">
-                <span>You are not logged in</span>
+                <span id="not-logged-in-message">You are not logged in</span>
             </div>
             <div id="home-message">
-                <h1>Welcome</h1>
+                <img src="{{ url_for('static', filename='images/barber-shop.png') }}" />
             </div>
         </div>
     {% endif %}
