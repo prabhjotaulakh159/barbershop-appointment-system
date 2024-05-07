@@ -193,6 +193,13 @@ footer {
     border: 1px solid black;
 }
 
+/* 404 not found */
+.app-error {
+    text-align: center;
+    font-size: 1rem;
+    margin-top: 2rem;
+}
+
 /*-------------Appointment css----------------------*/
 /* div#flex {
     display: flex;

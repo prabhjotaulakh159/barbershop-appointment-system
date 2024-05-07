@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 {% from "macros.html" import form_field_error with context %}
+{% block header %}
+    <link rel="stylesheet" href="{{ url_for('user.static', filename='styles.css')}}"/>
+    <script src="{{ url_for('user.static', filename='forms.js') }}"></script>
+{% endblock header %}
 {% block content %}
     <div id="user-admin">
         <div id="create-user-section">
