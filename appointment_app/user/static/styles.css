@@ -1,13 +1,11 @@
 #user-admin {
     display: flex;
-    align-items: center;
     justify-content: center;
     height: 100%;
 }
 
 #create-user-section {
     flex: 3;
-    height: 100%;
 }
 
 #users {
@@ -17,6 +15,7 @@
     overflow: scroll;
     text-align: center;
     padding: 1rem;
+    background-color: grey;
 }
 
 ul {
@@ -119,3 +118,19 @@ li a:hover {
 }
 
 
+@media(max-width: 1000px) {
+    #user-admin {
+        flex-direction: column;
+        flex-flow: column-reverse;
+        height: auto;
+    }
+
+    #create-user-section form {
+        max-width: none;
+        flex: 5;
+    }
+
+    #users {
+        flex: 5;
+    }
+}
