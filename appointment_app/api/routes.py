@@ -112,7 +112,7 @@ class Appointment(Resource):
         if not service:
             abort(400, "Service not found")
         db.update_appointment(  appointment_id, 
-                                date_appointment=data['date_appointment'],
+                                date_appointment=Date.fromisoformat(data['date_appointment'].split(' ')[0]),
                                 slot=data['slot'], 
                                 venue=data['venue'], 
                                 service_id=data['service_id'])
