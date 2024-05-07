@@ -1,8 +1,9 @@
 DROP TABLE reports;
 DROP TABLE appointments;
 DROP TABLE services;
-DROP TABLE users;
 DROP TABLE logs;
+DROP TABLE users;
+
 
 CREATE TABLE users (
     user_id         NUMBER              GENERATED ALWAYS AS IDENTITY,
