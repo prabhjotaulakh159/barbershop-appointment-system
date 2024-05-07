@@ -43,7 +43,7 @@
                 <li><a href="{{ url_for('appointment.admin_appointments') }}">Appointment Admin Panel</a></li>
                 {% endif %}
             </ul>
-            <table class="user-columns">
+            <table class="admin-table">
                 <thead>
                     <tr>
                         <th>Action</th>
@@ -61,35 +61,35 @@
                         <th>Speciality</th>
                     </tr>
                 </thead>
-                <tbody class="user-body">
+                <tbody>
                     {% for user in users %}
-                        <tr>
-                            <td class="action-col"><a href="{{ url_for('user.delete_user', user_id = user[0])}}">Delete</a></td>
-                            <td class="action-col"><a href="{{ url_for('user.update_user', user_id=user[0]) }}">Update</a></td>
-                            <td class="action-col">
-                                <a href="{{ url_for('user.toggle_activation', user_id=user[0]) }}">
-                                    {% if user[1] == 1 %}
-                                        Disable
-                                    {% else %}
-                                        Enable
-                                    {% endif %}
-                                </a>
-                            </td>
-                            <td>{{ user[0] }}</td>
-                            {% if user[1] == 1 %}
-                                <td>Yes</td>
-                            {% else %}
-                                <td>No</td>
-                            {% endif %}
-                            <td>{{ user[2] }}</td>
-                            <td>{{ user[3] }}</td>
-                            <td>{{ user[4] }}</td>
-                            <td>{{ user[5] }}</td>
-                            <td>{{ user[6] }}</td>
-                            <td>{{ user[7] }}</td>
-                            <td>{{ user[8] }}</td>
-                            <td>{{ user[9] }}</td>
-                        </tr>
+                    <tr>
+                        <td class="action-col"><a href="{{ url_for('user.delete_user', user_id=user[0]) }}">Delete</a></td>
+                        <td class="action-col"><a href="{{ url_for('user.update_user', user_id=user[0]) }}">Update</a></td>
+                        <td class="action-col">
+                            <a href="{{ url_for('user.toggle_activation', user_id=user[0]) }}">
+                                {% if user[1] == 1 %}
+                                Disable
+                                {% else %}
+                                Enable
+                                {% endif %}
+                            </a>
+                        </td>
+                        <td>{{ user[0] }}</td>
+                        {% if user[1] == 1 %}
+                        <td>Yes</td>
+                        {% else %}
+                        <td>No</td>
+                        {% endif %}
+                        <td>{{ user[2] }}</td>
+                        <td>{{ user[3] }}</td>
+                        <td>{{ user[4] }}</td>
+                        <td>{{ user[5] }}</td>
+                        <td>{{ user[6] }}</td>
+                        <td>{{ user[7] }}</td>
+                        <td>{{ user[8] }}</td>
+                        <td>{{ user[9] }}</td>
+                    </tr>
                     {% endfor %}
                 </tbody>
             </table>
