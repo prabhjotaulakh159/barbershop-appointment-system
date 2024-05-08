@@ -19,12 +19,12 @@ CREATE TABLE users (
     age             NUMBER              NOT NULL,
     pay_rate        NUMBER              ,
     specialty       VARCHAR2(255)       ,
+    warnings        NUMBER              DEFAULT 0,
     
     
     CONSTRAINT user_id_PK               PRIMARY KEY (user_id),
     CONSTRAINT user_name_Usr            UNIQUE (user_name)
 );
-
 
 CREATE TABLE services (
     service_id          NUMBER          GENERATED ALWAYS AS IDENTITY,
@@ -75,6 +75,12 @@ CREATE TABLE logs (
     CONSTRAINT log_id_PK                        PRIMARY KEY (log_id),
     CONSTRAINT admin_id_FK                      FOREIGN KEY (admin_id) REFERENCES users (user_id) ON DELETE CASCADE 
 );
+
+INSERT INTO users (user_type, user_name, pass_word, email, phone, address, age, access_level)
+VALUES ('Admin', 'adminuser', '$2b$12$ONStCZ08sYJfkk7gw3STc.7eq1tI0tI4yxulT0ZORLaqlGeU76leW', 'admin@gmail.com', '999-999-9999', '1111, dawson', 22, 1);
+
+INSERT INTO users (user_type, user_name, pass_word, email, phone, address, age, access_level)
+VALUES ('Admin', 'adminappt', '$2b$12$ONStCZ08sYJfkk7gw3STc.7eq1tI0tI4yxulT0ZORLaqlGeU76leW', 'admin@gmail.com', '999-999-9999', '1111, dawson', 22, 2);
 
 INSERT INTO services (service_name, service_duration, service_price, service_materials)
 VALUES ('Haircut', 30, 50, 'Scissors, Comb, Hair Dryer');

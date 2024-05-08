@@ -35,7 +35,7 @@ class Database:
         """ Gets a user from the database based on a condition """
         qry = f'''  SELECT user_id, is_enabled, access_level, user_type,
                     user_name, pass_word, email, avatar, phone, address,
-                    age, pay_rate, specialty FROM users {cond} '''
+                    age, pay_rate, specialty, warnings FROM users {cond} '''
         with self.__connect() as connection:
             with connection.cursor() as cursor:
                 try:
@@ -321,7 +321,7 @@ class Database:
     def get_all_users(self):
         ''' Gets all users in the database who are not admins '''
         query = ''' SELECT user_id, is_enabled, user_type, user_name,
-                    email, phone, address, age, pay_rate, specialty
+                    email, phone, address, age, pay_rate, specialty, warnings
                     FROM users WHERE access_level = 0'''
         with self.__connect() as connection:
             with connection.cursor() as cursor:
@@ -377,9 +377,27 @@ class Database:
                     cursor.execute(
                         query, [action, date_of_action, admin_name, admin_id])
                     connection.commit()
-                except Exception as e:
-                    print(e)
+                except Exception:
+                    print(traceback.format_exc())
                     abort(500)
+    
+    def warn_user(self, user_id):
+        '''warns a user'''
+        query = ''' UPDATE users SET warnings = warnings + 1 WHERE user_id = :user_id'''
+        with self.__connect() as connection:
+            with connection.cursor() as cursor:
+                try:
+                    cursor.execute(query, [user_id])
+                    connection.commit()
+                    check_for_3_warnings_query = '''SELECT warnings FROM users WHERE user_id = :user_id'''
+                    cursor.execute(check_for_3_warnings_query, [user_id])
+                    warnings = cursor.fetchall()[0][0]
+                    if warnings == 3:
+                        cursor.execute('UPDATE users SET is_enabled = 0 WHERE user_id = :user_id', [user_id])
+                        connection.commit()
+                except Exception:
+                    print(traceback.format_exc())
+                    abort(500)   
     
 db = Database()
 

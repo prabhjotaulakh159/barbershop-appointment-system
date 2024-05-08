@@ -5,5 +5,5 @@ window.onload = function() {
         if (element) {
             element.parentNode.removeChild(element);
         }
-    }, 2000); 
+    }, 3000); 
 };
