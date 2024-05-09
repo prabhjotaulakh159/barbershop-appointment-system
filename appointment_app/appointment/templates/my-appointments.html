@@ -7,23 +7,23 @@
 
 {% block content %}
 
+<div class="container">
+    <div class="left-side">
+        <form action="{{ url_for('appointment.my_appointments') }}" method="GET">
 
-<section class="left-side">
-    <form action="{{ url_for('appointment.my_appointments') }}" method="GET">
+            <label for="order_by">Order by:</label>
+            <select name="order_by" id="order_by">
+                <option value="appointment_id">Appointment ID</option>
+                <option value="venue">Venue</option>
+                <option value="date_appointment">Date</option>
+            </select>
 
-        <label for="order_by">Order by:</label>
-        <select name="order_by" id="order_by">
-            <option value="appointment_id">Appointment ID</option>
-            <option value="venue">Venue</option>
-            <option value="date_appointment">Date</option>
-        </select>
+            <button type="submit">Apply</button>
+        </form>
+    </div>
 
-        <button type="submit">Apply</button>
-    </form>
-</section>
+    <div class="right-side">
 
-<section class="right-side">
-    <div class="container">
         <div class="table-title">
             <div class="row">
                 <h2>All my appointments</h2>
@@ -42,7 +42,7 @@
                     <th>Venue</th>
                     <th>Time-Slot</th>
                     <th>Service</th>
-                    
+
                     {% if current_user.user_type == 'Member' %}
                     <th>Action</th>
                     {% endif %}
@@ -60,7 +60,8 @@
                     <td>{{names[loop.index0][2]}}</td>
                     {% if current_user.user_type == 'Member' %}
                     <td>
-                        <a class="button" href="{{url_for('appointment.update_appointment',appointment_id=appointment[0])}}">
+                        <a class="button"
+                            href="{{url_for('appointment.update_appointment',appointment_id=appointment[0])}}">
                             Update </a>
                     </td>
                     {% endif %}
@@ -68,38 +69,38 @@
 
             </tbody>
         </table>
-        <table class="table">
+        <table class="table feedback-table">
             <tr>
-                <th class="">Client feedback:</th>
+                <th class="fixed-size">Client feedback:</th>
                 <td>{{ reports[loop.index0][0] }}</td>
-                
+
                 {% if current_user.user_type == 'Member' %}
-                <td class="report-action">
-                    <a class="button" href="{{url_for('report.update_report',appointment_id=appointment[0])}}"> Update report
+                <td class="action-column">
+                    <a class="button" href="{{url_for('report.update_report',appointment_id=appointment[0])}}"> Update
+                        report
                     </a>
                 </td>
                 {% endif %}
             </tr>
             <tr>
-                <th class="">Professional feedback:</th>
+                <th class="fixed-size">Professional feedback:</th>
                 <td>{{ reports[loop.index0][1] }}</td>
 
                 {% if current_user.user_type == 'Professional' %}
-                <td class="report-action">
-                    <a class="button" href="{{url_for('report.update_report',appointment_id=appointment[0])}}"> Update report
+                <td class="action-column">
+                    <a class="button" href="{{url_for('report.update_report',appointment_id=appointment[0])}}"> Update
+                        report
                     </a>
                 </td>
                 {% endif %}
             </tr>
         </table>
-        <br>
-        <br>
         {% endfor %}
         {% else %}
         <div>No appointments to render</div>
         {% endif %}
     </div>
-</section>
+</div>
 
 
 {% endblock content %}
