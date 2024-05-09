@@ -17,7 +17,12 @@
                 {{ form_field_error(form.prof_name.errors) }}
             </div>
             {% endif %}
-            
+            <div class="input-group">
+                <div>Status:</div>
+                {{ form.status(class='form-field', placeholder='Choose the status') }}
+                {{ form_field_error(form.status.errors) }}
+            </div>
+
             <div class="input-group">
                 <div>Date:</div>
                 {{ form.date_appointment(class='form-field', placeholder='Enter the date') }}

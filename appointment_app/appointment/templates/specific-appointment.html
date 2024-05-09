@@ -7,14 +7,16 @@
 
 {% block content %}
 
-<h1>Specific appointment in details</h1>
-
 {% if appointment %}
 <table>
     <tbody>
         <tr>
             <th>Appointment ID</th>
             <td>{{ appointment[0] }}</td>
+        </tr>
+        <tr>
+            <th>Status</th>
+            <td>{{ appointment[1] }}</td>
         </tr>
         <tr>
             <th>Client</th>

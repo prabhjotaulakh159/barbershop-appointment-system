@@ -11,6 +11,7 @@ class AppointmentForm(FlaskForm):
     venue = SelectField("Venue", validators=[DataRequired()])
     prof_name = SelectField("Professional name", validators=[DataRequired()])
     service = SelectField("Service",  validators=[DataRequired()])
+    status = SelectField("Status", validators=[DataRequired()])
     submit = SubmitField("Add Appointment")
 
 
@@ -23,4 +24,5 @@ class AppointmentAdminForm(FlaskForm):
     venue = SelectField("Venue", validators=[DataRequired()])
     prof_name = SelectField("Professional name", validators=[DataRequired()])
     service = SelectField("Service",  validators=[DataRequired()])
+    status = SelectField("Status", validators=[DataRequired()])
     submit = SubmitField("Add Appointment")
