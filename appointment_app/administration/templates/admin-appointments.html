@@ -75,6 +75,7 @@
             <thead>
                 <tr>
                     <th>Appointment ID</th>
+                    <th>Status</th>
                     <th>Client</th>
                     <th>Professional</th>
                     <th>Date</th>
@@ -87,6 +88,7 @@
             <tbody>
                 <tr>
                     <td>{{ appointment[0] }}</td>
+                    <td>{{ appointment[1] }}</td>
                     <td>{{ names[loop.index0][0] }}</td>
                     <td>{{ names[loop.index0][1] }}</td>
                     <td>{{ appointment[2] }}</td>

@@ -15,3 +15,8 @@ venues = [
     ('Venue D', 'Venue D'),
     ('Venue E', 'Venue E'),
 ]
+
+appointment_status = [
+    ('Open', 'Open'),
+    ('Cancelled', 'Cancelled'),
+]

@@ -46,6 +46,7 @@
                 <thead>
                     <tr>
                         <th>Appointment ID</th>
+                        <th>Status </th>
                         <th>Client ID</th>
                         <th>Professional ID</th>
                         <th>Date</th>
@@ -60,6 +61,7 @@
                     {% for appointment in appointments %}
                     <tr>
                         <td>{{ appointment[0] }}</td>
+                        <td>{{ appointment[1] }}</td>
                         <td>{{ appointment[5] }}</td>
                         <td>{{ appointment[6] }}</td>
                         <td>{{ appointment[2] }}</td>
