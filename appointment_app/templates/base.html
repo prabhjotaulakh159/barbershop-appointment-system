@@ -12,7 +12,15 @@
 
 <body>
     <header>
-        <h1>Barbershop Appointments</h1>
+        <div class="header-left">
+            <h1>Barbershop Appointments</h1>
+        </div>
+        <div class="header-right">
+            {% if current_user.is_authenticated %}
+                <img src="{{ url_for('static', filename=current_user.avatar) }}" />
+                <span>{{ current_user.user_name }}</span>
+            {% endif %}
+        </div>
     </header>
     
     <nav>
