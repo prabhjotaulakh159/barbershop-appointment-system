@@ -3,6 +3,7 @@
 {% block header %}
     <link rel="stylesheet" href="{{ url_for('user.static', filename='styles.css')}}"/>
     <script src="{{ url_for('user.static', filename='forms.js') }}"></script>
+    <script src="{{ url_for('static', filename='notification.js') }}"></script>
 {% endblock header %}
 {% block content %}
     <div id="user-admin">
@@ -44,7 +45,7 @@
             <ul>
                 <li><a href="{{ url_for('user.user_admin_panel') }}">User Admin Panel</a> </li>
                 {% if current_user.access_level == 3 %}
-                <li><a href="{{ url_for('appointment.admin_appointments') }}">Appointment Admin Panel</a></li>
+                <li><a href="{{ url_for('administration.admin_appointments') }}">Appointment Admin Panel</a></li>
                 {% endif %}
             </ul>
             <table class="admin-table">
@@ -71,7 +72,7 @@
                     {% for user in users %}
                     <tr>
                         <td class="action-col"><a href="{{ url_for('user.delete_user', user_id=user[0]) }}">Delete</a></td>
-                        <td class="action-col"><a href="{{ url_for('user.update_user', user_id=user[0]) }}">Update</a></td>
+                        <td class="action-col delete-button"><a href="{{ url_for('user.update_user', user_id=user[0]) }}">Update</a></td>
                         <td class="action-col">
                             <a href="{{ url_for('user.toggle_activation', user_id=user[0]) }}">
                                 {% if user[1] == 1 %}

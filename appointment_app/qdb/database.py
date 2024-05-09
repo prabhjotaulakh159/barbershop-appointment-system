@@ -365,17 +365,17 @@ class Database:
                     print(traceback.format_exc())
                     abort(500)
 
-    def add_log(self, action, date_of_action, admin_name, admin_id):
+    def add_log(self, action, date_of_action, table_name, admin_name, admin_id):
         ''' Adds a log '''
-        query = ''' INSERT INTO logs(action, date_of_action, admin_name,
+        query = ''' INSERT INTO logs(action, date_of_action, table_name, admin_name,
                     admin_id) VALUES (:action,
-                    :date_of_action, :admin_name, :admin_id)
+                    :date_of_action, :table_name, :admin_name, :admin_id)
                     '''
         with self.__connect() as connection:
             with connection.cursor() as cursor:
                 try:
                     cursor.execute(
-                        query, [action, date_of_action, admin_name, admin_id])
+                        query, [action, date_of_action, table_name, admin_name, admin_id])
                     connection.commit()
                 except Exception:
                     print(traceback.format_exc())

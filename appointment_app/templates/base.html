@@ -47,14 +47,14 @@
             <a href="{{ url_for('user.logout') }}">Logout</a>
             <a href="{{ url_for('user.update_profile', user_id=current_user.user_id) }}">Update Profile</a>
             <a href="{{ url_for('user.change_password', user_id=current_user.user_id) }}">Change Password</a>
-            <a href="{{ url_for('appointment.admin_appointments') }}">Appointment Admin Panel</a>
+            <a href="{{ url_for('administration.admin_appointments') }}">Appointment Admin Panel</a>
         {% elif current_user.is_authenticated and current_user.access_level == 3 %} 
             <a href="{{ url_for('main.home') }}">Home</a>
             <a href="{{ url_for('user.logout') }}">Logout</a>
             <a href="{{ url_for('user.update_profile', user_id=current_user.user_id) }}">Update Profile</a>
             <a href="{{ url_for('user.change_password', user_id=current_user.user_id) }}">Change Password</a>
             <a href="{{ url_for('user.user_admin_panel') }}">User Admin Panel</a>
-            <a href="{{ url_for('appointment.admin_appointments') }}">Appointment Admin Panel</a>
+            <a href="{{ url_for('administration.admin_appointments') }}">Appointment Admin Panel</a>
         {% endif %}
     </nav>
 
