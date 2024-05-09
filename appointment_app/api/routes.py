@@ -29,7 +29,7 @@ class Appointments(Resource):
                 'profession_id': appt[6],
                 'service_id': appt[7],
             })
-        return appts_dict_list
+        return appts_dict_list, 200
     
     def post(self):
         '''post a new appointment'''
