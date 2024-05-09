@@ -365,17 +365,17 @@ class Database:
                     print(traceback.format_exc())
                     abort(500)
 
-    def add_log(self, action, date_of_action, admin_name, admin_id):
+    def add_log(self, action, date_of_action, table_name, admin_name, admin_id):
         ''' Adds a log '''
-        query = ''' INSERT INTO logs(action, date_of_action, admin_name,
+        query = ''' INSERT INTO logs(action, date_of_action, table_name, admin_name,
                     admin_id) VALUES (:action,
-                    :date_of_action, :admin_name, :admin_id)
+                    :date_of_action, :table_name, :admin_name, :admin_id)
                     '''
         with self.__connect() as connection:
             with connection.cursor() as cursor:
                 try:
                     cursor.execute(
-                        query, [action, date_of_action, admin_name, admin_id])
+                        query, [action, date_of_action, table_name, admin_name, admin_id])
                     connection.commit()
                 except Exception:
                     print(traceback.format_exc())
@@ -399,6 +399,21 @@ class Database:
                     print(traceback.format_exc())
                     abort(500)   
     
+    def get_logs(self, cond=None):
+        """ Gets logs """
+        if cond:
+            query = f''' SELECT log_id, admin_id, admin_name, date_of_action, action, table_name FROM logs {cond} '''
+        else:
+            query = ''' SELECT log_id, admin_id, admin_name, date_of_action, action, table_name FROM logs '''
+        with self.__connect() as connection:
+            with connection.cursor() as cursor:
+                try:
+                    cursor.execute(query)
+                    logs = cursor.fetchall()
+                    return logs
+                except Exception as e:
+                    print(e)
+                    abort(500)
 db = Database()
 
 if __name__ == '__main__':

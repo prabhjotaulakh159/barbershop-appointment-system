@@ -130,7 +130,7 @@ def update_user(user_id):
         if form.avatar.data:
             current_avatar = '/images/' + save_file(form.avatar.data)
         db.update_user(user_id, form.username.data, form.email.data, current_avatar, form.phone.data, form.address.data, form.age.data, form.pay_rate.data, form.specialty.data)
-        db.add_log(f"Updated user profile for user '{form.username.data}'", date.today(), current_user.user_name, current_user.user_id)
+        db.add_log(f"Updated user profile for user '{form.username.data}'", date.today(), "Users", current_user.user_name, current_user.user_id)
         flash("Successfully updated user", "success")
         return redirect(url_for('user.user_admin_panel'))
     return render_template('update-user.html', form=form, user=userdb)
@@ -179,7 +179,7 @@ def user_admin_panel():
             form.pay_rate.data = None
             form.specialty.data = None
         db.add_user(form.user_type.data, form.username.data, bcrypt.generate_password_hash(form.password.data).decode("utf-8"), form.email.data, avatar, form.phone.data, form.address.data, form.age.data, form.pay_rate.data, form.specialty.data)
-        db.add_log(f"Created new user '{form.username.data}'", date.today(), current_user.user_name, current_user.user_id)
+        db.add_log(f"Created new user '{form.username.data}'", date.today(), "Users", current_user.user_name, current_user.user_id)
         flash('User has been created !', 'success')
         return redirect(url_for('user.user_admin_panel', users=users, form=form))
     return render_template('user-admin-panel.html', users=users, form=form)
@@ -195,7 +195,7 @@ def delete_user(user_id):
         return redirect(url_for('user.all_users'))
     db.delete_user(user_id)
     if current_user.access_level in (1,3):
-        db.add_log(f"Deleted user ID '{user_id}'", date.today(), current_user.user_name, current_user.user_id)
+        db.add_log(f"Deleted user ID '{user_id}'", date.today(), "Users", current_user.user_name, current_user.user_id)
     flash("User deleted", "success")
     return redirect(url_for('user.user_admin_panel'))
    
@@ -212,10 +212,10 @@ def toggle_activation(user_id):
     user = db.get_user(f"WHERE user_id = {user_id}")
     print(user[1])
     if user[1] is 0:
-        db.add_log(f"Disabled user ID '{user_id}'", date.today(), current_user.user_name, current_user.user_id)
+        db.add_log(f"Disabled user ID '{user_id}'", date.today(), "Users", current_user.user_name, current_user.user_id)
         flash("User has been disabled", "success")
     else:
-        db.add_log(f"Enabled user ID '{user_id}'", date.today(), current_user.user_name, current_user.user_id)
+        db.add_log(f"Enabled user ID '{user_id}'", date.today(), "Users", current_user.user_name, current_user.user_id)
         flash("User has been enabled", "success")
     return redirect(url_for('user.user_admin_panel'))
 

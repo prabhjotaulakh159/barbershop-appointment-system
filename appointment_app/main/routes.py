@@ -10,3 +10,8 @@ main = Blueprint('main', __name__, template_folder="templates", static_folder='s
 def home():
     ''' Renders the homepage '''
     return render_template("home.html", current_user=current_user)
+
+@main.route("/about")
+def about():
+    ''' Renders the about page'''
+    return render_template("about.html")
