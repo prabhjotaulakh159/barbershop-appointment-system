@@ -399,6 +399,21 @@ class Database:
                     print(traceback.format_exc())
                     abort(500)   
     
+    def get_logs(self, cond=None):
+        """ Gets logs """
+        if cond:
+            query = f''' SELECT log_id, admin_id, admin_name, date_of_action, action, table_name FROM logs {cond} '''
+        else:
+            query = ''' SELECT log_id, admin_id, admin_name, date_of_action, action, table_name FROM logs '''
+        with self.__connect() as connection:
+            with connection.cursor() as cursor:
+                try:
+                    cursor.execute(query)
+                    logs = cursor.fetchall()
+                    return logs
+                except Exception as e:
+                    print(e)
+                    abort(500)
 db = Database()
 
 if __name__ == '__main__':

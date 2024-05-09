@@ -106,8 +106,7 @@ div#appointments {
     height: 100%;
     overflow: auto;
     padding: 1rem;
-    display: flex;
-    flex-wrap: wrap;
+
 
 }
 

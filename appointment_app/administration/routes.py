@@ -86,3 +86,13 @@ def delete_appointment(appointment_id):
     db.add_log(f"Deleted appointment ID {appointment_id}", date.today(), "Appointments", current_user.user_name, current_user.user_id)
     flash("Appointment is deleted!", 'success')
     return redirect(url_for('administration.admin_appointments'))
+
+@administration.route('/admin-logs')
+@login_required
+def view_logs():
+    '''function to list all logs '''
+    if current_user.access_level < 2:
+        return redirect(url_for('main.home'))
+    
+    logs = db.get_logs(f"ORDER BY log_id")
+    return render_template("admin-logs.html", logs=logs)
