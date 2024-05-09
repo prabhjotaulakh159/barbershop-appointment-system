@@ -77,6 +77,36 @@ CREATE TABLE logs (
     CONSTRAINT admin_id_FK                      FOREIGN KEY (admin_id) REFERENCES users (user_id) ON DELETE CASCADE 
 );
 
+INSERT INTO users (is_enabled, access_level, user_type, user_name, pass_word, email, phone, address, age)
+VALUES (1, 0, 'Member', 'member1', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'member1@example.com', '123456789', '123 Member St, City', 25);
+
+INSERT INTO users (is_enabled, access_level, user_type, user_name, pass_word, email, phone, address, age)
+VALUES (1, 0, 'Member', 'member2', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'member2@example.com', '987654321', '456 Member Ave, Town', 30);
+
+INSERT INTO users (is_enabled, access_level, user_type, user_name, pass_word, email, phone, address, age)
+VALUES (1, 0, 'Member', 'member3', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'member3@example.com', '654321987', '789 Member Rd, Village', 28);
+
+INSERT INTO users (is_enabled, access_level, user_type, user_name, pass_word, email, phone, address, age)
+VALUES (1, 0, 'Member', 'member4', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'member4@example.com', '321987654', '101 Member Blvd, County', 35);
+
+INSERT INTO users (is_enabled, access_level, user_type, user_name, pass_word, email, phone, address, age)
+VALUES (1, 0, 'Member', 'member5', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'member5@example.com', '789654123', '999 Member Lane, Hamlet', 22);
+
+INSERT INTO users (is_enabled, access_level, user_type, user_name, pass_word, email, phone, address, age, pay_rate, specialty)
+VALUES (1, 0, 'Professional', 'barber1', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'barber1@example.com', '123456789', '123 Barber St, City', 30, 100, 'Haircutting and Styling');
+
+INSERT INTO users (is_enabled, access_level, user_type, user_name, pass_word, email, phone, address, age, pay_rate, specialty)
+VALUES (1, 0, 'Professional', 'barber2', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'barber2@example.com', '987654321', '456 Barber Ave, Town', 35, 120, 'Beard Trimming');
+
+INSERT INTO users (is_enabled, access_level, user_type, user_name, pass_word, email, phone, address, age, pay_rate, specialty)
+VALUES (1, 0, 'Professional', 'barber3', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'barber3@example.com', '654321987', '789 Barber Rd, Village', 28, 110, 'Hair Coloring');
+
+INSERT INTO users (is_enabled, access_level, user_type, user_name, pass_word, email, phone, address, age, pay_rate, specialty)
+VALUES (1, 0, 'Professional', 'barber4', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'barber4@example.com', '321987654', '101 Barber Blvd, County', 40, 150, 'Shaving');
+
+INSERT INTO users (is_enabled, access_level, user_type, user_name, pass_word, email, phone, address, age, pay_rate, specialty)
+VALUES (1, 0, 'Professional', 'barber5', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'barber5@example.com', '789654123', '999 Barber Lane, Hamlet', 32, 130, 'Facial Treatments');
+
 
 INSERT INTO services (service_name, service_duration, service_price, service_materials)
 VALUES ('Haircut', 30, 50, 'Scissors, Comb, Hair Dryer');
