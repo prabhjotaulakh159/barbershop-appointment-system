@@ -71,8 +71,8 @@
                 <tbody>
                     {% for user in users %}
                     <tr>
-                        <td class="action-col"><a href="{{ url_for('user.delete_user', user_id=user[0]) }}">Delete</a></td>
-                        <td class="action-col delete-button"><a href="{{ url_for('user.update_user', user_id=user[0]) }}">Update</a></td>
+                        <td class="action-col delete-button"><a href="{{ url_for('user.delete_user', user_id=user[0]) }}">Delete</a></td>
+                        <td class="action-col"><a href="{{ url_for('user.update_user', user_id=user[0]) }}">Update</a></td>
                         <td class="action-col">
                             <a href="{{ url_for('user.toggle_activation', user_id=user[0]) }}">
                                 {% if user[1] == 1 %}
