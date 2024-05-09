@@ -8,6 +8,8 @@
 #create-user-section {
     flex: 3;
     height: 100%;
+    padding:1rem;
+    background-color:black;
 }
 
 #users {
@@ -118,4 +120,7 @@ li a:hover {
     margin-top: 5px;
 }
 
-
+form{
+    background-color:#333;
+    color:white;
+}

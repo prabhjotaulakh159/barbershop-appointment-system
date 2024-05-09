@@ -98,6 +98,8 @@ div#create-appointment-section {
     flex: 1;
     flex-shrink: 0;
     box-sizing: border-box;
+    padding:1rem;
+    background-color:black;
 }
 
 div#appointments {
@@ -110,3 +112,7 @@ div#appointments {
 
 }
 
+form{
+    background-color:#333;
+    color:white;
+}
