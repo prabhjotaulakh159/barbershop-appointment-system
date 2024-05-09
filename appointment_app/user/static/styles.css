@@ -12,7 +12,7 @@
 
 #users {
     flex: 7;
-    background-color: var(--ternary-clr);
+    background-color: black;
     height: 100%;
     overflow: scroll;
     text-align: center;

@@ -46,6 +46,7 @@
                 <li><a href="{{ url_for('user.user_admin_panel') }}">User Admin Panel</a> </li>
                 {% if current_user.access_level == 3 %}
                 <li><a href="{{ url_for('administration.admin_appointments') }}">Appointment Admin Panel</a></li>
+                <li><a href="{{ url_for('administration.view_logs') }}">Admin logs</a> </li>
                 {% endif %}
             </ul>
             <table class="admin-table">
