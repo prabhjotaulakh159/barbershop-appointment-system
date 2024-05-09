@@ -1,12 +1,16 @@
 """api for application"""
-from flask import Blueprint, request, abort
+from flask import Blueprint, request, abort, render_template
 from flask_restful import Api, Resource
 from appointment_app.qdb.database import db
 from oracledb import Date
 
-api_blueprint = Blueprint("api", __name__)
+api_blueprint = Blueprint("api", __name__, template_folder="templates", static_folder="static", static_url_path="/static/api")
 api = Api(api_blueprint)
 
+@api_blueprint.route("/api-docs")
+def api_docs():
+    ''' Renders the API documentation'''
+    return render_template("api-docs.html")
 
 class Appointments(Resource):
     '''resources for all appointments'''
@@ -124,5 +128,5 @@ class Appointment(Resource):
         return appt
     
     
-api.add_resource(Appointments, "/appointments")
-api.add_resource(Appointment , "/appointments/<int:appointment_id>")
+api.add_resource(Appointments, "/api/appointments")
+api.add_resource(Appointment , "/api/appointments/<int:appointment_id>")
