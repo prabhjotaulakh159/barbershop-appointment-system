@@ -106,7 +106,7 @@ div#appointments {
     flex: 3;
     background-color: #000000;
     height: 100%;
-    overflow: auto;
+    overflow: scroll;
     padding: 1rem;
 
 
@@ -115,4 +115,20 @@ div#appointments {
 form{
     background-color:#333;
     color:white;
+}
+
+@media(max-width: 1000px) {
+    div#admin_appoint {
+        flex-direction: column;
+        height: auto;
+    }
+
+    #create-appointment-section form {
+        max-width: none;
+        flex: 5;
+    }
+
+    #appointments {
+        flex: 5;
+    }
 }
