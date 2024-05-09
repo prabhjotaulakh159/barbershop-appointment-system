@@ -93,7 +93,7 @@ class Appointment(Resource):
             'profession_id': appt[6],
             'service_id': appt[7],
         }
-        return appts_dict_list
+        return appts_dict_list, 200
     
     def delete(self, appointment_id):
         '''Delete a appointment'''
