@@ -58,14 +58,14 @@
             <tbody>
                 {% for appointment in appointments %}
                 <tr>
-                    <td>{{ appointment[0] }}</td>
-                    <td>{{ appointment[1] }}</td>
-                    <td>{{ appointment[5] }}</td>
-                    <td>{{ appointment[6] }}</td>
-                    <td>{{ appointment[2] }}</td>
-                    <td>{{ appointment[3] }}</td>
+                    <td data-title="Appointment ID">{{ appointment[0] }}</td>
+                    <td data-title="Status">{{ appointment[1] }}</td>
+                    <td data-title="Client ID">{{ appointment[5] }}</td>
+                    <td data-title="Professional ID">{{ appointment[6] }}</td>
+                    <td data-title="Date">{{ appointment[2] }}</td>
+                    <td data-title="Time-Slot">{{ appointment[3] }}</td>
                     {% if current_user.is_authenticated %}
-                    <td><a class="button"
+                    <td data-title="Action"><a class="button"
                             href="{{url_for('appointment.appointment_view',appointment_id=appointment[0])}}">Click
                             for
                             detailed info </a> </td>

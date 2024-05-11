@@ -1,41 +1,35 @@
-.container{
+.container {
     display: flex;
-    height: 100%;
     flex-wrap: wrap;
-    box-sizing: border-box;
 }
+
 .left-side {
-    flex: 1 ;
-    flex-shrink: 0;
-    box-sizing:border-box;
-    
+    flex: 1;
 }
 
 .right-side {
-    flex: 3 ;
-    background-color: #481E14;
-    height:100%;
-    overflow:auto;
+    flex: 3;
     padding: 1rem;
+    
 }
 
 .table-title {
     background: #0c3b75;
     color: #fff;
-    padding: 15px 30px;
-    text-align:center;
+    padding: 15px 0; /* Adjust vertical padding */
+    text-align: center;
 }
 
 .table {
     width: 100%;
     border-collapse: collapse;
-    background-color:blanchedalmond;
+    background-color: blanchedalmond;
+    
 }
 
-.table thead{
-    background-color:#939393;
+.table thead {
+    background-color: #939393;
 }
-
 
 table,
 thead,
@@ -44,32 +38,60 @@ td,
 th {
     border: 1px solid black;
     text-align: center;
-}
-
-
-@media (max-width: 1000px) { /* Adjust the breakpoint as needed */
-    .left-side,.right-side {
-         flex: 1 100%;
-     }
- }
-
-
-table th,table td {
-    padding: 12px 15px;
+    padding: 0.5rem; /* Adjust cell padding */
 }
 
 .button {
     display: inline-block;
     background-color: lightgreen;
-    padding: 10px 10px;
+    padding: 10px 15px; /* Adjust button padding */
     text-align: center;
     margin: 5px;
     cursor: pointer;
     border-radius: 8px;
 }
 
-form{
-    padding:1rem;
-    background-color:transparent;
-    color:white;
+form {
+    padding: 1rem;
+    background-color: transparent;
+    color: white;
+}
+
+@media (max-width: 1000px) { /* Adjust the breakpoint as needed */
+    .left-side, .right-side {
+        flex: 1 100%;
+        margin:0 auto;
+    }
+    .left-side{
+        display:flex;
+        justify-content:center;
+    }
+
+    .table{
+        width:100%;
+    }
+    thead{
+        display:none;
+    }
+
+    tr,th,td{
+        display:block;
+    }
+
+    td {
+        text-align: right;
+      }
+    td[data-title]:before {
+        content: attr(data-title);
+        font-weight: bold;
+        display: inline-block;
+        content: attr(data-title);
+        float: left;
+        margin-right: 0.5em;
+        font-size: 0.95em;
+      }
+
+    tr {
+    padding: 1.5em;
+  }
 }
