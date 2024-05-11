@@ -77,6 +77,7 @@ CREATE TABLE logs (
     CONSTRAINT admin_id_FK                      FOREIGN KEY (admin_id) REFERENCES users (user_id) ON DELETE CASCADE 
 );
 
+-- Members 
 INSERT INTO users (is_enabled, access_level, user_type, user_name, pass_word, email, phone, address, age)
 VALUES (1, 0, 'Member', 'member1', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'member1@example.com', '123456789', '123 Member St, City', 25);
 
@@ -92,6 +93,7 @@ VALUES (1, 0, 'Member', 'member4', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzV
 INSERT INTO users (is_enabled, access_level, user_type, user_name, pass_word, email, phone, address, age)
 VALUES (1, 0, 'Member', 'member5', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'member5@example.com', '789654123', '999 Member Lane, Hamlet', 22);
 
+-- Professionals
 INSERT INTO users (is_enabled, access_level, user_type, user_name, pass_word, email, phone, address, age, pay_rate, specialty)
 VALUES (1, 0, 'Professional', 'barber1', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'barber1@example.com', '123456789', '123 Barber St, City', 30, 100, 'Haircutting and Styling');
 
@@ -107,7 +109,17 @@ VALUES (1, 0, 'Professional', 'barber4', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ
 INSERT INTO users (is_enabled, access_level, user_type, user_name, pass_word, email, phone, address, age, pay_rate, specialty)
 VALUES (1, 0, 'Professional', 'barber5', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'barber5@example.com', '789654123', '999 Barber Lane, Hamlet', 32, 130, 'Facial Treatments');
 
+-- Admins
+INSERT INTO users (is_enabled, access_level, user_type, user_name, pass_word, email, phone, address, age)
+VALUES (1, 1, 'Admin', 'adminuser', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'adminuser@example.com', '123456789', '123 Admin St, City', 30);
 
+INSERT INTO users (is_enabled, access_level, user_type, user_name, pass_word, email, phone, address, age)
+VALUES (1, 2, 'Admin', 'adminappointment', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'adminappointment@example.com', '987654321', '456 Admin Ave, Town', 35);
+
+INSERT INTO users (is_enabled, access_level, user_type, user_name, pass_word, email, phone, address, age)
+VALUES (1, 3, 'Admin', 'superadmin', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'superadmin@example.com', '654321987', '789 Admin Rd, Village', 28);
+
+-- Services
 INSERT INTO services (service_name, service_duration, service_price, service_materials)
 VALUES ('Haircut', 30, 50, 'Scissors, Comb, Hair Dryer');
 
@@ -132,5 +144,67 @@ VALUES ('Basic Haircut', 30, 30, 'Clippers, Scissors, Comb');
 
 INSERT INTO services (service_name, service_duration, service_price, service_materials)
 VALUES ('Beard Trim', 15, 20, 'Clippers, Scissors, Beard Oil');
+
+-- appointments
+INSERT INTO appointments (status, date_appointment, slot, venue, client_id, professional_id, service_id, number_services)
+VALUES ('ON GOING', TO_DATE('2024-05-15', 'YYYY-MM-DD'), '10:00 - 11:00', 'Barber Shop A', 1, 2, 1, 1);
+
+INSERT INTO appointments (status, date_appointment, slot, venue, client_id, professional_id, service_id, number_services)
+VALUES ('ON GOING', TO_DATE('2024-05-16', 'YYYY-MM-DD'), '14:00 - 15:00', 'Barber Shop B', 2, 3, 2, 1);
+
+INSERT INTO appointments (status, date_appointment, slot, venue, client_id, professional_id, service_id, number_services)
+VALUES ('ON GOING', TO_DATE('2024-05-17', 'YYYY-MM-DD'), '11:00 - 12:00', 'Barber Shop C', 3, 4, 3, 1);
+
+INSERT INTO appointments (status, date_appointment, slot, venue, client_id, professional_id, service_id, number_services)
+VALUES ('ON GOING', TO_DATE('2024-05-18', 'YYYY-MM-DD'), '09:00 - 10:00', 'Barber Shop A', 4, 5, 4, 1);
+
+INSERT INTO appointments (status, date_appointment, slot, venue, client_id, professional_id, service_id, number_services)
+VALUES ('ON GOING', TO_DATE('2024-05-19', 'YYYY-MM-DD'), '12:00 - 13:00', 'Barber Shop B', 5, 6, 5, 1);
+
+INSERT INTO appointments (status, date_appointment, slot, venue, client_id, professional_id, service_id, number_services)
+VALUES ('ON GOING', TO_DATE('2024-05-22', 'YYYY-MM-DD'), '15:00 - 16:00', 'Barber Shop C', 6, 7, 6, 1);
+
+INSERT INTO appointments (status, date_appointment, slot, venue, client_id, professional_id, service_id, number_services)
+VALUES ('ON GOING', TO_DATE('2024-05-23', 'YYYY-MM-DD'), '10:00 - 11:00', 'Barber Shop A', 7, 8, 7, 1);
+
+INSERT INTO appointments (status, date_appointment, slot, venue, client_id, professional_id, service_id, number_services)
+VALUES ('ON GOING', TO_DATE('2024-05-24', 'YYYY-MM-DD'), '14:00 - 15:00', 'Barber Shop B', 8, 9, 8, 1);
+
+INSERT INTO appointments (status, date_appointment, slot, venue, client_id, professional_id, service_id, number_services)
+VALUES ('ON GOING', TO_DATE('2024-05-25', 'YYYY-MM-DD'), '11:00 - 12:00', 'Barber Shop C', 9, 10, 8, 1);
+
+INSERT INTO appointments (status, date_appointment, slot, venue, client_id, professional_id, service_id, number_services)
+VALUES ('ON GOING', TO_DATE('2024-05-26', 'YYYY-MM-DD'), '09:00 - 10:00', 'Barber Shop A', 10, 1, 8, 1);
+
+-- reports
+INSERT INTO reports (feedback_client, feedback_professional, date_of_report, appointment_id)
+VALUES ('Great service, I am very satisfied.', 'The client was cooperative and easy to work with.', TO_DATE('2024-05-15', 'YYYY-MM-DD'), 1);
+
+INSERT INTO reports (feedback_client, feedback_professional, date_of_report, appointment_id)
+VALUES ('Everything went smoothly, I have no complaints.', 'The appointment was well-managed.', TO_DATE('2024-05-16', 'YYYY-MM-DD'), 2);
+
+INSERT INTO reports (feedback_client, feedback_professional, date_of_report, appointment_id)
+VALUES ('The service exceeded my expectations.', 'The client was polite and respectful.', TO_DATE('2024-05-17', 'YYYY-MM-DD'), 3);
+
+INSERT INTO reports (feedback_client, feedback_professional, date_of_report, appointment_id)
+VALUES ('I am happy with the outcome of the service.', 'The appointment went as planned.', TO_DATE('2024-05-18', 'YYYY-MM-DD'), 4);
+
+INSERT INTO reports (feedback_client, feedback_professional, date_of_report, appointment_id)
+VALUES ('The service was fantastic, I will definitely come back.', 'The client was punctual and understanding.', TO_DATE('2024-05-19', 'YYYY-MM-DD'), 5);
+
+INSERT INTO reports (feedback_client, feedback_professional, date_of_report, appointment_id)
+VALUES ('The appointment was satisfactory overall.', 'The client provided clear instructions.', TO_DATE('2024-05-22', 'YYYY-MM-DD'), 6);
+
+INSERT INTO reports (feedback_client, feedback_professional, date_of_report, appointment_id)
+VALUES ('I am happy with the service.', 'The appointment proceeded smoothly.', TO_DATE('2024-05-23', 'YYYY-MM-DD'), 7);
+
+INSERT INTO reports (feedback_client, feedback_professional, date_of_report, appointment_id)
+VALUES ('The service met my expectations.', 'The client was friendly and cooperative.', TO_DATE('2024-05-24', 'YYYY-MM-DD'), 8);
+
+INSERT INTO reports (feedback_client, feedback_professional, date_of_report, appointment_id)
+VALUES ('Overall, a good experience.', 'The appointment was well-handled.', TO_DATE('2024-05-25', 'YYYY-MM-DD'), 9);
+
+INSERT INTO reports (feedback_client, feedback_professional, date_of_report, appointment_id)
+VALUES ('I am satisfied with the outcome.', 'The client was satisfied with the service.', TO_DATE('2024-05-26', 'YYYY-MM-DD'), 10);
 
 COMMIT;
