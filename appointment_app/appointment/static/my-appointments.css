@@ -100,7 +100,8 @@ form {
         width: 100%;
     }
 
-    thead, tr th {
+    thead,
+    tr th {
         display: none;
     }
 
@@ -131,8 +132,5 @@ form {
     .fixed-size,
     .action-column {
         width: auto;
-    }
-    .test{
-        padding:1.5em;
     }
 }
