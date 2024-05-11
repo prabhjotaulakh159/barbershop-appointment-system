@@ -78,9 +78,6 @@ form {
     width: 150px;
 }
 
-.action-column {
-    width: 100px;
-}
 
 @media (max-width: 1000px) {
 

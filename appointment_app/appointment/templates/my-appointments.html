@@ -72,20 +72,11 @@
         </table>
         <table class="table feedback-table">
             <tr>
-                <th class="fixed-size">Client feedback:</th>
+                <th class="">Client feedback:</th>
                 {% if reports[loop.index0][0] %}
                 <td data-title="Client Feedback">{{ reports[loop.index0][0] }}</td>
                 {% else %}
                 <td data-title="Client Feedback">None</td>
-                {% endif %}
-
-                {% if current_user.user_type == 'Member' %}
-                <td class="action-column" data-title="Action">
-                    <a class="button" href="{{url_for('report.update_report',appointment_id=appointment[0])}}"> Update my
-                        report
-                    </a>
-
-                </td>
                 {% endif %}
             </tr>
             <tr>
@@ -97,10 +88,43 @@
                 {% endif %}
 
                 {% if current_user.user_type == 'Professional' %}
-                <td class="action-column">
-                    <a class="button" href="{{url_for('report.update_report',appointment_id=appointment[0])}}"> Update my
+                <td>
+                    <a class="button" href="{{url_for('report.update_report',appointment_id=appointment[0])}}"> Update
+                        my
                         report
                     </a>
+                </td>
+                {% endif %}
+            </tr>
+            <tr>
+                <th class="fixed-size">Action:</th>
+                {% if current_user.user_type == 'Member' %}
+                <td class="action-column" data-title="Action">
+                    {% if reports[loop.index0][0] %}
+                    <a class="button" href="{{url_for('report.update_report',appointment_id=appointment[0])}}"> Update
+                        my
+                        report
+                    </a>
+                    {% else %}
+                    <a class="button" href="{{url_for('report.update_report',appointment_id=appointment[0])}}"> Add my
+                        report
+                    </a>
+                    {% endif %}
+                </td>
+
+                {% endif %}
+                {% if current_user.user_type == 'Professional' %}
+                <td class="action-column">
+                    {% if reports[loop.index0][1] %}
+                    <a class="button" href="{{url_for('report.update_report',appointment_id=appointment[0])}}"> Update
+                        my
+                        report
+                    </a>
+                    {% else %}
+                    <a class="button" href="{{url_for('report.update_report',appointment_id=appointment[0])}}"> Add my
+                        report
+                    </a>
+                    {% endif %}
                 </td>
                 {% endif %}
             </tr>
