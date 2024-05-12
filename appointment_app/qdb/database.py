@@ -414,6 +414,7 @@ class Database:
                 except Exception as e:
                     print(e)
                     abort(500)
+                    
 db = Database()
 
 if __name__ == '__main__':
