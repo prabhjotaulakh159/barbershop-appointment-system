@@ -8,26 +8,34 @@
 {% block content %}
 <div id="user-admin">
     <div id="create-user-section">
-        <form method="POST" novalidate enctype="multipart/form-data">
+        <form method="POST" novalidate enctype="multipart/form-data" id="user_form">
             {{ form.hidden_tag() }}
             {{ form.user_type(id='user-type') }}
             {{ form_field_error(form.user_type.errors) }}
-            {{ form.username(class='form-field', placeholder='Enter username') }}
+            {{ form.username(class='form-field', placeholder='Enter username', id='username') }}
             {{ form_field_error(form.username.errors) }}
-            {{ form.email(class='form-field', placeholder='example@email.com') }}
+            <div id="username-error" class="div-error"></div>
+            {{ form.email(class='form-field', placeholder='example@email.com', id='email') }}
             {{ form_field_error(form.email.errors) }}
-            {{ form.password(class='form-field', placeholder='Enter password') }}
+            <div id="email-error" class="div-error"></div>
+            {{ form.password(class='form-field', placeholder='Enter password', id='password') }}
             {{ form_field_error(form.password.errors) }}
-            {{ form.confirm_password(class='form-field', placeholder='Retype password') }}
+            <div id="password-error" class="div-error"></div>
+            {{ form.confirm_password(class='form-field', placeholder='Retype password', id='confirm-password') }}
             {{ form_field_error(form.confirm_password.errors) }}
-            {{ form.phone(class='form-field', placeholder='XXX-XXX-XXXX') }}
+            <div id="confirm-password-error" class="div-error"></div>
+            {{ form.phone(class='form-field', placeholder='XXX-XXX-XXXX', id='phone') }}
             {{ form_field_error(form.phone.errors) }}
+            <div id="phone-error" class="div-error"></div>
             {{ form.address(class='form-field',placeholder='Enter your address ') }}
             {{ form_field_error(form.address.errors) }}
-            {{ form.age(class='form-field',placeholder='Enter your age ') }}
+            <div id="address-error" class="div-error"></div>
+            {{ form.age(class='form-field',placeholder='Enter your age ', id='age') }}
             {{ form_field_error(form.age.errors) }}
+            <div id="age-error" class="div-error"></div>
             {{ form.pay_rate(placeholder='Enter pay rate', id='pay-rate') }}
             {{ form_field_error(form.pay_rate.errors) }}
+            <div id="payrate-error" class="div-error"></div>
             <div class="input-group">
                 <div id="specialityLabel">Speciality</div>
                 {{ form.specialty(id='specialty-register') }}
