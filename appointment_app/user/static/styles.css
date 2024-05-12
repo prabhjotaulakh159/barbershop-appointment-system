@@ -1,24 +1,18 @@
 #user-admin {
     display: flex;
-    justify-content: center;
-    height: 100%;
+    flex-wrap: wrap;
 }
 
 #create-user-section {
-    flex: 3;
-    height: 100%;
-    padding:1rem;
-    background-color:black;
+    flex: 1;
+    padding: 1rem;
+    background-color: black;
 }
 
 #users {
-    flex: 7;
+    flex: 3;
     background-color: black;
-    height: 100%;
-    overflow: scroll;
-    text-align: center;
     padding: 1rem;
-    background-color: grey;
 }
 
 ul {
@@ -28,9 +22,11 @@ ul {
     background-color: #333;
     overflow: hidden;
 }
+
 li {
     float: left;
 }
+
 li a {
     display: block;
     color: white;
@@ -38,6 +34,7 @@ li a {
     padding: 14px 20px;
     text-decoration: none;
 }
+
 li a:hover {
     background-color: #ddd;
     color: black;
@@ -50,6 +47,7 @@ li a:hover {
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
 .admin-table th,
 .admin-table td {
     padding: 8px;
@@ -57,23 +55,21 @@ li a:hover {
     border-bottom: 1px solid #ddd;
     text-align: center;
 }
+
 .admin-table thead {
     background-color: #333;
     color: #fff;
 }
+
 .admin-table tbody tr:hover {
     background-color: #f2f2f2;
 }
-.admin-table tbody .action-col a {
-    color: #007bff;
-    text-decoration: none;
-}
-.admin-table tbody .action-col a:hover {
-    text-decoration: underline;
-}
+
+
 .admin-table tbody td:first-child {
     font-weight: bold;
 }
+
 .admin-table tbody .button {
     background-color: #007bff;
     color: #fff;
@@ -82,9 +78,35 @@ li a:hover {
     text-decoration: none;
     margin-right: 5px;
 }
+
 .admin-table tbody .button:hover {
     background-color: #0056b3;
 }
+
+.admin-table tbody .warn-button {
+    background-color: #d9e31a;
+    padding: 6px 12px;
+    border-radius: 4px;
+    text-decoration: none;
+    margin-right: 5px;
+}
+
+.admin-table tbody .warn-button:hover {
+    background-color: #797d1b;
+}
+
+.admin-table tbody .state-button {
+    background-color: #39b71f;
+    padding: 6px 12px;
+    border-radius: 4px;
+    text-decoration: none;
+    margin-right: 5px;
+}
+
+.admin-table tbody .state-button:hover {
+    background-color: #234e14;
+}
+
 .admin-table tbody .delete-button {
     background-color: #dc3545;
     color: #fff;
@@ -92,17 +114,10 @@ li a:hover {
     border-radius: 4px;
     text-decoration: none;
 }
+
 .admin-table tbody .delete-button:hover {
     background-color: #c82333;
 }
-
-.fixed-size {
-    width: 150px; 
-}
-.action-column {
-    width: 100px; 
-}
-
 
 .button {
     background-color: #007bff;
@@ -112,40 +127,74 @@ li a:hover {
     border-radius: 4px;
     cursor: pointer;
 }
+
 .button:hover {
     background-color: #0056b3;
 }
+
 .error-message {
     color: red;
     margin-top: 5px;
 }
 
-@media(max-width: 1000px) {
-    #user-admin {
-        flex-direction: column;
-        flex-flow: column-reverse;
-        height: auto;
+form {
+    background-color: #333;
+    color: white;
+}
+
+.form-error {
+    background-color: lightcoral;
+}
+
+.div-error {
+    color: red;
+}
+
+@media (max-width: 1000px) {
+
+    /* Adjust the breakpoint as needed */
+    #create-user-section,
+    #users {
+        flex: 1 100%;
+        margin: 0 auto;
     }
 
-    #create-user-section form {
-        max-width: none;
-        flex: 5;
+    #create-user-section {
+        display: flex;
+        flex-direction: column;
     }
 
     #users {
-        flex: 5;
+        width: 100%;
     }
-}
 
-form{
-    background-color:#333;
-    color:white;
-}
+    thead,
+    tr th {
+        display: none;
+    }
 
-.form-error{
-    background-color:lightcoral;
-}
+    tr,
+    th,
+    td {
+        display: block;
+    }
 
-.div-error{
-    color:red;
+    .admin-table th,
+    .admin-table td {
+        text-align: right;
+    }
+
+    td[data-title]:before {
+        content: attr(data-title);
+        font-weight: bold;
+        display: inline-block;
+        content: attr(data-title);
+        float: left;
+        margin-right: 0.5em;
+        font-size: 0.95em;
+    }
+
+    tr {
+        padding: 1.5em;
+    }
 }
