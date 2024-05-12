@@ -69,7 +69,7 @@ class Appointments(Resource):
                            client_id=data['client_id'],
                            professional_id=data['professional_id'],
                            service_id=data['service_id'])
-        return ('', 200)
+        return '', 200
         
 
 class Appointment(Resource):
@@ -100,7 +100,7 @@ class Appointment(Resource):
         if not self.__exists(appointment_id):
             abort(400, "Appointment not found")
         db.delete_appointment(appointment_id)
-        return ('',200)
+        return '', 200
 
     def patch(self, appointment_id):
         '''Update a appointment in the database'''
@@ -120,7 +120,7 @@ class Appointment(Resource):
                                 slot=data['slot'], 
                                 venue=data['venue'], 
                                 service_id=data['service_id'])
-        return ('', 200)
+        return '', 200
     
     def __exists(self, appointment_id):
         '''Check if the appointment exists in the database'''
