@@ -9,6 +9,7 @@ from appointment_app.appointment.utility import time_slots, venues, appointment_
 from appointment_app.user.auth_config import User
 from appointment_app.user.utils import save_file
 from appointment_app.user.forms import RegisterUserForm, LoginForm, ChangePasswordForm
+from appointment_app.administration.forms import AdminCrudForm
 
 administration = Blueprint('administration', __name__, template_folder="templates",
                  static_folder="static", static_url_path="/static/administration")
@@ -96,3 +97,14 @@ def view_logs():
     
     logs = db.get_logs(f"ORDER BY log_id")
     return render_template("admin-logs.html", logs=logs)
+
+
+@administration.route('/view-admins', methods=['GET', 'POST'])
+@login_required
+def view_admins():
+    '''lists all admins'''
+    if current_user.access_level != 3:
+        return redirect(url_for('main.home'))
+    form = AdminCrudForm()
+    admins = db.get_users(f"WHERE user_type = 'Admin'")
+    return render_template('view-admins.html', form=form, admins=admins)

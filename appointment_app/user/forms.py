@@ -35,16 +35,3 @@ class ChangePasswordForm(FlaskForm):
     confirm_new_password = PasswordField("Confirm New Password", validators=[DataRequired(), Length(min=5), EqualTo("new_password")])
     submit = SubmitField("Change Password")
 
-
-class AdminCrudForm(FlaskForm):
-    ''' Form to create and update new admins '''    
-    username = StringField("Username", validators=[DataRequired(), Length(min=2, max=25)])
-    password = PasswordField("Password", validators=[DataRequired()])
-    confirm_password = PasswordField("Retype password", validators=[DataRequired(), EqualTo("password")])
-    email = EmailField('Email', validators=[DataRequired()])
-    phone = StringField("Phone", validators=[DataRequired(), Regexp(PHONE_REGEX, message='Phone number not valid')])
-    user_type = SelectField("Type", choices=[('Admin User', 'Admin User'), ('Admin Appointment', 'Admin appointment')])
-    age = IntegerField(validators=[NumberRange(min=0, max=100)])
-    address = StringField("Address", validators=[DataRequired(), Length(min=2, max=25)])
-    avatar = FileField('Avatar', validators=[FileAllowed(['jpg', 'png'])])
-    submit = SubmitField("Register")

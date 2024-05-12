@@ -28,7 +28,7 @@ class Database:
                                 try:
                                     cursor.execute(statement)
                                 except Exception as e:
-                                    print(e)
+                                    print(traceback.format_exc())
                             statement_parts = []
 
     def get_user(self, cond):
@@ -60,7 +60,7 @@ class Database:
                     user = cursor.fetchall()
                     return user
                 except Exception as e:
-                    print(e)
+                    print(traceback.format_exc())
                     abort(500)
 
     def add_user(self, user_type, user_name, pass_word, email, avatar, phone,
@@ -110,7 +110,7 @@ class Database:
                     cursor.execute(query, [pass_word, user_id])
                     connection.commit()
                 except Exception as e:
-                    print(e)
+                    print(traceback.format_exc())
                     abort(500)
 
     def get_services(self):
@@ -124,7 +124,7 @@ class Database:
                     services = cursor.fetchall()
                     return services
                 except Exception as e:
-                    print(e)
+                    print(traceback.format_exc())
                     abort(500)
 
     def get_service(self, cond):
@@ -139,7 +139,7 @@ class Database:
                     services = cursor.fetchall()[0]
                     return services
                 except Exception as e:
-                    print(e)
+                    print(traceback.format_exc())
                     abort(500)
 
     def add_appointment(self, status, date_appointment, slot, venue, client_id,
@@ -157,7 +157,7 @@ class Database:
                                             service_id])
                     connection.commit()
                 except Exception as e:
-                    print(e)
+                    print(traceback.format_exc())
                     abort(500)
 
     def get_appointments(self, cond=None):
@@ -177,7 +177,7 @@ class Database:
                     appointments = cursor.fetchall()
                     return appointments
                 except Exception as e:
-                    print(e)
+                    print(traceback.format_exc())
                     abort(500)
 
     def get_appointment(self, cond):
@@ -194,7 +194,7 @@ class Database:
                         return None
                     return appointment[0]
                 except Exception as e:
-                    print(e)
+                    print(traceback.format_exc())
                     abort(500)
 
     def update_appointment(self, appointment_id, **kwargs):
@@ -216,7 +216,7 @@ class Database:
                     cursor.execute(query, data_list)
                     connection.commit()
                 except Exception as e:
-                    print(e)
+                    print(traceback.format_exc())
                     abort(500)
 
     def delete_appointment(self, appointment_id):
@@ -229,7 +229,7 @@ class Database:
                     cursor.execute(query, [appointment_id])
                     connection.commit()
                 except Exception as e:
-                    print(e)
+                    print(traceback.format_exc())
                     abort(500)
 
     def add_report(self, feedback_client, feedback_professional,
@@ -247,7 +247,7 @@ class Database:
                                 date_of_report, appointment_id])
                     connection.commit()
                 except Exception as e:
-                    print(e)
+                    print(traceback.format_exc())
                     abort(500)
 
     def get_report(self, appointment_id):
@@ -260,7 +260,7 @@ class Database:
                     cursor.execute(query, [appointment_id])
                     return cursor.fetchall()[0]
                 except Exception as e:
-                    print(e)
+                    print(traceback.format_exc())
 
     def delete_report(self, report_id):
         ''' Deletes a report '''
@@ -285,7 +285,7 @@ class Database:
                     cursor.execute(query, [feedback_client, appointment_id])
                     connection.commit()
                 except Exception as e:
-                    print(e)
+                    print(traceback.format_exc())
                     abort(500)
 
     def update_professional_report(self, feedback_professional,
@@ -301,7 +301,7 @@ class Database:
                         query, [feedback_professional, appointment_id])
                     connection.commit()
                 except Exception as e:
-                    print(e)
+                    print(traceback.format_exc())
                     abort(500)
 
     def check_if_appointment_already_has_report(self, appointment_id):
@@ -315,7 +315,7 @@ class Database:
                     rows = cursor.fetchall()
                     return rows
                 except Exception as e:
-                    print(e)
+                    print(traceback.format_exc())
                     abort(500)
 
     def get_all_users(self):
@@ -330,7 +330,7 @@ class Database:
                     rows = cursor.fetchall()
                     return rows
                 except Exception as e:
-                    print(e)
+                    print(traceback.format_exc())
                     abort(500)
                     
     def delete_user(self, user_id):
@@ -342,7 +342,7 @@ class Database:
                     cursor.execute(query, [user_id])
                     connection.commit()
                 except Exception as e:
-                    print(e)
+                    print(traceback.format_exc())
                     abort(500)
                     
     def toggle_enable_disable(self, user_id):
@@ -412,7 +412,7 @@ class Database:
                     logs = cursor.fetchall()
                     return logs
                 except Exception as e:
-                    print(e)
+                    print(traceback.format_exc())
                     abort(500)
                     
 db = Database()
