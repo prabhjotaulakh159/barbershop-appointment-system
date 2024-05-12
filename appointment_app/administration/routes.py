@@ -45,7 +45,7 @@ def admin_appointments():
     form.status.choices = appointment_status
     if form.validate_on_submit():
 
-        status = "On-Going"
+        status = form.status.data
         client_id = db.get_user(f"WHERE user_name = '{form.member_name.data}'")[0]
         prof_id = db.get_user(f"WHERE user_name = '{form.prof_name.data}'")[0]
         service_id = db.get_service(f"WHERE service_name = '{form.service.data}'")[0]

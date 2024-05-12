@@ -39,7 +39,7 @@ CREATE TABLE services (
 
 CREATE TABLE appointments (
     appointment_id      NUMBER              GENERATED ALWAYS AS IDENTITY,
-    status              VARCHAR2(255)       DEFAULT 'ON GOING' NOT NULL,
+    status              VARCHAR2(255)       DEFAULT 'Open' NOT NULL,
     date_appointment    DATE                NOT NULL,
     slot                VARCHAR2(255)       NOT NULL,
     venue               VARCHAR2(255)       NOT NULL,
@@ -79,45 +79,45 @@ CREATE TABLE logs (
 
 -- Members 
 INSERT INTO users (is_enabled, access_level, user_type, user_name, pass_word, email, phone, address, age)
-VALUES (1, 0, 'Member', 'member1', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'member1@example.com', '123456789', '123 Member St, City', 25);
+VALUES (1, 0, 'Member', 'member1', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'member1@example.com', '123-456-7890', '123 Member St, City', 25);
 
 INSERT INTO users (is_enabled, access_level, user_type, user_name, pass_word, email, phone, address, age)
-VALUES (1, 0, 'Member', 'member2', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'member2@example.com', '987654321', '456 Member Ave, Town', 30);
+VALUES (1, 0, 'Member', 'member2', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'member2@example.com', '987-654-0321', '456 Member Ave, Town', 30);
 
 INSERT INTO users (is_enabled, access_level, user_type, user_name, pass_word, email, phone, address, age)
-VALUES (1, 0, 'Member', 'member3', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'member3@example.com', '654321987', '789 Member Rd, Village', 28);
+VALUES (1, 0, 'Member', 'member3', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'member3@example.com', '654-321-9987', '789 Member Rd, Village', 28);
 
 INSERT INTO users (is_enabled, access_level, user_type, user_name, pass_word, email, phone, address, age)
-VALUES (1, 0, 'Member', 'member4', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'member4@example.com', '321987654', '101 Member Blvd, County', 35);
+VALUES (1, 0, 'Member', 'member4', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'member4@example.com', '321-987-9654', '101 Member Blvd, County', 35);
 
 INSERT INTO users (is_enabled, access_level, user_type, user_name, pass_word, email, phone, address, age)
-VALUES (1, 0, 'Member', 'member5', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'member5@example.com', '789654123', '999 Member Lane, Hamlet', 22);
+VALUES (1, 0, 'Member', 'member5', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'member5@example.com', '789-654-6123', '999 Member Lane, Hamlet', 22);
 
 -- Professionals
 INSERT INTO users (is_enabled, access_level, user_type, user_name, pass_word, email, phone, address, age, pay_rate, specialty)
-VALUES (1, 0, 'Professional', 'barber1', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'barber1@example.com', '123456789', '123 Barber St, City', 30, 100, 'Haircutting and Styling');
+VALUES (1, 0, 'Professional', 'barber1', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'barber1@example.com', '123-456-3789', '123 Barber St, City', 30, 100, 'Haircutting and Styling');
 
 INSERT INTO users (is_enabled, access_level, user_type, user_name, pass_word, email, phone, address, age, pay_rate, specialty)
-VALUES (1, 0, 'Professional', 'barber2', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'barber2@example.com', '987654321', '456 Barber Ave, Town', 35, 120, 'Beard Trimming');
+VALUES (1, 0, 'Professional', 'barber2', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'barber2@example.com', '987-654-3321', '456 Barber Ave, Town', 35, 120, 'Beard Trimming');
 
 INSERT INTO users (is_enabled, access_level, user_type, user_name, pass_word, email, phone, address, age, pay_rate, specialty)
-VALUES (1, 0, 'Professional', 'barber3', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'barber3@example.com', '654321987', '789 Barber Rd, Village', 28, 110, 'Hair Coloring');
+VALUES (1, 0, 'Professional', 'barber3', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'barber3@example.com', '654-321-1987', '789 Barber Rd, Village', 28, 110, 'Hair Coloring');
 
 INSERT INTO users (is_enabled, access_level, user_type, user_name, pass_word, email, phone, address, age, pay_rate, specialty)
-VALUES (1, 0, 'Professional', 'barber4', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'barber4@example.com', '321987654', '101 Barber Blvd, County', 40, 150, 'Shaving');
+VALUES (1, 0, 'Professional', 'barber4', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'barber4@example.com', '321-987-3654', '101 Barber Blvd, County', 40, 150, 'Shaving');
 
 INSERT INTO users (is_enabled, access_level, user_type, user_name, pass_word, email, phone, address, age, pay_rate, specialty)
-VALUES (1, 0, 'Professional', 'barber5', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'barber5@example.com', '789654123', '999 Barber Lane, Hamlet', 32, 130, 'Facial Treatments');
+VALUES (1, 0, 'Professional', 'barber5', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'barber5@example.com', '789-654-3123', '999 Barber Lane, Hamlet', 32, 130, 'Facial Treatments');
 
 -- Admins
 INSERT INTO users (is_enabled, access_level, user_type, user_name, pass_word, email, phone, address, age)
-VALUES (1, 1, 'Admin', 'adminuser', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'adminuser@example.com', '123456789', '123 Admin St, City', 30);
+VALUES (1, 1, 'Admin', 'adminuser', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'adminuser@example.com', '123-456-7890', '123 Admin St, City', 30);
 
 INSERT INTO users (is_enabled, access_level, user_type, user_name, pass_word, email, phone, address, age)
-VALUES (1, 2, 'Admin', 'adminappointment', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'adminappointment@example.com', '987654321', '456 Admin Ave, Town', 35);
+VALUES (1, 2, 'Admin', 'adminappointment', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'adminappointment@example.com', '987-654-3210', '456 Admin Ave, Town', 35);
 
 INSERT INTO users (is_enabled, access_level, user_type, user_name, pass_word, email, phone, address, age)
-VALUES (1, 3, 'Admin', 'superadmin', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'superadmin@example.com', '654321987', '789 Admin Rd, Village', 28);
+VALUES (1, 3, 'Admin', 'superadmin', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'superadmin@example.com', '654-321-0987', '789 Admin Rd, Village', 28);
 
 -- Services
 INSERT INTO services (service_name, service_duration, service_price, service_materials)
@@ -147,34 +147,34 @@ VALUES ('Beard Trim', 15, 20, 'Clippers, Scissors, Beard Oil');
 
 -- appointments
 INSERT INTO appointments (status, date_appointment, slot, venue, client_id, professional_id, service_id, number_services)
-VALUES ('ON GOING', TO_DATE('2024-05-15', 'YYYY-MM-DD'), '10:00 - 11:00', 'Venue A', 1, 2, 1, 1);
+VALUES ('Open', TO_DATE('2024-05-15', 'YYYY-MM-DD'), '10:00 - 11:00', 'Venue A', 1, 2, 1, 1);
 
 INSERT INTO appointments (status, date_appointment, slot, venue, client_id, professional_id, service_id, number_services)
-VALUES ('ON GOING', TO_DATE('2024-05-16', 'YYYY-MM-DD'), '14:00 - 15:00', 'Venue B', 2, 3, 2, 1);
+VALUES ('Open', TO_DATE('2024-05-16', 'YYYY-MM-DD'), '14:00 - 15:00', 'Venue B', 2, 3, 2, 1);
 
 INSERT INTO appointments (status, date_appointment, slot, venue, client_id, professional_id, service_id, number_services)
-VALUES ('ON GOING', TO_DATE('2024-05-17', 'YYYY-MM-DD'), '11:00 - 12:00', 'Venue C', 3, 4, 3, 1);
+VALUES ('Open', TO_DATE('2024-05-17', 'YYYY-MM-DD'), '11:00 - 12:00', 'Venue C', 3, 4, 3, 1);
 
 INSERT INTO appointments (status, date_appointment, slot, venue, client_id, professional_id, service_id, number_services)
-VALUES ('ON GOING', TO_DATE('2024-05-18', 'YYYY-MM-DD'), '09:00 - 10:00', 'Venue A', 4, 5, 4, 1);
+VALUES ('Open', TO_DATE('2024-05-18', 'YYYY-MM-DD'), '11:00 - 12:00', 'Venue A', 4, 5, 4, 1);
 
 INSERT INTO appointments (status, date_appointment, slot, venue, client_id, professional_id, service_id, number_services)
-VALUES ('ON GOING', TO_DATE('2024-05-19', 'YYYY-MM-DD'), '12:00 - 13:00', 'Venue B', 5, 6, 5, 1);
+VALUES ('Open', TO_DATE('2024-05-19', 'YYYY-MM-DD'), '12:00 - 13:00', 'Venue B', 5, 6, 5, 1);
 
 INSERT INTO appointments (status, date_appointment, slot, venue, client_id, professional_id, service_id, number_services)
-VALUES ('ON GOING', TO_DATE('2024-05-22', 'YYYY-MM-DD'), '15:00 - 16:00', 'Venue C', 6, 7, 6, 1);
+VALUES ('Open', TO_DATE('2024-05-22', 'YYYY-MM-DD'), '15:00 - 16:00', 'Venue C', 6, 7, 6, 1);
 
 INSERT INTO appointments (status, date_appointment, slot, venue, client_id, professional_id, service_id, number_services)
-VALUES ('ON GOING', TO_DATE('2024-05-23', 'YYYY-MM-DD'), '10:00 - 11:00', 'Venue A', 7, 8, 7, 1);
+VALUES ('Open', TO_DATE('2024-05-23', 'YYYY-MM-DD'), '10:00 - 11:00', 'Venue A', 7, 8, 7, 1);
 
 INSERT INTO appointments (status, date_appointment, slot, venue, client_id, professional_id, service_id, number_services)
-VALUES ('ON GOING', TO_DATE('2024-05-24', 'YYYY-MM-DD'), '14:00 - 15:00', 'Venue B', 8, 9, 8, 1);
+VALUES ('Open', TO_DATE('2024-05-24', 'YYYY-MM-DD'), '14:00 - 15:00', 'Venue B', 8, 9, 8, 1);
 
 INSERT INTO appointments (status, date_appointment, slot, venue, client_id, professional_id, service_id, number_services)
-VALUES ('ON GOING', TO_DATE('2024-05-25', 'YYYY-MM-DD'), '11:00 - 12:00', 'Venue C', 9, 10, 8, 1);
+VALUES ('Open', TO_DATE('2024-05-25', 'YYYY-MM-DD'), '11:00 - 12:00', 'Venue C', 9, 10, 8, 1);
 
 INSERT INTO appointments (status, date_appointment, slot, venue, client_id, professional_id, service_id, number_services)
-VALUES ('ON GOING', TO_DATE('2024-05-26', 'YYYY-MM-DD'), '09:00 - 10:00', 'Venue A', 10, 1, 8, 1);
+VALUES ('Open', TO_DATE('2024-05-26', 'YYYY-MM-DD'), '10:00 - 11:00', 'Venue A', 10, 1, 8, 1);
 
 -- reports
 INSERT INTO reports (feedback_client, feedback_professional, date_of_report, appointment_id)
