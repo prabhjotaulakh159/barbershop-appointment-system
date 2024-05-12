@@ -90,7 +90,7 @@ class Appointment(Resource):
             'slot': appt[3],
             'venue': appt[4],
             'client_id': appt[5],
-            'profession_id': appt[6],
+            'professional_id': appt[6],
             'service_id': appt[7],
         }
         return appts_dict_list, 200

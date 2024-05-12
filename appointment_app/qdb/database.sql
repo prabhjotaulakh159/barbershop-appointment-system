@@ -147,34 +147,34 @@ VALUES ('Beard Trim', 15, 20, 'Clippers, Scissors, Beard Oil');
 
 -- appointments
 INSERT INTO appointments (status, date_appointment, slot, venue, client_id, professional_id, service_id, number_services)
-VALUES ('ON GOING', TO_DATE('2024-05-15', 'YYYY-MM-DD'), '10:00 - 11:00', 'Barber Shop A', 1, 2, 1, 1);
+VALUES ('ON GOING', TO_DATE('2024-05-15', 'YYYY-MM-DD'), '10:00 - 11:00', 'Venue A', 1, 2, 1, 1);
 
 INSERT INTO appointments (status, date_appointment, slot, venue, client_id, professional_id, service_id, number_services)
-VALUES ('ON GOING', TO_DATE('2024-05-16', 'YYYY-MM-DD'), '14:00 - 15:00', 'Barber Shop B', 2, 3, 2, 1);
+VALUES ('ON GOING', TO_DATE('2024-05-16', 'YYYY-MM-DD'), '14:00 - 15:00', 'Venue B', 2, 3, 2, 1);
 
 INSERT INTO appointments (status, date_appointment, slot, venue, client_id, professional_id, service_id, number_services)
-VALUES ('ON GOING', TO_DATE('2024-05-17', 'YYYY-MM-DD'), '11:00 - 12:00', 'Barber Shop C', 3, 4, 3, 1);
+VALUES ('ON GOING', TO_DATE('2024-05-17', 'YYYY-MM-DD'), '11:00 - 12:00', 'Venue C', 3, 4, 3, 1);
 
 INSERT INTO appointments (status, date_appointment, slot, venue, client_id, professional_id, service_id, number_services)
-VALUES ('ON GOING', TO_DATE('2024-05-18', 'YYYY-MM-DD'), '09:00 - 10:00', 'Barber Shop A', 4, 5, 4, 1);
+VALUES ('ON GOING', TO_DATE('2024-05-18', 'YYYY-MM-DD'), '09:00 - 10:00', 'Venue A', 4, 5, 4, 1);
 
 INSERT INTO appointments (status, date_appointment, slot, venue, client_id, professional_id, service_id, number_services)
-VALUES ('ON GOING', TO_DATE('2024-05-19', 'YYYY-MM-DD'), '12:00 - 13:00', 'Barber Shop B', 5, 6, 5, 1);
+VALUES ('ON GOING', TO_DATE('2024-05-19', 'YYYY-MM-DD'), '12:00 - 13:00', 'Venue B', 5, 6, 5, 1);
 
 INSERT INTO appointments (status, date_appointment, slot, venue, client_id, professional_id, service_id, number_services)
-VALUES ('ON GOING', TO_DATE('2024-05-22', 'YYYY-MM-DD'), '15:00 - 16:00', 'Barber Shop C', 6, 7, 6, 1);
+VALUES ('ON GOING', TO_DATE('2024-05-22', 'YYYY-MM-DD'), '15:00 - 16:00', 'Venue C', 6, 7, 6, 1);
 
 INSERT INTO appointments (status, date_appointment, slot, venue, client_id, professional_id, service_id, number_services)
-VALUES ('ON GOING', TO_DATE('2024-05-23', 'YYYY-MM-DD'), '10:00 - 11:00', 'Barber Shop A', 7, 8, 7, 1);
+VALUES ('ON GOING', TO_DATE('2024-05-23', 'YYYY-MM-DD'), '10:00 - 11:00', 'Venue A', 7, 8, 7, 1);
 
 INSERT INTO appointments (status, date_appointment, slot, venue, client_id, professional_id, service_id, number_services)
-VALUES ('ON GOING', TO_DATE('2024-05-24', 'YYYY-MM-DD'), '14:00 - 15:00', 'Barber Shop B', 8, 9, 8, 1);
+VALUES ('ON GOING', TO_DATE('2024-05-24', 'YYYY-MM-DD'), '14:00 - 15:00', 'Venue B', 8, 9, 8, 1);
 
 INSERT INTO appointments (status, date_appointment, slot, venue, client_id, professional_id, service_id, number_services)
-VALUES ('ON GOING', TO_DATE('2024-05-25', 'YYYY-MM-DD'), '11:00 - 12:00', 'Barber Shop C', 9, 10, 8, 1);
+VALUES ('ON GOING', TO_DATE('2024-05-25', 'YYYY-MM-DD'), '11:00 - 12:00', 'Venue C', 9, 10, 8, 1);
 
 INSERT INTO appointments (status, date_appointment, slot, venue, client_id, professional_id, service_id, number_services)
-VALUES ('ON GOING', TO_DATE('2024-05-26', 'YYYY-MM-DD'), '09:00 - 10:00', 'Barber Shop A', 10, 1, 8, 1);
+VALUES ('ON GOING', TO_DATE('2024-05-26', 'YYYY-MM-DD'), '09:00 - 10:00', 'Venue A', 10, 1, 8, 1);
 
 -- reports
 INSERT INTO reports (feedback_client, feedback_professional, date_of_report, appointment_id)
