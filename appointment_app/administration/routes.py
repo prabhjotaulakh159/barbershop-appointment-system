@@ -106,5 +106,5 @@ def view_admins():
     if current_user.access_level != 3:
         return redirect(url_for('main.home'))
     form = AdminCrudForm()
-    admins = db.get_users(f"WHERE user_type = 'Admin'")
+    admins = db.get_all_admins()
     return render_template('view-admins.html', form=form, admins=admins)

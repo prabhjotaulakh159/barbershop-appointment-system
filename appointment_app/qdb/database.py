@@ -333,6 +333,21 @@ class Database:
                     print(traceback.format_exc())
                     abort(500)
                     
+    def get_all_admins(self):
+        ''' Gets all users in the database who are not admins '''
+        query = ''' SELECT user_id, is_enabled, user_type, user_name,
+                    email, phone, address, age, pay_rate, specialty, warnings
+                    FROM users WHERE access_level IN (1,2)'''
+        with self.__connect() as connection:
+            with connection.cursor() as cursor:
+                try:
+                    cursor.execute(query)
+                    rows = cursor.fetchall()
+                    return rows
+                except Exception as e:
+                    print(traceback.format_exc())
+                    abort(500)
+                        
     def delete_user(self, user_id):
         ''' Deletes a user from the database with the given user id '''
         query = ''' DELETE FROM users WHERE user_id = :user_id '''
@@ -415,6 +430,18 @@ class Database:
                     print(traceback.format_exc())
                     abort(500)
                     
+    def add_admin(self, access_level, user_name, pass_word, email, avatar, phone, address, age):
+        '''Creates an admin'''
+        query = ''' INSERT INTO users (user_type, access_level, user_name, pass_word, email, avatar, phone, address, age)
+                    VALUES ('Admin', :access_level, :user_name, :pass_word, :email, :avatar, :phone, :address, :age) '''
+        with self.__connect() as connection:
+            with connection.cursor() as cursor:
+                try:
+                    cursor.execute(query, [access_level, user_name, pass_word, email, avatar, phone, address, age])
+                    connection.commit()
+                except Exception:
+                    print(traceback.format_exc())
+                    abort(500)
 db = Database()
 
 if __name__ == '__main__':
