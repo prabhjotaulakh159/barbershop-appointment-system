@@ -1,12 +1,16 @@
 """api for application"""
-from flask import Blueprint, request, abort
+from flask import Blueprint, request, abort, render_template
 from flask_restful import Api, Resource
 from appointment_app.qdb.database import db
 from oracledb import Date
 
-api_blueprint = Blueprint("api", __name__)
+api_blueprint = Blueprint("api", __name__, template_folder="templates", static_folder="static", static_url_path="/static/api")
 api = Api(api_blueprint)
 
+@api_blueprint.route("/api-docs")
+def api_docs():
+    ''' Renders the API documentation'''
+    return render_template("api-docs.html")
 
 class Appointments(Resource):
     '''resources for all appointments'''
@@ -25,7 +29,7 @@ class Appointments(Resource):
                 'profession_id': appt[6],
                 'service_id': appt[7],
             })
-        return appts_dict_list
+        return appts_dict_list, 200
     
     def post(self):
         '''post a new appointment'''
@@ -65,7 +69,7 @@ class Appointments(Resource):
                            client_id=data['client_id'],
                            professional_id=data['professional_id'],
                            service_id=data['service_id'])
-        return ('', 200)
+        return '', 200
         
 
 class Appointment(Resource):
@@ -86,17 +90,17 @@ class Appointment(Resource):
             'slot': appt[3],
             'venue': appt[4],
             'client_id': appt[5],
-            'profession_id': appt[6],
+            'professional_id': appt[6],
             'service_id': appt[7],
         }
-        return appts_dict_list
+        return appts_dict_list, 200
     
     def delete(self, appointment_id):
         '''Delete a appointment'''
         if not self.__exists(appointment_id):
             abort(400, "Appointment not found")
         db.delete_appointment(appointment_id)
-        return ('',200)
+        return '', 200
 
     def patch(self, appointment_id):
         '''Update a appointment in the database'''
@@ -116,7 +120,7 @@ class Appointment(Resource):
                                 slot=data['slot'], 
                                 venue=data['venue'], 
                                 service_id=data['service_id'])
-        return ('', 200)
+        return '', 200
     
     def __exists(self, appointment_id):
         '''Check if the appointment exists in the database'''
@@ -124,5 +128,5 @@ class Appointment(Resource):
         return appt
     
     
-api.add_resource(Appointments, "/appointments")
-api.add_resource(Appointment , "/appointments/<int:appointment_id>")
+api.add_resource(Appointments, "/api/appointments")
+api.add_resource(Appointment , "/api/appointments/<int:appointment_id>")
