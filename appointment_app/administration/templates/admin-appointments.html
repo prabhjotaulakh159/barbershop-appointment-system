@@ -43,6 +43,11 @@
                 {{ form.service(class='form-field', placeholder='Choose the service ') }}
                 {{ form_field_error(form.service.errors) }}
             </div>
+            <div class="input-group">
+                <div>Status:</div>
+                {{ form.status(class='form-field', placeholder='Choose the status') }}
+                {{ form_field_error(form.status.errors) }}
+            </div>
             {{ form.submit(class='button', value='Add an appointment') }}
         </form>
 
@@ -82,29 +87,24 @@
                     <th>Venue</th>
                     <th>Time-Slot</th>
                     <th>Service</th>
-                    <th>Action</th>
+                    <th>Appointment actions</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>{{ appointment[0] }}</td>
-                    <td>{{ appointment[1] }}</td>
-                    <td>{{ names[loop.index0][0] }}</td>
-                    <td>{{ names[loop.index0][1] }}</td>
-                    <td>{{ appointment[2] }}</td>
-                    <td>{{ appointment[4] }}</td>
-                    <td>{{ appointment[3] }}</td>
-                    <td>{{ names[loop.index0][2] }}</td>
-                    <td>
+                    <td data-title="Appointment ID">{{ appointment[0] }}</td>
+                    <td data-title="Status">{{ appointment[1] }}</td>
+                    <td data-title="Client">{{ names[loop.index0][0] }}</td>
+                    <td data-title="Professional">{{ names[loop.index0][1] }}</td>
+                    <td data-title="Date">{{ appointment[2] }}</td>
+                    <td data-title="Venue">{{ appointment[4] }}</td>
+                    <td data-title="Time-Slot">{{ appointment[3] }}</td>
+                    <td data-title="Service">{{ names[loop.index0][2] }}</td>
+                    <td data-title="Appointment actions">
                         <a class="button"
                             href="{{ url_for('appointment.update_appointment', appointment_id=appointment[0]) }}">Update</a>
                         <a class="delete-button"
                             href="{{ url_for('administration.delete_appointment', appointment_id=appointment[0]) }}">Delete</a>
-                        {% if reports[loop.index0] %}
-                        <a class="delete-button"
-                            href="{{ url_for('report.delete_report', report_id=reports[loop.index0][2]) }}">Delete
-                            report</a>
-                        {% endif %}
                     </td>
                 </tr>
             </tbody>
@@ -112,19 +112,41 @@
         <table class="admin-table feedback-table">
             <tr>
                 <th class="fixed-size">Client feedback:</th>
-                <td>{{ reports[loop.index0][0] }}</td>
-                <td class="action-column">
-                    <a class="button"
-                        href="{{ url_for('report.update_report', appointment_id=appointment[0], member_to_update='Member') }}">Update</a>
-                </td>
+                {% if reports[loop.index0][0] %}
+                <td data-title="Client feedback:">{{ reports[loop.index0][0] }}</td>
+                {% else %}
+                <td data-title="Client Feedback">None</td>
+                {% endif %}
             </tr>
             <tr>
                 <th class="fixed-size">Professional feedback:</th>
-                <td>{{ reports[loop.index0][1] }}</td>
+                {% if reports[loop.index0][1] %}
+                <td data-title="Professional feedback:">{{ reports[loop.index0][1] }}</td>
+                {% else %}
+                <td data-title="Professional Feedback">None</td>
+                {% endif %}
+            </tr>
+            <tr>
+                <th class="fixed-size">Update feedback action:</th>
                 <td class="action-column">
                     <a class="button"
-                        href="{{ url_for('report.update_report', appointment_id=appointment[0], member_to_update='Professional') }}">Update</a>
+                        href="{{ url_for('report.update_report', appointment_id=appointment[0], member_to_update='Member') }}">Update
+                        Client Feedback</a>
+                    <a class="button"
+                        href="{{ url_for('report.update_report', appointment_id=appointment[0], member_to_update='Professional') }}">Update
+                        Professional Feedback</a>
                 </td>
+            </tr>
+            <tr>
+                {% if reports[loop.index0] %}
+                <th class="fixed-size">Delete feedback action:</th>
+                <td class="action-column">
+                    <a class="delete-button"
+                        href="{{ url_for('report.delete_report', report_id=reports[loop.index0][2]) }}">Delete
+                        report</a>
+                 
+                </td>
+                {% endif %}
             </tr>
         </table>
         {% endfor %}

@@ -393,7 +393,7 @@ class Database:
                     cursor.execute(check_for_3_warnings_query, [user_id])
                     warnings = cursor.fetchall()[0][0]
                     if warnings == 3:
-                        cursor.execute('UPDATE users SET is_enabled = 0 WHERE user_id = :user_id', [user_id])
+                        cursor.execute('UPDATE users SET is_enabled = 0, warnings= 0 WHERE user_id = :user_id', [user_id])
                         connection.commit()
                 except Exception:
                     print(traceback.format_exc())
