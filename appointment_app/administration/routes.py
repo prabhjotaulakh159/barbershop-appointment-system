@@ -5,7 +5,7 @@ from flask_bcrypt import Bcrypt
 from flask_login import login_required, current_user
 from appointment_app.qdb.database import db
 from appointment_app.appointment.forms import AppointmentForm, AppointmentAdminForm
-from appointment_app.appointment.utility import time_slots, venues
+from appointment_app.appointment.utility import time_slots, venues, appointment_status
 from appointment_app.user.auth_config import User
 from appointment_app.user.utils import save_file
 from appointment_app.user.forms import RegisterUserForm, LoginForm, ChangePasswordForm
@@ -42,7 +42,7 @@ def admin_appointments():
     form.service.choices = services_list
     form.slot.choices = time_slots
     form.venue.choices = venues
-
+    form.status.choices = appointment_status
     if form.validate_on_submit():
 
         status = "On-Going"

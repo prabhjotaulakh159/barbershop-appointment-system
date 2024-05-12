@@ -26,14 +26,14 @@
 
         <div class="table-title">
             <div class="row">
-                <h2>All my appointments</h2>
+                <h2>My appointments</h2>
             </div>
         </div>
         {% if appointments %}
         {% for appointment in appointments %}
         <table class="table">
             <thead>
-                <tr>
+                <tr class="row">
                     <th>Appointment ID</th>
                     <th>Status </th>
                     <th>Client</th>
@@ -49,20 +49,21 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>{{ appointment[0] }}</td>
-                    <td>{{ appointment[1] }}</td>
-                    <td>{{ names[loop.index0][0] }}</td>
-                    <td>{{ names[loop.index0][1] }}</td>
-                    <td>{{ appointment[2] }}</td>
-                    <td>{{ appointment[4] }}</td>
-                    <td>{{ appointment[3] }}</td>
-                    <td>{{names[loop.index0][2]}}</td>
+                <tr class="row">
+                    <td data-title="Appointment ID">{{ appointment[0] }}</td>
+                    <td data-title="Status">{{ appointment[1] }}</td>
+                    <td data-title="Client">{{ names[loop.index0][0] }}</td>
+                    <td data-title="Professional">{{ names[loop.index0][1] }}</td>
+                    <td data-title="Date">{{ appointment[2] }}</td>
+                    <td data-title="Venue">{{ appointment[4] }}</td>
+                    <td data-title="Time-Slot">{{ appointment[3] }}</td>
+                    <td data-title="Service">{{names[loop.index0][2]}}</td>
                     {% if current_user.user_type == 'Member' %}
-                    <td>
+                    <td data-title="Action">
                         <a class="button"
                             href="{{url_for('appointment.update_appointment',appointment_id=appointment[0])}}">
-                            Update </a>
+                            Update appointment</a>
+
                     </td>
                     {% endif %}
                 </tr>
@@ -71,26 +72,59 @@
         </table>
         <table class="table feedback-table">
             <tr>
-                <th class="fixed-size">Client feedback:</th>
-                <td>{{ reports[loop.index0][0] }}</td>
+                <th class="">Client feedback:</th>
+                {% if reports[loop.index0][0] %}
+                <td data-title="Client Feedback">{{ reports[loop.index0][0] }}</td>
+                {% else %}
+                <td data-title="Client Feedback">None</td>
+                {% endif %}
+            </tr>
+            <tr>
+                <th class="fixed-size">Professional feedback:</th>
+                {% if reports[loop.index0][1] %}
+                <td data-title="Professional Feedback">{{ reports[loop.index0][1] }}</td>
+                {% else %}
+                <td data-title="Professional Feedback">None</td>
+                {% endif %}
 
-                {% if current_user.user_type == 'Member' %}
-                <td class="action-column">
+                {% if current_user.user_type == 'Professional' %}
+                <td>
                     <a class="button" href="{{url_for('report.update_report',appointment_id=appointment[0])}}"> Update
+                        my
                         report
                     </a>
                 </td>
                 {% endif %}
             </tr>
             <tr>
-                <th class="fixed-size">Professional feedback:</th>
-                <td>{{ reports[loop.index0][1] }}</td>
-
-                {% if current_user.user_type == 'Professional' %}
-                <td class="action-column">
+                <th class="fixed-size">Action:</th>
+                {% if current_user.user_type == 'Member' %}
+                <td class="action-column" data-title="Action">
+                    {% if reports[loop.index0][0] %}
                     <a class="button" href="{{url_for('report.update_report',appointment_id=appointment[0])}}"> Update
+                        my
                         report
                     </a>
+                    {% else %}
+                    <a class="button" href="{{url_for('report.update_report',appointment_id=appointment[0])}}"> Add my
+                        report
+                    </a>
+                    {% endif %}
+                </td>
+
+                {% endif %}
+                {% if current_user.user_type == 'Professional' %}
+                <td class="action-column">
+                    {% if reports[loop.index0][1] %}
+                    <a class="button" href="{{url_for('report.update_report',appointment_id=appointment[0])}}"> Update
+                        my
+                        report
+                    </a>
+                    {% else %}
+                    <a class="button" href="{{url_for('report.update_report',appointment_id=appointment[0])}}"> Add my
+                        report
+                    </a>
+                    {% endif %}
                 </td>
                 {% endif %}
             </tr>

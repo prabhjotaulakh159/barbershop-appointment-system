@@ -99,9 +99,10 @@ def add_appointment():
     form.service.choices = services_list
     form.slot.choices = time_slots
     form.venue.choices = venues
+    form.status.choices = appointment_status
     if form.validate_on_submit():
 
-        status = "Open"
+        status = form.status.data
         client_id = current_user.user_id
         prof_id = db.get_user(f"WHERE user_name = '{form.prof_name.data}'")[0]
         service_id = db.get_service(

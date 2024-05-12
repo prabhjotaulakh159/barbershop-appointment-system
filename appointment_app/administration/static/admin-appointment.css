@@ -27,7 +27,7 @@ li a:hover {
     border-collapse: collapse;
     width: 100%;
     background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+ 
 }
 
 .feedback-table {
@@ -36,12 +36,12 @@ li a:hover {
 
 .admin-table th,
 .admin-table td {
-    padding: 8px;
-    text-align: left;
+    padding: 0.5rem;
+    text-align: center;
     border-bottom: 1px solid #ddd;
 }
 
-.admin-table thead {
+.admin-table thead,th {
     background-color: #333;
     color: #fff;
 }
@@ -60,7 +60,7 @@ li a:hover {
     padding: 6px 12px;
     border-radius: 4px;
     text-decoration: none;
-    margin-right: 5px;
+
 }
 
 .admin-table tbody .button:hover {
@@ -83,21 +83,15 @@ li a:hover {
     width: 150px;
 }
 
-.action-column {
-    width: 100px;
-}
+
 
 div#admin_appoint {
     display: flex;
-    height: 100%;
     flex-wrap: wrap;
-    box-sizing: border-box;
 }
 
 div#create-appointment-section {
     flex: 1;
-    flex-shrink: 0;
-    box-sizing: border-box;
     padding:1rem;
     background-color:black;
 }
@@ -105,14 +99,65 @@ div#create-appointment-section {
 div#appointments {
     flex: 3;
     background-color: #000000;
-    height: 100%;
-    overflow: auto;
     padding: 1rem;
-
 
 }
 
 form{
     background-color:#333;
     color:white;
+}
+
+
+@media (max-width: 1000px) {
+
+    /* Adjust the breakpoint as needed */
+    #create-appointment-section,
+    #appointments {
+        flex: 1 100%;
+        margin: 0 auto;
+    }
+
+    #create-appointment-section {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #appointments {
+        width: 100%;
+    }
+
+    thead,
+    tr th {
+        display: none;
+    }
+
+    tr,
+    th,
+    td {
+        display: block;
+    }
+
+    .admin-table th,
+    .admin-table td {
+        text-align: right;
+    }
+    td[data-title]:before {
+        content: attr(data-title);
+        font-weight: bold;
+        display: inline-block;
+        content: attr(data-title);
+        float: left;
+        margin-right: 0.5em;
+        font-size: 0.95em;
+    }
+
+    tr.row {
+        padding: 1.5em;
+    }
+
+    .fixed-size,
+    .action-column {
+        width: auto;
+    }
 }

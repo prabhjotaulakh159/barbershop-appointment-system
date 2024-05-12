@@ -158,6 +158,10 @@ form .button {
     color: #ffffff;
 }
 
+.hide-field{
+    display:none;
+}
+
 .error,
 .success,
 .warning {
@@ -230,78 +234,3 @@ footer {
     margin-top: 2rem;
 }
 
-/*-------------Appointment css----------------------*/
-/* div#flex {
-    display: flex;
-    height: 100%;
-}
-
-@media(max-width: 700px) {
-    div#flex{
-        flex-direction: column;
-    }
-}
-
-section#left-side {
-    flex: 1;
-    border: 1px solid black;
-    border-radius: 10px;
-    margin: 10px;
-    background-color: #ffe8d6;
-}
-
-section#right-side {
-    display: flex;
-    flex: 2;
-    border: 1px solid black;
-    border-radius: 10px;
-    margin: 10px;
-    background-color: #cb997e;
-    justify-content: center;
-    overflow-y: auto;
-    flex-wrap: wrap;
-
-}
-
-.listing {
-    background-color: beige;
-    display: flex;
-    margin: 10px auto;
-    border-radius: 10px;
-    border: 1px solid black;
-    width: 80%;
-    height: 20vh;
-    justify-content: space-around;
-    align-content: space-around;
-    flex-wrap: wrap;
-    height: auto;
-}
-
-.container {
-    text-align: center;
-
-}
-
-
-.section {
-    background-color: #ddbea9;
-    margin: 25px;
-    width: 40%;
-    text-align: center;
-    border-radius: 10px;
-}
-
-.button {
-    display: inline-block;
-    background-color: lightgreen;
-    padding: 10px 20px;
-    text-align: center;
-    font-size: 16px;
-    margin: 5px;
-    cursor: pointer;
-    border-radius: 8px;
-}
-<<<<<<< HEAD
-=======
-
------------------------------------ */
