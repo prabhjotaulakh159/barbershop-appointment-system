@@ -158,6 +158,10 @@ form .button {
     color: #ffffff;
 }
 
+.hide-field{
+    display:none;
+}
+
 .error,
 .success,
 .warning {

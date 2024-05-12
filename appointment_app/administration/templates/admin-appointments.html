@@ -43,6 +43,11 @@
                 {{ form.service(class='form-field', placeholder='Choose the service ') }}
                 {{ form_field_error(form.service.errors) }}
             </div>
+            <div class="input-group">
+                <div>Status:</div>
+                {{ form.status(class='form-field', placeholder='Choose the status') }}
+                {{ form_field_error(form.status.errors) }}
+            </div>
             {{ form.submit(class='button', value='Add an appointment') }}
         </form>
 
@@ -107,11 +112,19 @@
         <table class="admin-table feedback-table">
             <tr>
                 <th class="fixed-size">Client feedback:</th>
+                {% if reports[loop.index0][0] %}
                 <td data-title="Client feedback:">{{ reports[loop.index0][0] }}</td>
+                {% else %}
+                <td data-title="Client Feedback">None</td>
+                {% endif %}
             </tr>
             <tr>
                 <th class="fixed-size">Professional feedback:</th>
+                {% if reports[loop.index0][1] %}
                 <td data-title="Professional feedback:">{{ reports[loop.index0][1] }}</td>
+                {% else %}
+                <td data-title="Professional Feedback">None</td>
+                {% endif %}
             </tr>
             <tr>
                 <th class="fixed-size">Update feedback action:</th>
