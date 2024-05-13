@@ -1,13 +1,17 @@
-''' Contains form for authentication '''
+'''Contains forms for authentication'''
+
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed
+
 from wtforms import EmailField, PasswordField, StringField, SubmitField, SelectField, FileField, FloatField, IntegerField
 from wtforms.validators import DataRequired, Length, EqualTo, NumberRange, Regexp, Optional
 
+
 PHONE_REGEX = '^[0-9]{3,3}-[0-9]{3,3}-[0-9]{4,4}$'
 
+
 class RegisterUserForm(FlaskForm):
-    ''' Class representing registration form '''
+    '''Class representing registration form'''
     username = StringField("Username", validators=[DataRequired(), Length(min=2, max=25)])
     password = PasswordField("Password", validators=[DataRequired()])
     confirm_password = PasswordField("Retype password", validators=[DataRequired(), EqualTo("password")])
@@ -21,17 +25,17 @@ class RegisterUserForm(FlaskForm):
     specialty = SelectField("Specialty", choices=[('Hair Stylist', 'Hair Stylist'), ('Colorist', 'Colorist'), ('Barber', 'Barber'), ('Other', 'Other')])
     submit = SubmitField("Register")
 
+
 class LoginForm(FlaskForm):
-    ''' Form for login '''
+    '''Form for login'''
     username = StringField("Username", validators=[DataRequired(), Length(min=2, max=25)])
     password = PasswordField("Password", validators=[DataRequired(), Length(min=2)])
     submit = SubmitField("Login")
 
 
 class ChangePasswordForm(FlaskForm):
-    ''' Form to change passwords '''
+    '''Form to change passwords'''
     old_password = PasswordField("Old Password", validators=[DataRequired(), Length(min=5)])
     new_password = PasswordField("New Password", validators=[DataRequired(), Length(min=5)])
     confirm_new_password = PasswordField("Confirm New Password", validators=[DataRequired(), Length(min=5), EqualTo("new_password")])
     submit = SubmitField("Change Password")
-
