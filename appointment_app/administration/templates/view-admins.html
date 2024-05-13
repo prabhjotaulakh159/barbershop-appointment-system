@@ -44,10 +44,9 @@
     <div id="users">
         <ul>
             <li><a href="{{ url_for('administration.user_admin_panel') }}">User Admin Panel</a> </li>
-            {% if current_user.access_level == 3 %}
+            <li><a href="{{ url_for('administration.view_admins') }}">View Admins</a> </li>
             <li><a href="{{ url_for('administration.admin_appointments') }}">Appointment Admin Panel</a></li>
             <li><a href="{{ url_for('administration.view_logs') }}">Admin logs</a> </li>
-            {% endif %}
         </ul>
         <table class="admin-table">
             <thead>
@@ -79,7 +78,7 @@
                     {% if admin[11] == 1 %}
                     {{ admin[2] }} User
                     {% else %}
-                    {{ admin[2] }} Professional
+                    {{ admin[2] }} Appointment
                     {% endif %}
                     </td>
                     <td data-title="Name">{{ admin[3] }}</td>
