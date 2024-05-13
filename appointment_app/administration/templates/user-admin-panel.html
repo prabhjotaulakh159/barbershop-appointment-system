@@ -51,7 +51,7 @@
     </div>
     <div id="users">
         <ul>
-            <li><a href="{{ url_for('user.user_admin_panel') }}">User Admin Panel</a> </li>
+            <li><a href="{{ url_for('administration.user_admin_panel') }}">User Admin Panel</a> </li>
             {% if current_user.access_level == 3 %}
             <li><a href="{{ url_for('administration.admin_appointments') }}">Appointment Admin Panel</a></li>
             <li><a href="{{ url_for('administration.view_logs') }}">Admin logs</a> </li>
@@ -96,12 +96,12 @@
                     {% endif %}
                     <td data-title="Warnings">{{ user[10] }}</td>
                     <td data-title="Warn User Action">
-                        <a class="warn-button" href="{{ url_for('user.warn_user', user_id=user[0]) }}">
+                        <a class="warn-button" href="{{ url_for('administration.warn_user', user_id=user[0]) }}">
                             Warn
                         </a>
                     </td>
                     <td class="action-col" data-title="State User Action">
-                        <a class="state-button" href="{{ url_for('user.toggle_activation', user_id=user[0]) }}">
+                        <a class="state-button" href="{{ url_for('administration.toggle_activation', user_id=user[0]) }}">
                             {% if user[1] == 1 %}
                             Disable
                             {% else %}
@@ -110,9 +110,9 @@
                         </a>
                     </td>
                     <td class="action-col" data-title="Update User Action"><a class="button"
-                            href="{{ url_for('user.update_user', user_id=user[0]) }}">Update</a></td>
+                            href="{{ url_for('administration.update_user', user_id=user[0]) }}">Update</a></td>
                     <td class="action-col" data-title="Delete User Action"><a class="delete-button"
-                            href="{{ url_for('user.delete_user', user_id=user[0]) }}">Delete</a></td>
+                            href="{{ url_for('administration.delete_user', user_id=user[0]) }}">Delete</a></td>
                 </tr>
                 {% endfor %}
             </tbody>

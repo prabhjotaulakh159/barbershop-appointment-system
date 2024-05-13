@@ -336,8 +336,8 @@ class Database:
     def get_all_admins(self):
         ''' Gets all users in the database who are not admins '''
         query = ''' SELECT user_id, is_enabled, user_type, user_name,
-                    email, phone, address, age, pay_rate, specialty, warnings
-                    FROM users WHERE access_level IN (1,2)'''
+                    email, phone, address, age, pay_rate, specialty, warnings,
+                    access_level FROM users WHERE access_level IN (1,2)'''
         with self.__connect() as connection:
             with connection.cursor() as cursor:
                 try:
