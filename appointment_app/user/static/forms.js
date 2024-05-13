@@ -31,8 +31,8 @@ document.addEventListener('DOMContentLoaded', (e) => {
         var age = document.getElementById('age').value;
         var phone = document.getElementById('phone').value;
         var address = document.getElementById('address').value;
-        var payrate = document.getElementById('pay-rate').value;
-        
+        var payrateField = document.getElementById('pay-rate');
+
         // Username validation
         if (!username.trim()) {
             isValid = false;
@@ -106,13 +106,18 @@ document.addEventListener('DOMContentLoaded', (e) => {
             document.getElementById('address').classList.remove('form-error');
             document.getElementById('address-error').innerText = '';
         }
-        if (payrate.trim() && (isNaN(parseFloat(payrate)) || parseFloat(payrate) < 0)) {
-            isValid = false;
-            document.getElementById('pay-rate').classList.add('form-error');
-            document.getElementById('payrate-error').innerText = 'Pay rate must be a valid number greater than or equal to 0';
-        } else {
-            document.getElementById('pay-rate').classList.remove('form-error');
-            document.getElementById('payrate-error').innerText = '';
+
+        // payrate validation
+        if (payrateField) {
+            var payrate = payrateField.value;
+            if (payrate.trim() && (isNaN(parseFloat(payrate)) || parseFloat(payrate) < 0)) {
+                isValid = false;
+                document.getElementById('pay-rate').classList.add('form-error');
+                document.getElementById('payrate-error').innerText = 'Pay rate must be a valid number greater than or equal to 0';
+            } else {
+                document.getElementById('pay-rate').classList.remove('form-error');
+                document.getElementById('payrate-error').innerText = '';
+            }
         }
 
         if (!isValid) {

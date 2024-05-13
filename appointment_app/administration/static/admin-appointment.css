@@ -34,6 +34,7 @@ li a:hover {
     margin-bottom: 20px;
 }
 
+
 .admin-table th,
 .admin-table td {
     padding: 0.5rem;
@@ -159,5 +160,9 @@ form{
     .fixed-size,
     .action-column {
         width: auto;
+    }
+
+    tr.log{
+        padding:1.5em
     }
 }
