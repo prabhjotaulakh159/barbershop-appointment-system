@@ -9,7 +9,7 @@ from appointment_app.report.routes import report
 from appointment_app.user.auth_config import login_manager
 from appointment_app.api.routes import api_blueprint
 
-def create_app(config=ConfigDev):
+def create_app(config):
     ''' Creates an instance of our application with a configuration '''
     app = Flask(__name__)
     app.config.from_object(config)
