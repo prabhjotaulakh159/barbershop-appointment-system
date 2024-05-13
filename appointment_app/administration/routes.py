@@ -253,3 +253,16 @@ def view_admins():
         flash('Admin has been created', 'success')
         return redirect(url_for('administration.view_admins'))
     return render_template('view-admins.html', form=form, admins=admins)
+
+
+@administration.route("/toggle-access-level/<int:user_id>")
+@login_required
+def toggle_access_level(user_id):
+    '''Changes an admins access level to switch between admin user or admin appointment'''
+    if current_user.access_level != 3:
+        return redirect(url_for('main.home'))
+    if user_id == current_user.user_id:
+        return redirect(url_for('main.home'))
+    db.toggle_access_level(user_id=user_id)
+    flash("Successfully switched access level", "success")
+    return redirect(url_for("administration.view_admins"))

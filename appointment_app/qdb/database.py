@@ -442,6 +442,26 @@ class Database:
                 except Exception:
                     print(traceback.format_exc())
                     abort(500)
+                    
+    def toggle_access_level(self, user_id):
+        '''Changes an admins access level from 1 to 2 or 2 to 1'''
+        with self.__connect() as conn:
+            with conn.cursor() as cursor:
+                try:
+                    user = self.get_user(f"WHERE user_id = {user_id}")
+                    current_access_lvl = user[2]
+                    if current_access_lvl == 1:
+                        query = "UPDATE users SET access_level = 2 WHERE user_id = :user_id"
+                    elif current_access_lvl == 2:
+                        query = "UPDATE users SET access_level = 1 WHERE user_id = :user_id"
+                    else:
+                        return
+                    cursor.execute(query, [user_id])
+                    conn.commit()
+                except Exception:
+                    print(traceback.format_exc())
+                    abort(500)
+        
 db = Database()
 
 if __name__ == '__main__':
