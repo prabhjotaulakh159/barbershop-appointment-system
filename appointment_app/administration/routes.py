@@ -95,7 +95,7 @@ def view_logs():
     if current_user.access_level < 2:
         return redirect(url_for('main.home'))
     
-    logs = db.get_logs(f"ORDER BY log_id")
+    logs = db.get_logs("ORDER BY log_id")
     return render_template("admin-logs.html", logs=logs)
 
 
@@ -107,4 +107,32 @@ def view_admins():
         return redirect(url_for('main.home'))
     form = AdminCrudForm()
     admins = db.get_all_admins()
+    if form.validate_on_submit():
+        user_exist = db.get_user(f"WHERE user_name = '{form.username.data}'")
+        if user_exist:
+            flash(f'{form.username.data} taken, choose another username', 'error')
+            return redirect(url_for('user.register'))
+        bcrypt = Bcrypt()
+        avatar = '/images/avatar.png'
+        if form.avatar.data:
+            avatar = '/images/' + save_file(form.avatar.data)
+        if form.user_type.data == "Member":
+            form.pay_rate.data = None
+            form.specialty.data = None
+        if form.user_type.data == 'Admin User':
+            access_level = 1
+        else:
+            access_level = 2
+        db.add_admin(
+            access_level=access_level,
+            user_name=form.username.data,
+            pass_word=form.password.data,
+            email=form.email.data,
+            avatar=avatar,
+            phone=form.phone.data,
+            age=form.age.data,
+            address=form.address.data
+        )
+        flash(f'Admin has been created', 'success')
+        return redirect(url_for('administration.view_admins'))
     return render_template('view-admins.html', form=form, admins=admins)
