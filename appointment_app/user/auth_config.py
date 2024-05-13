@@ -1,6 +1,8 @@
 ''' Config for flask-login '''
+
 from flask import redirect, url_for
 from flask_login import LoginManager, UserMixin
+
 from appointment_app.qdb.database import db
 
 login_manager = LoginManager()
@@ -8,7 +10,9 @@ login_manager = LoginManager()
 
 class User(UserMixin):
     ''' Base class representing a user '''
-    def __init__(self, user_id, is_enabled, access_level, user_type, user_name, pass_word, email, avatar, phone, address, age, pay_rate, specialty, warnings):
+    def __init__(self, user_id, is_enabled, access_level, user_type, user_name,
+                 pass_word, email, avatar, phone, address, age, pay_rate,
+                 specialty, warnings):
         self.user_id = user_id
         self.is_enabled = is_enabled
         self.access_level = access_level
@@ -40,8 +44,22 @@ def load_user(username):
     user = db.get_user(f"WHERE user_name = '{username}'")
     if not user:
         return
-    return User(user[0], user[1], user[2], user[3], user[4], user[5], user[6], user[7], user[8], user[9], user[10], user[11], user[12], user[13])
-
+    return User(
+        user_id=user[0],
+        is_enabled=user[1],
+        access_level=user[2],
+        user_type=user[3],
+        user_name=user[4],
+        pass_word=user[5],
+        email=user[6],
+        avatar=user[7],
+        phone=user[8],
+        address=user[9],
+        age=user[10],
+        pay_rate=user[11],
+        specialty=user[12],
+        warnings=user[13]
+    )
 
 
 @login_manager.unauthorized_handler
