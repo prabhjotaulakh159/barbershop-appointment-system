@@ -7,17 +7,18 @@ from appointment_app.appointment.forms import AppointmentForm, AppointmentAdminF
 from appointment_app.appointment.utility import time_slots, venues, appointment_status
 
 appointment = Blueprint('appointment', __name__,
-                        static_folder="static", template_folder="templates", static_url_path="/static/appointment")
+                        static_folder="static",
+                        template_folder="templates", static_url_path="/static/appointment")
 
 
 @appointment.route('/all-appointments')
 def all_appointments():
     '''function rendering all appointments'''
-    
+
     filter_by = request.args.get('filter')
     search = request.args.get('search')
     order_by = request.args.get('order_by')
-    
+
     if filter_by and search:
         cond = f"WHERE {filter_by} = '{search}'"
     else:
@@ -28,8 +29,7 @@ def all_appointments():
             cond = cond+f" ORDER BY {order_by}"
         else:
             cond = f"ORDER BY {order_by}"
-            
-    
+
     appointments = db.get_appointments(cond)
     return render_template("all-appointments.html", appointments=appointments)
 
@@ -56,14 +56,12 @@ def appointment_view(appointment_id):
 @login_required
 def my_appointments():
     '''function rendering user's appointments'''
-    order_by = request.args.get('order_by')
-    
     cond = f'''WHERE client_id = {current_user.user_id}
             OR professional_id = {current_user.user_id}'''
-            
+    order_by = request.args.get('order_by')
     if order_by:
-        cond = cond + f" ORDER BY {order_by}"        
-            
+        cond = cond + f" ORDER BY {order_by}"
+
     appointments = db.get_appointments(cond)
     names = []
     reports = []
@@ -88,7 +86,7 @@ def add_appointment():
     services = db.get_services()
     services_list = []
     for service in services:
-        services_list.append((service[1], service[1]))
+        services_list.append((service[1], service[1]+" "+str(service[3])+"$"))
 
     professionals = db.get_users("WHERE user_type = 'Professional'")
     professionals_list = []
@@ -100,15 +98,15 @@ def add_appointment():
     form.slot.choices = time_slots
     form.venue.choices = venues
     form.status.choices = appointment_status
+
     if form.validate_on_submit():
 
         status = form.status.data
         client_id = current_user.user_id
         prof_id = db.get_user(f"WHERE user_name = '{form.prof_name.data}'")[0]
-        service_id = db.get_service(
-            f"WHERE service_name = '{form.service.data}'")[0]
+        service_id = db.get_service(f"WHERE service_name = '{form.service.data}'")[0]
         db.add_appointment(status, form.date_appointment.data,
-                           form.slot.data, form.venue.data, 
+                           form.slot.data, form.venue.data,
                            client_id, prof_id, service_id)
         flash('Appointment is created!', "success")
 
@@ -123,7 +121,7 @@ def update_appointment(appointment_id):
     if current_user.user_type == 'Professional':
         return redirect(url_for('main.home'))
     appt = db.get_appointment(f"WHERE appointment_id = {appointment_id}")
-    if current_user.user_id not in (appt[5], appt[6]) and current_user.access_level < 2:
+    if current_user.user_id != appt[5] and current_user.access_level < 2:
         return redirect(url_for('main.home'))
 
     if current_user.access_level >= 2:
@@ -137,11 +135,12 @@ def update_appointment(appointment_id):
         form.venue.data = appt[4]
         form.service.data = db.get_service(f"WHERE service_id = {appt[7]}")[1]
         form.status.data = appt[1]
+
         services = db.get_services()
         services_list = []
 
         for service in services:
-            services_list.append((service[1], service[1]))
+            services_list.append((service[1], service[1]+" "+str(service[3])+"$"))
 
         professionals = db.get_users("WHERE user_type = 'Professional'")
         professionals_list = []
@@ -182,6 +181,3 @@ def update_appointment(appointment_id):
             return redirect(url_for('administration.admin_appointments'))
         return redirect(url_for('appointment.appointment_view', appointment_id=appt[0]))
     return render_template('update-appointment.html', current_user=current_user, form=form)
-
-
-# peackaboo tommy
