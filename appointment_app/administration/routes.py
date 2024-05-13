@@ -10,6 +10,7 @@ from appointment_app.user.auth_config import User
 from appointment_app.user.utils import save_file
 from appointment_app.user.forms import RegisterUserForm, LoginForm, ChangePasswordForm
 from appointment_app.administration.forms import AdminCrudForm
+import requests
 
 administration = Blueprint('administration', __name__, template_folder="templates",
                  static_folder="static", static_url_path="/static/administration")
@@ -128,11 +129,13 @@ def update_user(user_id):
         db.update_user(user_id, form.username.data, form.email.data, current_avatar, form.phone.data, form.address.data, form.age.data, form.pay_rate.data, form.specialty.data)
         db.add_log(f"Updated user profile for user '{form.username.data}'", date.today(), "Users", current_user.user_name, current_user.user_id)
         flash("Successfully updated user", "success")
+        if '/view-admins' in request.referrer:
+            return redirect(url_for('administration.view_admins'))
         return redirect(url_for('administration.user_admin_panel'))
     return render_template('update-user.html', form=form, user=userdb)
 
 
-@administration.route("/all-users", methods=['GET', 'POST'])
+@administration.route("/user-admin-panel", methods=['GET', 'POST'])
 @login_required
 def user_admin_panel():
     ''' Loads user admin panel '''
@@ -170,7 +173,12 @@ def delete_user(user_id):
     if current_user.access_level in (1,3):
         db.add_log(f"Deleted user ID '{user_id}'", date.today(), "Users", current_user.user_name, current_user.user_id)
     flash("User deleted", "success")
+    # check if deletion was from view admins or view users, and 
+    # redirect accordingly 
+    if '/view-admins' in request.referrer:
+        return redirect(url_for('administration.view_admins'))
     return redirect(url_for('administration.user_admin_panel'))
+        
 
 
 @administration.route("/disable-user/<int:user_id>")
@@ -190,6 +198,8 @@ def toggle_activation(user_id):
     else:
         db.add_log(f"Enabled user ID '{user_id}'", date.today(), "Users", current_user.user_name, current_user.user_id)
         flash("User has been enabled", "success")
+    if '/view-admins' in request.referrer:
+        return redirect(url_for('administration.view_admins'))
     return redirect(url_for('administration.user_admin_panel'))
 
 @administration.route("/warn-user/<int:user_id>")
@@ -202,6 +212,8 @@ def warn_user(user_id):
         return redirect(url_for('main.home'))
     db.warn_user(user_id)
     flash("You successfully warned the user", "success")
+    if '/view-admins' in request.referrer:
+        return redirect(url_for('administration.view_admins'))
     return redirect(url_for('administration.user_admin_panel'))
 
 @administration.route('/view-admins', methods=['GET', 'POST'])
