@@ -103,7 +103,7 @@
                     <td data-title="Venue">{{ appointment[4] }}</td>
                     <td data-title="Time-Slot">{{ appointment[3] }}</td>
                     <td data-title="Service">{{ appointment[5] }}</td>
-                    <td data-title="Appointment actions">
+                    <td data-title="Appointment actions" id = "appt-action">
                         <a class="button" href="{{ url_for('appointment.update_appointment', appointment_id=appointment[0]) }}">Update</a>
                         <a class="delete-button" href="{{ url_for('administration.delete_appointment', appointment_id=appointment[0]) }}">Delete</a>
                     </td>
@@ -135,10 +135,10 @@
                 </td>
             </tr>
             <tr>
-                {% if appointments[10] %}
+                {% if appointment[10] %}
                 <th class="fixed-size">Delete feedback action:</th>
                 <td class="action-column">
-                    <a class="delete-button" href="{{ url_for('report.delete_report', report_id=appointments[10]) }}">Delete report</a>
+                    <a class="delete-button" href="{{ url_for('report.delete_report', report_id=appointment[10]) }}">Delete report</a>
                 </td>
                 {% endif %}
             </tr>
