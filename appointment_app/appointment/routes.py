@@ -146,13 +146,13 @@ def update_appointment(appointment_id):
         professionals_list = []
         for professional in professionals:
             professionals_list.append((professional[4], professional[4]))
-        
+
         form.prof_name.choices = professionals_list
         form.service.choices = services_list
         form.slot.choices = time_slots
         form.venue.choices = venues
         form.status.choices = appointment_status
-        
+
         if current_user.access_level >= 2:
             members = db.get_users("WHERE user_type = 'Member'")
             members_list = []
@@ -161,9 +161,11 @@ def update_appointment(appointment_id):
                 form.member_name.choices = members_list
 
     else:
-        
+
         service_id = db.get_service(f"WHERE service_name = '{form.service.data}'")[0]
+
         if current_user.access_level >= 2:
+            #Admin update
             client_id = db.get_user(f"WHERE user_name = '{form.member_name.data}'")[0]
             prof_id = db.get_user(f"WHERE user_name = '{ form.prof_name.data}'")[0]
 
@@ -173,6 +175,7 @@ def update_appointment(appointment_id):
                                   professional_id=prof_id, service_id=service_id)
             db.add_log(f"Updated appointment ID {appt[0]}", date.today(), "Appointments", current_user.user_name, current_user.user_id)
         else:
+            #Member update
             db.update_appointment(appointment_id=appt[0], status=form.status.data,
                                   date_appointment=form.date_appointment.data,
                                   slot=form.slot.data, venue=form.venue.data, service_id=service_id)

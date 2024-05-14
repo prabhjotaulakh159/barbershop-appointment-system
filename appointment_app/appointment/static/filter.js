@@ -8,12 +8,12 @@ document.addEventListener("DOMContentLoaded", function () {
             selectTime.name = "search";
             selectTime.id = "search";
             var times = [
-                { value: '10-11', label: '10am - 11am' },
-                { value: '11-12', label: '11am - 12pm' },
-                { value: '12-1', label: '12pm - 1pm' },
-                { value: '1-2', label: '1pm - 2pm' },
-                { value: '2-3', label: '2pm - 3pm' },
-                { value: '3-4', label: '3pm - 4pm' }
+                { value: '10:00 - 11:00', label: '10am - 11am' },
+                { value: '11:00 - 12:00', label: '11am - 12pm' },
+                { value: '12:00 - 13:00', label: '12pm - 1pm' },
+                { value: '13:00 - 14:00', label: '1pm - 2pm' },
+                { value: '14:00 - 15:00', label: '2pm - 3pm' },
+                { value: '15:00 - 16:00', label: '3pm - 4pm' }
             ];
 
             times.forEach(function (time) {
