@@ -461,6 +461,24 @@ class Database:
                 except Exception:
                     print(traceback.format_exc())
                     abort(500)
+                    
+    def get_appts_with_joins(self):
+        '''Gets appointmnets and incldues the service name, client name and barber name'''
+        # gets literally everything for an appointment
+        # only God knows how this query works
+        # but it works, so please do not touch it
+        # if not order_by_cond:
+            # order_by_cond = "ORDER BY a4.date_appointment"
+        query = f'''SELECT a4.appointment_id AS "appointment_id", a4.status, a4.date_appointment AS "date_appointment", a4.slot, a4.venue AS "venue", s.service_name, u.user_name AS "Members", u2.user_name AS "Professionals", r.feedback_client, r.feedback_professional, r.report_id FROM appointments a INNER JOIN services s ON a.service_id = s.service_id INNER JOIN appointments a2 ON s.service_id = a2.service_id INNER JOIN users u ON a2.client_id = u.user_id INNER JOIN appointments a3 ON a3.client_id = u.user_id INNER JOIN users u2 ON a3.professional_id = u2.user_id LEFT OUTER JOIN appointments a4 ON a4.professional_id = u2.user_id INNER JOIN reports r ON r.appointment_id = a4.appointment_id'''
+        with self.__connect() as connection:
+            with connection.cursor() as cursor:
+                try:    
+                    cursor.execute(query)
+                    rows = cursor.fetchall()
+                    return rows;
+                except Exception:
+                    print(traceback.format_exc())
+                    abort(500)
         
 db = Database()
 

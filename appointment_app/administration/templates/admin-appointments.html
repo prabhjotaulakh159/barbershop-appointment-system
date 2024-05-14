@@ -97,13 +97,13 @@
                 <tr>
                     <td data-title="Appointment ID">{{ appointment[0] }}</td>
                     <td data-title="Status">{{ appointment[1] }}</td>
-                    <td data-title="Client">{{ names[loop.index0][0] }}</td>
-                    <td data-title="Professional">{{ names[loop.index0][1] }}</td>
+                    <td data-title="Client">{{ appointment[6] }}</td>
+                    <td data-title="Professional">{{ appointment[7] }}</td>
                     <td data-title="Date">{{ appointment[2] }}</td>
                     <td data-title="Venue">{{ appointment[4] }}</td>
                     <td data-title="Time-Slot">{{ appointment[3] }}</td>
-                    <td data-title="Service">{{ names[loop.index0][2] }}</td>
-                    <td data-title="Appointment actions">
+                    <td data-title="Service">{{ appointment[5] }}</td>
+                    <td data-title="Appointment actions" id = "appt-action">
                         <a class="button" href="{{ url_for('appointment.update_appointment', appointment_id=appointment[0]) }}">Update</a>
                         <a class="delete-button" href="{{ url_for('administration.delete_appointment', appointment_id=appointment[0]) }}">Delete</a>
                     </td>
@@ -113,16 +113,16 @@
         <table class="admin-table feedback-table">
             <tr>
                 <th class="fixed-size">Client feedback:</th>
-                {% if reports[loop.index0][0] %}
-                <td data-title="Client feedback:">{{ reports[loop.index0][0] }}</td>
+                {% if appointment[8] %}
+                <td data-title="Client feedback:">{{ appointment[8] }}</td>
                 {% else %}
                 <td data-title="Client Feedback">None</td>
                 {% endif %}
             </tr>
             <tr>
                 <th class="fixed-size">Professional feedback:</th>
-                {% if reports[loop.index0][1] %}
-                <td data-title="Professional feedback:">{{ reports[loop.index0][1] }}</td>
+                {% if appointment[9] %}
+                <td data-title="Professional feedback:">{{ appointment[9] }}</td>
                 {% else %}
                 <td data-title="Professional Feedback">None</td>
                 {% endif %}
@@ -135,10 +135,10 @@
                 </td>
             </tr>
             <tr>
-                {% if reports[loop.index0] %}
+                {% if appointment[10] %}
                 <th class="fixed-size">Delete feedback action:</th>
                 <td class="action-column">
-                    <a class="delete-button" href="{{ url_for('report.delete_report', report_id=reports[loop.index0][2]) }}">Delete report</a>
+                    <a class="delete-button" href="{{ url_for('report.delete_report', report_id=appointment[10]) }}">Delete report</a>
                 </td>
                 {% endif %}
             </tr>

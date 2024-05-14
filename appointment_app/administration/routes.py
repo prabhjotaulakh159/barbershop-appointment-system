@@ -17,7 +17,6 @@ administration = Blueprint('administration', __name__, template_folder="template
 @login_required
 def admin_appointments():
     '''function to add and list all appointments for admin_appoint'''
-
     if current_user.access_level < 2:
         return redirect(url_for('main.home'))
     form = AppointmentAdminForm()
@@ -56,24 +55,26 @@ def admin_appointments():
         flash('Appointment is created!','success')
 
     #fill the condition before getting the appointments
-    order_by = request.args.get('order_by')
-    cond = None
-    if order_by:
-        cond = f"ORDER BY {order_by}"
+    # order_by = request.args.get('order_by')
+    # order_by_cond = None
+    # if order_by:
+    #     order_by_cond = f"ORDER BY a4.{order_by}"
 
-    appointments = db.get_appointments(cond)
-    names = []
-    reports = []
-    for apt in appointments:
-        client_name = db.get_user(f"WHERE user_id= {apt[5]}")
-        professional_name = db.get_user(f"WHERE user_id = {apt[6]}")
-        service_name = db.get_service(f"WHERE service_id = {apt[7]}")
+    appointments = db.get_appts_with_joins()
+    
+    print(appointments[0][8])
+    print(appointments[0][9])
+    # names = []
+    # reports = []
+    # for apt in appointments:
+    #     client_name = db.get_user(f"WHERE user_id= {apt[5]}")
+    #     professional_name = db.get_user(f"WHERE user_id = {apt[6]}")
+    #     service_name = db.get_service(f"WHERE service_id = {apt[7]}")
 
-        names.append((client_name[4], professional_name[4], service_name[1]))
-        reports.append(db.get_report(apt[0]))
+    #     names.append((client_name[4], professional_name[4], service_name[1]))
+    #     reports.append(db.get_report(apt[0]))
 
-    return render_template("admin-appointments.html", form=form,
-                           appointments=appointments, names=names, reports=reports)
+    return render_template("admin-appointments.html", form=form, appointments=appointments)
 
 
 @administration.route('/delete-appointment/<int:appointment_id>')
