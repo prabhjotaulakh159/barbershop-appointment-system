@@ -461,6 +461,26 @@ class Database:
                 except Exception:
                     print(traceback.format_exc())
                     abort(500)
+                    
+    def get_appts_with_joins(self):
+        query = '''
+            SELECT
+                    a3.appointment_id, 
+                    a3.status, 
+                    a3.date_appointment,         
+                    a3.slot, 
+                    a3.venue,
+                    s.service_name,
+                    u.user_name AS "Members",
+                    u2.user_name AS "Professionals"
+                FROM 
+                    appointments a INNER JOIN services s ON a.service_id = s.service_id
+                    INNER JOIN appointments a2 ON s.service_id = a2.service_id 
+                    INNER JOIN users u ON a2.client_id = u.user_id
+                    INNER JOIN appointments a3 ON a3.client_id = u.user_id
+                    INNER JOIN users u2 ON a3.professional_id = u2.user_id; 
+        '''
+        
         
 db = Database()
 
