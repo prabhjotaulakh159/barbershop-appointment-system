@@ -1,3 +1,10 @@
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 table {
     border: 6px solid #948473;
     background-color: #FFE3C6;
@@ -27,13 +34,6 @@ table thead th {
     color: #F0F0F0;
     text-align: center;
     border-left: 0px solid #948473;
-}
-
-main {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
 }
 
 .button {

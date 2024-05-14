@@ -17,9 +17,8 @@
                 <option value="professional_id">Professional ID</option>
                 <option value="slot">Time</option>
             </select>
+
             <input type="number" name="search" id="search" placeholder="Enter ID">
-
-
             <label for="order_by">Order by:</label>
             <select name="order_by" id="order_by">
                 <option value="appointment_id">Appointment ID</option>
@@ -30,16 +29,13 @@
 
             <button type="submit">Apply</button>
         </form>
-
     </div>
 
     <div class="right-side">
         <div class="table-title">
             <h2>All appointments</h2>
-
         </div>
         {% if appointments %}
-
         <table class="table">
             <thead>
                 <tr>
@@ -52,7 +48,6 @@
                     {% if current_user.is_authenticated %}
                     <th>Action</th>
                     {% endif %}
-
                 </tr>
             </thead>
             <tbody>
@@ -65,17 +60,12 @@
                     <td data-title="Date">{{ appointment[2] }}</td>
                     <td data-title="Time-Slot">{{ appointment[3] }}</td>
                     {% if current_user.is_authenticated %}
-                    <td data-title="Action"><a class="button"
-                            href="{{url_for('appointment.appointment_view',appointment_id=appointment[0])}}">Click
-                            for
-                            detailed info </a> </td>
+                    <td data-title="Action"><a class="button" href="{{url_for('appointment.appointment_view',appointment_id=appointment[0])}}">Click for detailed info </a> </td>
                     {% endif %}
-
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-
         {% else %}
         <div>No appointments to render</div>
         {% endif %}
