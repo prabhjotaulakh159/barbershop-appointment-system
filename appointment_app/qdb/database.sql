@@ -147,34 +147,19 @@ VALUES ('Beard Trim', 15, 20, 'Clippers, Scissors, Beard Oil');
 
 -- appointments
 INSERT INTO appointments (status, date_appointment, slot, venue, client_id, professional_id, service_id, number_services)
-VALUES ('Open', TO_DATE('2024-05-15', 'YYYY-MM-DD'), '10:00 - 11:00', 'Venue A', 1, 2, 1, 1);
+VALUES ('Open', TO_DATE('2024-05-15', 'YYYY-MM-DD'), '10:00 - 11:00', 'Venue A', 1, 6, 1, 1);
 
 INSERT INTO appointments (status, date_appointment, slot, venue, client_id, professional_id, service_id, number_services)
-VALUES ('Open', TO_DATE('2024-05-16', 'YYYY-MM-DD'), '14:00 - 15:00', 'Venue B', 2, 3, 2, 1);
+VALUES ('Open', TO_DATE('2024-05-16', 'YYYY-MM-DD'), '14:00 - 15:00', 'Venue B', 2, 7, 2, 1);
 
 INSERT INTO appointments (status, date_appointment, slot, venue, client_id, professional_id, service_id, number_services)
-VALUES ('Open', TO_DATE('2024-05-17', 'YYYY-MM-DD'), '11:00 - 12:00', 'Venue C', 3, 4, 3, 1);
+VALUES ('Open', TO_DATE('2024-05-17', 'YYYY-MM-DD'), '11:00 - 12:00', 'Venue C', 3, 8, 3, 1);
 
 INSERT INTO appointments (status, date_appointment, slot, venue, client_id, professional_id, service_id, number_services)
-VALUES ('Open', TO_DATE('2024-05-18', 'YYYY-MM-DD'), '11:00 - 12:00', 'Venue A', 4, 5, 4, 1);
+VALUES ('Open', TO_DATE('2024-05-18', 'YYYY-MM-DD'), '11:00 - 12:00', 'Venue A', 4, 9, 4, 1);
 
 INSERT INTO appointments (status, date_appointment, slot, venue, client_id, professional_id, service_id, number_services)
-VALUES ('Open', TO_DATE('2024-05-19', 'YYYY-MM-DD'), '12:00 - 13:00', 'Venue B', 5, 6, 5, 1);
-
-INSERT INTO appointments (status, date_appointment, slot, venue, client_id, professional_id, service_id, number_services)
-VALUES ('Open', TO_DATE('2024-05-22', 'YYYY-MM-DD'), '15:00 - 16:00', 'Venue C', 6, 7, 6, 1);
-
-INSERT INTO appointments (status, date_appointment, slot, venue, client_id, professional_id, service_id, number_services)
-VALUES ('Open', TO_DATE('2024-05-23', 'YYYY-MM-DD'), '10:00 - 11:00', 'Venue A', 7, 8, 7, 1);
-
-INSERT INTO appointments (status, date_appointment, slot, venue, client_id, professional_id, service_id, number_services)
-VALUES ('Open', TO_DATE('2024-05-24', 'YYYY-MM-DD'), '14:00 - 15:00', 'Venue B', 8, 9, 8, 1);
-
-INSERT INTO appointments (status, date_appointment, slot, venue, client_id, professional_id, service_id, number_services)
-VALUES ('Open', TO_DATE('2024-05-25', 'YYYY-MM-DD'), '11:00 - 12:00', 'Venue C', 9, 10, 8, 1);
-
-INSERT INTO appointments (status, date_appointment, slot, venue, client_id, professional_id, service_id, number_services)
-VALUES ('Open', TO_DATE('2024-05-26', 'YYYY-MM-DD'), '10:00 - 11:00', 'Venue A', 10, 1, 8, 1);
+VALUES ('Open', TO_DATE('2024-05-19', 'YYYY-MM-DD'), '12:00 - 13:00', 'Venue B', 5, 10, 5, 1);
 
 -- reports
 INSERT INTO reports (feedback_client, feedback_professional, date_of_report, appointment_id)
@@ -191,20 +176,5 @@ VALUES ('I am happy with the outcome of the service.', 'The appointment went as 
 
 INSERT INTO reports (feedback_client, feedback_professional, date_of_report, appointment_id)
 VALUES ('The service was fantastic, I will definitely come back.', 'The client was punctual and understanding.', TO_DATE('2024-05-19', 'YYYY-MM-DD'), 5);
-
-INSERT INTO reports (feedback_client, feedback_professional, date_of_report, appointment_id)
-VALUES ('The appointment was satisfactory overall.', 'The client provided clear instructions.', TO_DATE('2024-05-22', 'YYYY-MM-DD'), 6);
-
-INSERT INTO reports (feedback_client, feedback_professional, date_of_report, appointment_id)
-VALUES ('I am happy with the service.', 'The appointment proceeded smoothly.', TO_DATE('2024-05-23', 'YYYY-MM-DD'), 7);
-
-INSERT INTO reports (feedback_client, feedback_professional, date_of_report, appointment_id)
-VALUES ('The service met my expectations.', 'The client was friendly and cooperative.', TO_DATE('2024-05-24', 'YYYY-MM-DD'), 8);
-
-INSERT INTO reports (feedback_client, feedback_professional, date_of_report, appointment_id)
-VALUES ('Overall, a good experience.', 'The appointment was well-handled.', TO_DATE('2024-05-25', 'YYYY-MM-DD'), 9);
-
-INSERT INTO reports (feedback_client, feedback_professional, date_of_report, appointment_id)
-VALUES ('I am satisfied with the outcome.', 'The client was satisfied with the service.', TO_DATE('2024-05-26', 'YYYY-MM-DD'), 10);
 
 COMMIT;
