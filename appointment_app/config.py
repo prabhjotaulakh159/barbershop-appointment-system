@@ -5,14 +5,14 @@ import os
 env.load_dotenv()
 
 class ConfigDev:
-    ''' Condifuration for dev env'''
+    ''' Configuration for dev env'''
     SECRET_KEY = os.environ.get('SECRET_KEY')
     DEBUG = True
     APP_ENV = "develop"
 
 
 class ConfigProd:
-    ''' Condifuration for prod env'''
+    ''' Configuration for prod env'''
     SECRET_KEY = os.environ.get('SECRET_KEY')
     DEBUG = False
     APP_ENV = "production"

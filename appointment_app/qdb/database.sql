@@ -70,11 +70,11 @@ CREATE TABLE logs (
     action                  VARCHAR2(255)       ,
     date_of_action          DATE                NOT NULL,
     table_name              VARCHAR2(50)        NOT NULL,
-    admin_name              VARCHAR2(50)        NOT NULL,
-    admin_id                NUMBER              NOT NULL,
+    user_name              VARCHAR2(50)        NOT NULL,
+    user_id                NUMBER              NOT NULL,
     
     CONSTRAINT log_id_PK                        PRIMARY KEY (log_id),
-    CONSTRAINT admin_id_FK                      FOREIGN KEY (admin_id) REFERENCES users (user_id) ON DELETE CASCADE 
+    CONSTRAINT user_id_FK                      FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE 
 );
 
 -- Members 
