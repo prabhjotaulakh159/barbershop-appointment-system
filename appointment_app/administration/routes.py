@@ -30,7 +30,7 @@ def admin_appointments():
     services = db.get_services()
     services_list = []
     for service in services:
-        services_list.append((service[1], service[1]))
+        services_list.append((service[1], service[1]+" "+str(service[3])+"$"))
 
     professionals = db.get_users("WHERE user_type = 'Professional'")
     professionals_list = []
