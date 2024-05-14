@@ -475,7 +475,6 @@ class Database:
                 try:    
                     cursor.execute(query)
                     rows = cursor.fetchall()
-                    pdb.set_trace()
                     return rows;
                 except Exception:
                     print(traceback.format_exc())

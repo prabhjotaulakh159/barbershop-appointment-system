@@ -17,7 +17,6 @@ administration = Blueprint('administration', __name__, template_folder="template
 @login_required
 def admin_appointments():
     '''function to add and list all appointments for admin_appoint'''
-
     if current_user.access_level < 2:
         return redirect(url_for('main.home'))
     form = AppointmentAdminForm()
@@ -62,8 +61,9 @@ def admin_appointments():
     #     order_by_cond = f"ORDER BY a4.{order_by}"
 
     appointments = db.get_appts_with_joins()
-    import pdb
-    pdb.set_trace()
+    
+    print(appointments[0][8])
+    print(appointments[0][9])
     # names = []
     # reports = []
     # for apt in appointments:
