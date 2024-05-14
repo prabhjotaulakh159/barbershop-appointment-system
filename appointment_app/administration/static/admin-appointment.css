@@ -27,7 +27,7 @@ li a:hover {
     border-collapse: collapse;
     width: 100%;
     background-color: #fff;
- 
+
 }
 
 .feedback-table {
@@ -42,7 +42,8 @@ li a:hover {
     border-bottom: 1px solid #ddd;
 }
 
-.admin-table thead,th {
+.admin-table thead,
+th {
     background-color: #333;
     color: #fff;
 }
@@ -93,26 +94,23 @@ div#admin_appoint {
 
 div#create-appointment-section {
     flex: 1;
-    padding:1rem;
-    background-color:black;
+    padding: 1rem;
+    background-color: black;
 }
 
 div#appointments {
     flex: 3;
     background-color: #000000;
     padding: 1rem;
-
 }
 
-form{
-    background-color:#333;
-    color:white;
+form {
+    background-color: #333;
+    color: white;
 }
 
 
 @media (max-width: 1000px) {
-
-    /* Adjust the breakpoint as needed */
     #create-appointment-section,
     #appointments {
         flex: 1 100%;
@@ -143,6 +141,7 @@ form{
     .admin-table td {
         text-align: right;
     }
+
     td[data-title]:before {
         content: attr(data-title);
         font-weight: bold;
@@ -162,7 +161,7 @@ form{
         width: auto;
     }
 
-    tr.log{
-        padding:1.5em
+    tr.log {
+        padding: 1.5em
     }
 }

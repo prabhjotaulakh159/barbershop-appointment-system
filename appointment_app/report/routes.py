@@ -5,8 +5,7 @@ from flask_login import login_required, current_user
 from appointment_app.qdb.database import db
 from appointment_app.report.forms import AddReportForm
 
-report = Blueprint('report', __name__, template_folder="templates")
-
+report = Blueprint('report', __name__, template_folder="templates",static_folder="static", static_url_path='/static/report')
 @report.route("/report/<int:appointment_id>", methods=['GET', 'POST'])
 @login_required
 def update_report(appointment_id):

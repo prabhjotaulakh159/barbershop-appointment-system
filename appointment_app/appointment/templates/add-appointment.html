@@ -1,40 +1,44 @@
 {% extends "base.html" %}
 {% from "macros.html" import form_field_error with context %}
+{% block header %}
+<script src="{{ url_for('appointment.static', filename='form_validation.js') }}"></script>
+{% endblock header %}
 {% block content %}
-    <div class="form-container">
-        <form method="POST" novalidate>
-            {{ form.hidden_tag() }}
-            <div class="input-group">
-                <div>Date:</div>
-                {{ form.date_appointment(class='form-field', placeholder='Enter the date') }}
-                {{ form_field_error(form.date_appointment.errors) }}
-            </div>
-            <div class="input-group">
-                <div>Time slot:</div>
-                {{ form.slot(class='form-field', placeholder='Enter the time slot') }}
-                {{ form_field_error(form.slot.errors) }}
-            </div>
-            <div class="input-group">
-                <div>Venue:</div>
+<div class="form-container">
+    <form method="POST" novalidate id="appointment_form">
+        {{ form.hidden_tag() }}
+        <div class="input-group">
+            <div>Date:</div>
+            {{ form.date_appointment(class='form-field', id='date', placeholder='Enter the date') }}
+            {{ form_field_error(form.date_appointment.errors) }}
+            <div id="date-error" class="div-error"></div>
+        </div>
+        <div class="input-group">
+            <div>Time slot:</div>
+            {{ form.slot(class='form-field', placeholder='Enter the time slot') }}
+            {{ form_field_error(form.slot.errors) }}
+        </div>
+        <div class="input-group">
+            <div>Venue:</div>
             {{ form.venue(class='form-field', placeholder='Enter the venue') }}
             {{ form_field_error(form.venue.errors) }}
-            </div>
-            <div class="input-group">
-                <div>Professional:</div>
-                {{ form.prof_name(class='form-field', placeholder='Choose the professional') }}
-                {{ form_field_error(form.prof_name.errors) }}
-            </div>
-            <div class="input-group">
-                <div>Service:</div>
-                {{ form.service(class='form-field', placeholder='Choose the service ') }}
-                {{ form_field_error(form.service.errors) }}
-            </div>
-            <div class="input-group hide-field">
-                <div>Status:</div>
-                {{ form.status(class='form-field', placeholder='Choose the status') }}
-                {{ form_field_error(form.status.errors) }}
-            </div>
-            {{ form.submit(class='button', value='Make an appointment') }}
-        </form>
-    </div>
+        </div>
+        <div class="input-group">
+            <div>Professional:</div>
+            {{ form.prof_name(class='form-field', placeholder='Choose the professional') }}
+            {{ form_field_error(form.prof_name.errors) }}
+        </div>
+        <div class="input-group">
+            <div>Service:</div>
+            {{ form.service(class='form-field', placeholder='Choose the service ') }}
+            {{ form_field_error(form.service.errors) }}
+        </div>
+        <div class="input-group hide-field">
+            <div>Status:</div>
+            {{ form.status(class='form-field', placeholder='Choose the status') }}
+            {{ form_field_error(form.status.errors) }}
+        </div>
+        {{ form.submit(class='button', value='Make an appointment') }}
+    </form>
+</div>
 {% endblock content %}

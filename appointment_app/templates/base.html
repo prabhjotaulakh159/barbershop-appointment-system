@@ -18,7 +18,7 @@
         <div class="header-right">
             {% if current_user.is_authenticated %}
                 <img src="{{ url_for('static', filename=current_user.avatar) }}" />
-                <span>{{ current_user.user_name }}</span>
+                <span>{{ current_user.user_name }} | {{current_user.user_type}}</span>
             {% endif %}
         </div>
     </header>

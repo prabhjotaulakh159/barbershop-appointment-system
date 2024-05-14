@@ -17,7 +17,6 @@
     background: #0c3b75;
     color: #fff;
     padding: 15px 0;
-    /* Adjust vertical padding */
     text-align: center;
 }
 
@@ -25,7 +24,6 @@
     width: 100%;
     border-collapse: collapse;
     background-color: blanchedalmond;
-
 }
 
 th {
@@ -40,14 +38,12 @@ th {
     border: 1px solid black;
     text-align: center;
     padding: 0.5rem;
-    /* Adjust cell padding */
 }
 
 .button {
     display: inline-block;
     background-color: lightgreen;
     padding: 10px 15px;
-    /* Adjust button padding */
     text-align: center;
     margin: 5px;
     cursor: pointer;

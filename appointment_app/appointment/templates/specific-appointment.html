@@ -45,8 +45,7 @@
         {% if current_user.is_authenticated and (current_user.user_id == appointment[5]) %}
         <tr>
             <th>Action</th>
-            <td><a class="button" href="{{url_for('appointment.update_appointment',appointment_id=appointment[0])}}">
-                    Update my appointment </a></td>
+            <td><a class="button" href="{{url_for('appointment.update_appointment',appointment_id=appointment[0])}}">Update my appointment </a></td>
         </tr>
         {% endif %}
     </tbody>

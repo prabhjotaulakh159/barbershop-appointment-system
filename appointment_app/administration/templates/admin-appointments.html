@@ -4,12 +4,13 @@
 {% block header %}
 <link rel="stylesheet" href="{{ url_for('administration.static', filename='admin-appointment.css') }}" />
 <script src="{{ url_for('static', filename='notification.js') }}"></script>
+<script src="{{ url_for('appointment.static', filename='form_validation.js') }}"></script>
 {% endblock header %}
 
 {% block content %}
 <div id="admin_appoint">
     <div id="create-appointment-section">
-        <form method="POST" class="appointments" novalidate>
+        <form method="POST" class="appointments" novalidate id="appointment_form">
             <h2> Add appointment</h2>
             {{ form.hidden_tag() }}
             <div class="input-group">
@@ -19,8 +20,9 @@
             </div>
             <div class="input-group">
                 <div>Date:</div>
-                {{ form.date_appointment(class='form-field', placeholder='Enter the date') }}
+                {{ form.date_appointment(class='form-field', id='date', placeholder='Enter the date') }}
                 {{ form_field_error(form.date_appointment.errors) }}
+                <div id="date-error" class="div-error"></div>
             </div>
             <div class="input-group">
                 <div>Time slot:</div>
@@ -102,10 +104,8 @@
                     <td data-title="Time-Slot">{{ appointment[3] }}</td>
                     <td data-title="Service">{{ names[loop.index0][2] }}</td>
                     <td data-title="Appointment actions">
-                        <a class="button"
-                            href="{{ url_for('appointment.update_appointment', appointment_id=appointment[0]) }}">Update</a>
-                        <a class="delete-button"
-                            href="{{ url_for('administration.delete_appointment', appointment_id=appointment[0]) }}">Delete</a>
+                        <a class="button" href="{{ url_for('appointment.update_appointment', appointment_id=appointment[0]) }}">Update</a>
+                        <a class="delete-button" href="{{ url_for('administration.delete_appointment', appointment_id=appointment[0]) }}">Delete</a>
                     </td>
                 </tr>
             </tbody>
@@ -130,22 +130,15 @@
             <tr>
                 <th class="fixed-size">Update feedback action:</th>
                 <td class="action-column">
-                    <a class="button"
-                        href="{{ url_for('report.update_report', appointment_id=appointment[0], member_to_update='Member') }}">Update
-                        Client Feedback</a>
-                    <a class="button"
-                        href="{{ url_for('report.update_report', appointment_id=appointment[0], member_to_update='Professional') }}">Update
-                        Professional Feedback</a>
+                    <a class="button" href="{{ url_for('report.update_report', appointment_id=appointment[0], member_to_update='Member') }}">Update Client Feedback</a>
+                    <a class="button" href="{{ url_for('report.update_report', appointment_id=appointment[0], member_to_update='Professional') }}">Update Professional Feedback</a>
                 </td>
             </tr>
             <tr>
                 {% if reports[loop.index0] %}
                 <th class="fixed-size">Delete feedback action:</th>
                 <td class="action-column">
-                    <a class="delete-button"
-                        href="{{ url_for('report.delete_report', report_id=reports[loop.index0][2]) }}">Delete
-                        report</a>
-                 
+                    <a class="delete-button" href="{{ url_for('report.delete_report', report_id=reports[loop.index0][2]) }}">Delete report</a>
                 </td>
                 {% endif %}
             </tr>
