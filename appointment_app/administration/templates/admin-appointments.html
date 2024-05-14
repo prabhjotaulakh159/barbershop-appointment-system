@@ -4,12 +4,13 @@
 {% block header %}
 <link rel="stylesheet" href="{{ url_for('administration.static', filename='admin-appointment.css') }}" />
 <script src="{{ url_for('static', filename='notification.js') }}"></script>
+<script src="{{ url_for('appointment.static', filename='form_validation.js') }}"></script>
 {% endblock header %}
 
 {% block content %}
 <div id="admin_appoint">
     <div id="create-appointment-section">
-        <form method="POST" class="appointments" novalidate>
+        <form method="POST" class="appointments" novalidate id="appointment_form">
             <h2> Add appointment</h2>
             {{ form.hidden_tag() }}
             <div class="input-group">
@@ -19,8 +20,9 @@
             </div>
             <div class="input-group">
                 <div>Date:</div>
-                {{ form.date_appointment(class='form-field', placeholder='Enter the date') }}
+                {{ form.date_appointment(class='form-field', id='date', placeholder='Enter the date') }}
                 {{ form_field_error(form.date_appointment.errors) }}
+                <div id="date-error" class="div-error"></div>
             </div>
             <div class="input-group">
                 <div>Time slot:</div>

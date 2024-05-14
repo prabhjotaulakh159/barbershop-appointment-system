@@ -4,13 +4,11 @@ from flask import Blueprint, redirect, render_template, flash, request, url_for
 from flask_bcrypt import Bcrypt
 from flask_login import login_required, current_user
 from appointment_app.qdb.database import db
-from appointment_app.appointment.forms import AppointmentForm, AppointmentAdminForm
+from appointment_app.appointment.forms import AppointmentAdminForm
 from appointment_app.appointment.utility import time_slots, venues, appointment_status
-from appointment_app.user.auth_config import User
 from appointment_app.user.utils import save_file
-from appointment_app.user.forms import RegisterUserForm, LoginForm, ChangePasswordForm
+from appointment_app.user.forms import RegisterUserForm
 from appointment_app.administration.forms import AdminCrudForm
-import requests
 
 administration = Blueprint('administration', __name__, template_folder="templates",
                  static_folder="static", static_url_path="/static/administration")
@@ -19,7 +17,7 @@ administration = Blueprint('administration', __name__, template_folder="template
 @login_required
 def admin_appointments():
     '''function to add and list all appointments for admin_appoint'''
-    
+
     if current_user.access_level < 2:
         return redirect(url_for('main.home'))
     form = AppointmentAdminForm()
@@ -45,6 +43,7 @@ def admin_appointments():
     form.slot.choices = time_slots
     form.venue.choices = venues
     form.status.choices = appointment_status
+
     if form.validate_on_submit():
 
         status = form.status.data
@@ -54,14 +53,14 @@ def admin_appointments():
         db.add_appointment(status, form.date_appointment.data,
                            form.slot.data, form.venue.data, client_id, prof_id, service_id)
         db.add_log(f"Created new appointment for client {form.member_name.data}", date.today(), "Appointments", current_user.user_name, current_user.user_id)
-        
         flash('Appointment is created!','success')
 
+    #fill the condition before getting the appointments
     order_by = request.args.get('order_by')
     cond = None
     if order_by:
         cond = f"ORDER BY {order_by}"
-    
+
     appointments = db.get_appointments(cond)
     names = []
     reports = []
@@ -72,7 +71,7 @@ def admin_appointments():
 
         names.append((client_name[4], professional_name[4], service_name[1]))
         reports.append(db.get_report(apt[0]))
-        
+
     return render_template("admin-appointments.html", form=form,
                            appointments=appointments, names=names, reports=reports)
 

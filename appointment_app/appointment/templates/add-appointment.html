@@ -1,13 +1,17 @@
 {% extends "base.html" %}
 {% from "macros.html" import form_field_error with context %}
+{% block header %}
+<script src="{{ url_for('appointment.static', filename='form_validation.js') }}"></script>
+{% endblock header %}
 {% block content %}
 <div class="form-container">
-    <form method="POST" novalidate>
+    <form method="POST" novalidate id="appointment_form">
         {{ form.hidden_tag() }}
         <div class="input-group">
             <div>Date:</div>
-            {{ form.date_appointment(class='form-field', placeholder='Enter the date') }}
+            {{ form.date_appointment(class='form-field', id='date', placeholder='Enter the date') }}
             {{ form_field_error(form.date_appointment.errors) }}
+            <div id="date-error" class="div-error"></div>
         </div>
         <div class="input-group">
             <div>Time slot:</div>
