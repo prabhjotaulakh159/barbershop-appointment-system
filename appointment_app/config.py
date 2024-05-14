@@ -6,7 +6,7 @@ env.load_dotenv()
 
 class ConfigDev:
     ''' Condifuration for dev env'''
-    SECRET_KEY = os.environ.get('SECRET_KEY')
+    SECRET_KEY = 'sdadwadwa' #os.environ.get('SECRET_KEY')
     DEBUG = True
     APP_ENV = "develop"
 

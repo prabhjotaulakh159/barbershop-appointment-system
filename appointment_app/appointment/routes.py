@@ -108,6 +108,7 @@ def add_appointment():
         db.add_appointment(status, form.date_appointment.data,
                            form.slot.data, form.venue.data,
                            client_id, prof_id, service_id)
+        db.add_log(f"Created new appointment for client {current_user.user_name}", date.today(), "Appointments", current_user.user_name, current_user.user_id)
         flash('Appointment is created!', "success")
 
     return render_template("add-appointment.html", form=form)
@@ -173,12 +174,13 @@ def update_appointment(appointment_id):
                                   date_appointment=form.date_appointment.data,
                                   slot=form.slot.data, venue=form.venue.data, client_id=client_id,
                                   professional_id=prof_id, service_id=service_id)
-            db.add_log(f"Updated appointment ID {appt[0]}", date.today(), "Appointments", current_user.user_name, current_user.user_id)
+            
         else:
             #Member update
             db.update_appointment(appointment_id=appt[0], status=form.status.data,
                                   date_appointment=form.date_appointment.data,
                                   slot=form.slot.data, venue=form.venue.data, service_id=service_id)
+        db.add_log(f"Updated appointment ID {appt[0]}", date.today(), "Appointments", current_user.user_name, current_user.user_id)
         flash("You have successfully updated the appointment!", "success")
         if current_user.access_level >=2:
             return redirect(url_for('administration.admin_appointments'))

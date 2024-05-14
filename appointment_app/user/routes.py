@@ -1,5 +1,6 @@
 ''' Routes for user auth '''
 
+from datetime import date
 from flask import Blueprint, render_template, flash, redirect, url_for, request
 from flask_bcrypt import Bcrypt
 from flask_login import login_user, current_user, login_required, logout_user
@@ -49,7 +50,7 @@ def login():
             flash(f"You have {user_from_db[13]} warnings, please be careful", "warning")
         else:
             flash("You have sucessfully logged in !", "success")
-        
+        db.add_log(f"User {current_user.user_name} logged in", date.today(), "None", current_user.user_name, current_user.user_id)
         # login successful, redirect to home
         return redirect(url_for('main.home'))
     
@@ -60,8 +61,10 @@ def login():
 @login_required
 def logout():
     ''' Logs out a user '''
+    db.add_log(f"User {current_user.user_name} logged out", date.today(), "None", current_user.user_name, current_user.user_id)
     logout_user()
     flash("You have been logged out", "success")
+    
     return redirect(url_for('user.login'))
 
 
@@ -95,8 +98,11 @@ def register():
 
         # hash password and create account
         encrypted_password = Bcrypt().generate_password_hash(form.password.data).decode("utf-8")
+        
         db.add_user(form.user_type.data, form.username.data, encrypted_password, form.email.data, avatar, form.phone.data, form.address.data, form.age.data, form.pay_rate.data, form.specialty.data)
         flash(f'Welcome {form.username.data} you are now a user', 'success')
+        user_id = db.get_user(f"WHERE user_name = '{form.username.data}'")
+        db.add_log(f"New User '{form.username.data}' has registered", date.today(), "Users", form.username.data, user_id[0])
         return redirect(url_for('user.login'))
 
     return render_template("register.html", form=form)
@@ -138,7 +144,8 @@ def update_profile(user_id):
     
         # update the user
         db.update_user(user_id, form.username.data, form.email.data, new_avatar, form.phone.data, form.address.data, form.age.data, form.pay_rate.data, form.specialty.data)
-        flash("You have successfully upated your profile !", "success")
+        flash("You have successfully updated your profile !", "success")
+        db.add_log(f"Updated User {form.username.data}'s profile", date.today(), "Users", current_user.user_name, current_user.user_id)
         return redirect(url_for('main.home'))
 
     return render_template('update-profile.html', current_user=current_user, form=form)
@@ -168,8 +175,10 @@ def change_password(user_id):
         db.change_password(user_id, encrypted_new_password)
         
         # they must log back in
+        db.add_log(f"Updated User {current_user.user_name}'s password", date.today(), "Users", current_user.user_name, current_user.user_id)
         logout_user()
         flash("You have successfully updated your password !", "success")
+        
         return redirect(url_for('user.login'))
     
     return render_template('change-password.html', form=form)
