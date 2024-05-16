@@ -111,13 +111,13 @@ VALUES (1, 0, 'Professional', 'barber5', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ
 
 -- Admins
 INSERT INTO users (is_enabled, access_level, user_type, user_name, pass_word, email, phone, address, age)
-VALUES (1, 1, 'Admin', 'adminuser', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'adminuser@example.com', '123-456-7890', '123 Admin St, City', 30);
+VALUES (1, 1, 'Admin', 'user_manager1', '$2b$12$gWkjs/T3kVDQClMkRrbX6u2Xc6cXMridzE.7J1Y9C21PvHVo3jBrC', 'adminuser@example.com', '123-456-7890', '123 Admin St, City', 30);
 
 INSERT INTO users (is_enabled, access_level, user_type, user_name, pass_word, email, phone, address, age)
-VALUES (1, 2, 'Admin', 'adminappointment', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'adminappointment@example.com', '987-654-3210', '456 Admin Ave, Town', 35);
+VALUES (1, 2, 'Admin', 'appoint_manager1', '$2b$12$rLAs0N3cGzg5i0K1pBLOSeE.KMXHZF.84U3c297J4tduKfEl.exV2', 'adminappointment@example.com', '987-654-3210', '456 Admin Ave, Town', 35);
 
 INSERT INTO users (is_enabled, access_level, user_type, user_name, pass_word, email, phone, address, age)
-VALUES (1, 3, 'Admin', 'superadmin', '$2b$12$U4eQOXvNVz0K/hX3UtnBluuIkPf9KtQ12GnzVyGDnM37dJ7kKLvcK', 'superadmin@example.com', '654-321-0987', '789 Admin Rd, Village', 28);
+VALUES (1, 3, 'Admin', 'nasr', '$2b$12$gWkjs/T3kVDQClMkRrbX6u2Xc6cXMridzE.7J1Y9C21PvHVo3jBrC', 'superadmin@example.com', '654-321-0987', '789 Admin Rd, Village', 28);
 
 -- Services
 INSERT INTO services (service_name, service_duration, service_price, service_materials)
