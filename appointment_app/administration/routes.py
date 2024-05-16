@@ -61,7 +61,6 @@ def admin_appointments():
         order_by_cond = f"ORDER BY a4.{order_by}"
 
     appointments = db.get_appts_with_joins(order_by_cond)
-    print(appointments)
     return render_template("admin-appointments.html", form=form, appointments=appointments)
 
 

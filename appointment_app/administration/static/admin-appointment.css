@@ -92,7 +92,7 @@ div#admin_appoint {
     flex-wrap: wrap;
 }
 
-div#create-appointment-section {
+#create-appointment-section {
     flex: 1;
     padding: 1rem;
     background-color: black;
