@@ -150,7 +150,13 @@ form {
 .div-error {
     color: red;
 }
+.enabled-yes {
+    background-color: green;
+}
 
+.enabled-no {
+    background-color: red;
+}
 @media (max-width: 1000px) {
 
     /* Adjust the breakpoint as needed */

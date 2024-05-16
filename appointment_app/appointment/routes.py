@@ -56,23 +56,14 @@ def appointment_view(appointment_id):
 @login_required
 def my_appointments():
     '''function rendering user's appointments'''
-    cond = f'''WHERE client_id = {current_user.user_id}
-            OR professional_id = {current_user.user_id}'''
+    cond = f'''WHERE u.user_id = {current_user.user_id}
+            OR u2.user_id = {current_user.user_id}'''
     order_by = request.args.get('order_by')
     if order_by:
         cond = cond + f" ORDER BY {order_by}"
 
-    appointments = db.get_appointments(cond)
-    names = []
-    reports = []
-    for appt in appointments:
-        client_name = db.get_user(f"WHERE user_id = {appt[5]}")
-        professional_name = db.get_user(f"WHERE user_id = {appt[6]}")
-        service_name = db.get_service(f"WHERE service_id = {appt[7]}")
-        names.append((client_name[4], professional_name[4], service_name[1]))
-        reports.append(db.get_report(appt[0]))
-    return render_template("my-appointments.html", appointments=appointments,
-                           names=names, reports=reports)
+    appointments = db.get_appts_with_joins(cond)
+    return render_template("my-appointments.html", appointments=appointments)
 
 
 @appointment.route("/add-appointment", methods=["GET", "POST"])
