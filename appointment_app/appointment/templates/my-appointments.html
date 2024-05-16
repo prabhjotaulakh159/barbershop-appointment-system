@@ -78,12 +78,6 @@
                 {% else %}
                 <td data-title="Professional Feedback">None</td>
                 {% endif %}
-
-                {% if current_user.user_type == 'Professional' %}
-                <td>
-                    <a class="button" href="{{url_for('report.update_report',appointment_id=appointment[0])}}"> Update my report</a>
-                </td>
-                {% endif %}
             </tr>
             <tr>
                 <th class="fixed-size">Action:</th>
