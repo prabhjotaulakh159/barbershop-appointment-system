@@ -179,7 +179,7 @@ def toggle_activation(user_id):
     db.toggle_enable_disable(user_id)
     user = db.get_user(f"WHERE user_id = {user_id}")
     print(user[1])
-    if user[1] is 0:
+    if user[1] == 0:
         db.add_log(f"Disabled user ID '{user_id}'", date.today(), "Users", current_user.user_name, current_user.user_id)
         flash("User has been disabled", "success")
     else:
