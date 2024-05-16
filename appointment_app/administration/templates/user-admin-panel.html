@@ -4,10 +4,16 @@
 <link rel="stylesheet" href="{{ url_for('user.static', filename='styles.css')}}" />
 <script src="{{ url_for('user.static', filename='forms.js') }}"></script>
 <script src="{{ url_for('static', filename='notification.js') }}"></script>
+<script src="{{ url_for('administration.static', filename='filter.js') }}"></script>
 {% endblock header %}
 {% block content %}
 <div id="user-admin">
     <div id="create-user-section">
+        <form>
+            <label for="Search Name">Search By Name:</label>
+            <input name="Search Name" id="search-name"/>
+            <button id="search-user">Search By Name</button>
+        </form>
         <form method="POST" novalidate enctype="multipart/form-data" id="user_form">
             {{ form.hidden_tag() }}
             {{ form.user_type(id='user-type') }}
@@ -78,7 +84,7 @@
                     <th>Delete User Action</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="user-list">
                 {% for user in users %}
                 <tr>
                     <td data-title="ID">{{ user[0] }}</td>
