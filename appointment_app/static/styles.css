@@ -79,6 +79,17 @@ nav {
     gap: 1rem;
     padding: 1rem 0;
 }
+nav a {
+    color: #ffffff;
+    text-decoration: none;
+    padding: 0.2rem 1rem;
+    transition: background-color 0.3s ease;
+}
+
+nav a:hover {
+    background-color: rgba(255, 255, 255, 0.7);
+    color:black;
+}
 
 @media (max-width: 1000px) {
     nav {

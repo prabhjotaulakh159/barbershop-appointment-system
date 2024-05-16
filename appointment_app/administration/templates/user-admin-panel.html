@@ -90,11 +90,13 @@
                     <td data-title="Age">{{ user[7] }}</td>
                     <td data-title="Pay">{{ user[8] }}</td>
                     <td data-title="Speciality">{{ user[9] }}</td>
-                    {% if user[1] == 1 %}
-                    <td data-title="Enabled">Yes</td>
-                    {% else %}
-                    <td data-title="Enabled">No</td>
-                    {% endif %}
+                    <td data-title="Enabled" class="{% if user[1] == 1 %}enabled-yes{% else %}enabled-no{% endif %}">
+                        {% if user[1] == 1 %}
+                        Yes
+                        {% else %}
+                        No
+                        {% endif %}
+                    </td>
                     <td data-title="Warnings">{{ user[10] }}</td>
                     <td data-title="Warn User Action">
                         <a class="warn-button" href="{{ url_for('administration.warn_user', user_id=user[0]) }}">

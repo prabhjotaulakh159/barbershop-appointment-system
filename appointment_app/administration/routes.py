@@ -55,12 +55,12 @@ def admin_appointments():
         flash('Appointment is created!','success')
 
     #fill the condition before getting the appointments
-    # order_by = request.args.get('order_by')
-    # order_by_cond = None
-    # if order_by:
-    #     order_by_cond = f"ORDER BY a4.{order_by}"
+    order_by = request.args.get('order_by')
+    order_by_cond = None
+    if order_by:
+        order_by_cond = f"ORDER BY a4.{order_by}"
 
-    appointments = db.get_appts_with_joins()
+    appointments = db.get_appts_with_joins(order_by_cond)
     print(appointments)
     return render_template("admin-appointments.html", form=form, appointments=appointments)
 
