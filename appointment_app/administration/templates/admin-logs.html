@@ -18,8 +18,8 @@
             <thead>
                 <tr>
                     <th>Log ID</th>
-                    <th>Admin ID</th>
-                    <th>Admin name</th>
+                    <th>User ID</th>
+                    <th>Username</th>
                     <th>Date of action</th>
                     <th>Action</th>
                     <th>Table affected</th>
@@ -30,8 +30,8 @@
                 {% for log in logs %}
                 <tr class="log">
                     <td data-title="Log ID">{{ log[0] }}</td>
-                    <td data-title="Admin ID">{{ log[1] }}</td>
-                    <td data-title="Admin name">{{ log[2] }}</td>
+                    <td data-title="User ID">{{ log[1] }}</td>
+                    <td data-title="Username">{{ log[2] }}</td>
                     <td data-title="Date of action">{{ log[3] }}</td>
                     <td data-title="Action">{{ log[4] }}</td>
                     <td data-title="Table affected">{{ log[5] }}</td>
