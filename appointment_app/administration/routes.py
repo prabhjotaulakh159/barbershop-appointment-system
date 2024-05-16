@@ -61,18 +61,6 @@ def admin_appointments():
     #     order_by_cond = f"ORDER BY a4.{order_by}"
 
     appointments = db.get_appts_with_joins()
-    
-    print(appointments[0][8])
-    print(appointments[0][9])
-    # names = []
-    # reports = []
-    # for apt in appointments:
-    #     client_name = db.get_user(f"WHERE user_id= {apt[5]}")
-    #     professional_name = db.get_user(f"WHERE user_id = {apt[6]}")
-    #     service_name = db.get_service(f"WHERE service_id = {apt[7]}")
-
-    #     names.append((client_name[4], professional_name[4], service_name[1]))
-    #     reports.append(db.get_report(apt[0]))
 
     return render_template("admin-appointments.html", form=form, appointments=appointments)
 
