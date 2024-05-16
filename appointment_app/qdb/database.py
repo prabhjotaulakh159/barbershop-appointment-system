@@ -467,10 +467,11 @@ class Database:
         # gets literally everything for an appointment
         # only God knows how this query works
         # but it works, so please do not touch it
+
         if cond:
-             query = f'''SELECT DISTINCT a4.appointment_id AS "appointment_id", a4.status, a4.date_appointment AS "date_appointment", a4.slot, a4.venue AS "venue", s.service_name, u.user_name AS "Members", u2.user_name AS "Professionals", r.feedback_client, r.feedback_professional, r.report_id FROM appointments a INNER JOIN services s ON a.service_id = s.service_id INNER JOIN appointments a2 ON s.service_id = a2.service_id INNER JOIN users u ON a2.client_id = u.user_id INNER JOIN appointments a3 ON a3.client_id = u.user_id INNER JOIN users u2 ON a3.professional_id = u2.user_id LEFT OUTER JOIN appointments a4 ON a4.professional_id = u2.user_id LEFT OUTER JOIN reports r ON r.appointment_id = a4.appointment_id {cond}'''
-        else:
-            query = f'''SELECT DISTINCT a4.appointment_id AS "appointment_id", a4.status, a4.date_appointment AS "date_appointment", a4.slot, a4.venue AS "venue", s.service_name, u.user_name AS "Members", u2.user_name AS "Professionals", r.feedback_client, r.feedback_professional, r.report_id FROM appointments a INNER JOIN services s ON a.service_id = s.service_id INNER JOIN appointments a2 ON s.service_id = a2.service_id INNER JOIN users u ON a2.client_id = u.user_id INNER JOIN appointments a3 ON a3.client_id = u.user_id INNER JOIN users u2 ON a3.professional_id = u2.user_id LEFT OUTER JOIN appointments a4 ON a4.professional_id = u2.user_id LEFT OUTER JOIN reports r ON r.appointment_id = a4.appointment_id'''
+             query = f'''SELECT DISTINCT a4.appointment_id AS "appointment_id", a4.status, a4.date_appointment AS "date_appointment", a4.slot, a4.venue AS "venue", s.service_name, u.user_name AS "Members", u2.user_name AS "Professionals", r.feedback_client, r.feedback_professional, r.report_id FROM appointments a4 INNER JOIN services s ON a4.service_id = s.service_id INNER JOIN users u ON a4.client_id = u.user_id INNER JOIN users u2 ON a4.professional_id = u2.user_id LEFT OUTER JOIN reports r ON r.appointment_id = a4.appointment_id {cond}'''
+        else:  
+            query = f'''SELECT DISTINCT a4.appointment_id AS "appointment_id", a4.status, a4.date_appointment AS "date_appointment", a4.slot, a4.venue AS "venue", s.service_name, u.user_name AS "Members", u2.user_name AS "Professionals", r.feedback_client, r.feedback_professional, r.report_id FROM appointments a4 INNER JOIN services s ON a4.service_id = s.service_id INNER JOIN users u ON a4.client_id = u.user_id INNER JOIN users u2 ON a4.professional_id = u2.user_id LEFT OUTER JOIN reports r ON r.appointment_id = a4.appointment_id'''
         with self.__connect() as connection:
             with connection.cursor() as cursor:
                 try:    
