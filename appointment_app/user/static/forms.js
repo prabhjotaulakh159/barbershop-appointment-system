@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
         var confirmPassword = document.getElementById('confirm-password').value;
         var email = document.getElementById('email').value;
         var age = document.getElementById('age').value;
+        var userType = document.getElementById('user-type').value;
         var phone = document.getElementById('phone').value;
         var address = document.getElementById('address').value;
         var payrateField = document.getElementById('pay-rate');
@@ -82,6 +83,15 @@ document.addEventListener('DOMContentLoaded', (e) => {
             isValid = false;
             document.getElementById('age').classList.add('form-error');
             document.getElementById('age-error').innerText = 'Please enter a valid age';
+        } else {
+            document.getElementById('age').classList.remove('form-error');
+            document.getElementById('age-error').innerText = '';
+        }
+
+        if (userType === "Professional" && age < 18) {
+            isValid = false;
+            document.getElementById('age').classList.add('form-error');
+            document.getElementById('age-error').innerText = 'A professional must be at least 18 years old';
         } else {
             document.getElementById('age').classList.remove('form-error');
             document.getElementById('age-error').innerText = '';

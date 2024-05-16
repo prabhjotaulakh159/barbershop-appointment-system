@@ -95,6 +95,11 @@ def register():
         if form.user_type.data == "Member":
             form.pay_rate.data = None
             form.specialty.data = None
+            
+        # Professional must be 18
+        if form.user_type.data == "Professional" and form.age.data < 18:
+            flash("Professionals must be at least 18 years old", "error")
+            return redirect(url_for('user.register'))
 
         # hash password and create account
         encrypted_password = Bcrypt().generate_password_hash(form.password.data).decode("utf-8")
