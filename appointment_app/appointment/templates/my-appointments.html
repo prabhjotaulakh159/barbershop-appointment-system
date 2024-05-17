@@ -84,9 +84,9 @@
                 {% if current_user.user_type == 'Member' %}
                 <td class="action-column" data-title="Action">
                     {% if appointment[8] %}
-                    <a class="button" href="{{url_for('report.update_report',appointment_id=appointment[0])}}"> Update my report</a>
+                    <a class="button" href="{{url_for('report.update_report',appointment_id=appointment[0])}}"> Update my feedback</a>
                     {% else %}
-                    <a class="button" href="{{url_for('report.update_report',appointment_id=appointment[0])}}"> Add my report</a>
+                    <a class="button" href="{{url_for('report.update_report',appointment_id=appointment[0])}}"> Add my feedback</a>
                     {% endif %}
                 </td>
 
@@ -94,9 +94,9 @@
                 {% if current_user.user_type == 'Professional' %}
                 <td class="action-column">
                     {% if appointment[9] %}
-                    <a class="button" href="{{url_for('report.update_report',appointment_id=appointment[0])}}"> Update my report</a>
+                    <a class="button" href="{{url_for('report.update_report',appointment_id=appointment[0])}}"> Update my feedback</a>
                     {% else %}
-                    <a class="button" href="{{url_for('report.update_report',appointment_id=appointment[0])}}"> Add my report </a>
+                    <a class="button" href="{{url_for('report.update_report',appointment_id=appointment[0])}}"> Add my feedback </a>
                     {% endif %}
                 </td>
                 {% endif %}

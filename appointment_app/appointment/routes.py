@@ -38,18 +38,12 @@ def all_appointments():
 @login_required
 def appointment_view(appointment_id):
     '''function rendering specific appointment with appointment_id'''
-    appt = db.get_appointment(f"WHERE appointment_id = {appointment_id}")
-    client_name = db.get_user(f"WHERE user_id = {appt[5]}")
-    professional_name = db.get_user(f"WHERE user_id = {appt[6]}")
-    service_name = db.get_service(f"WHERE service_id = {appt[7]}")
 
-    names = []
-    names.append(client_name[4])
-    names.append(professional_name[4])
-    names.append(service_name[1])
+    cond = f'''WHERE a4.appointment_id = {appointment_id}'''
+    appt = db.get_appts_with_joins(cond)[0]
 
     return render_template("specific-appointment.html",
-                           appointment=appt, names=names)
+                           appointment=appt)
 
 
 @appointment.route('/my-appointments')
@@ -60,7 +54,7 @@ def my_appointments():
             OR u2.user_id = {current_user.user_id}'''
     order_by = request.args.get('order_by')
     if order_by:
-        cond = cond + f" ORDER BY {order_by}"
+        cond = cond + f" ORDER BY a4.{order_by}"
 
     appointments = db.get_appts_with_joins(cond)
     return render_template("my-appointments.html", appointments=appointments)
