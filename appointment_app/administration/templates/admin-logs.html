@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% from "macros.html" import form_field_error with context %}
+
+{% block header %}
+<link rel="stylesheet" href="{{ url_for('administration.static', filename='admin-appointment.css') }}" />
+{% endblock header %}
+
+{% block content %}
+<div id="admin_appoint">
+    <div id="appointments">
+        <ul>
+            <li><a href="{{ url_for('administration.user_admin_panel') }}">User Admin Panel</a> </li>
+            <li><a href="{{ url_for('administration.view_admins') }}">View Admins</a> </li>
+            <li><a href="{{ url_for('administration.admin_appointments') }}">Appointment Admin Panel</a></li>
+            <li><a href="{{ url_for('administration.view_logs') }}">View logs</a></li>
+        </ul>
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Log ID</th>
+                    <th>User ID</th>
+                    <th>Username</th>
+                    <th>Date of action</th>
+                    <th>Action</th>
+                    <th>Table affected</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if logs %}
+                {% for log in logs %}
+                <tr class="log">
+                    <td data-title="Log ID">{{ log[0] }}</td>
+                    <td data-title="User ID">{{ log[1] }}</td>
+                    <td data-title="Username">{{ log[2] }}</td>
+                    <td data-title="Date of action">{{ log[3] }}</td>
+                    <td data-title="Action">{{ log[4] }}</td>
+                    <td data-title="Table affected">{{ log[5] }}</td>
+                </tr>
+                {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+    {% endblock content %}
+</div>

@@ -1,0 +1,129 @@
+.container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.left-side {
+    flex: 1;
+}
+
+.right-side {
+    flex: 3;
+    padding: 1rem;
+
+}
+
+.table-title {
+    background: #0c3b75;
+    color: #fff;
+    padding: 15px 0;
+    text-align: center;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: blanchedalmond;
+}
+
+th {
+    background-color: #939393;
+}
+
+table,
+thead,
+tbody,
+td,
+th {
+    border: 1px solid black;
+    text-align: center;
+    padding: 0.5rem;
+}
+
+.button {
+    display: inline-block;
+    background-color: lightgreen;
+    padding: 10px 15px;
+    text-align: center;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+form {
+    padding: 1rem;
+    background-color: transparent;
+    color: white;
+}
+
+.delete-button {
+    display: inline-block;
+    background-color: lightcoral;
+    padding: 10px 10px;
+    text-align: center;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.feedback-table {
+    margin-bottom: 20px;
+}
+
+.fixed-size {
+    width: 150px;
+}
+
+
+@media (max-width: 1000px) {
+
+    /* Adjust the breakpoint as needed */
+    .left-side,
+    .right-side {
+        flex: 1 100%;
+        margin: 0 auto;
+    }
+
+    .left-side {
+        display: flex;
+        justify-content: center;
+    }
+
+    .table {
+        width: 100%;
+    }
+
+    thead,
+    tr th {
+        display: none;
+    }
+
+    tr,
+    th,
+    td {
+        display: block;
+    }
+
+    td {
+        text-align: right;
+    }
+
+    td[data-title]:before {
+        content: attr(data-title);
+        font-weight: bold;
+        display: inline-block;
+        content: attr(data-title);
+        float: left;
+        margin-right: 0.5em;
+        font-size: 0.95em;
+    }
+
+    tr.row {
+        padding: 1.5em;
+    }
+
+    .fixed-size,
+    .action-column {
+        width: auto;
+    }
+}

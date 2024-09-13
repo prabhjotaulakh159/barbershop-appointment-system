@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% from "macros.html" import form_field_error with context %}
+
+{% block header %}
+<link rel="stylesheet" href="{{ url_for('appointment.static', filename='my-appointments.css') }}" />
+{% endblock header %}
+
+{% block content %}
+
+<div class="container">
+    <div class="left-side">
+        <form action="{{ url_for('appointment.my_appointments') }}" method="GET">
+            <label for="order_by">Order by:</label>
+            <select name="order_by" id="order_by">
+                <option value="appointment_id">Appointment ID</option>
+                <option value="venue">Venue</option>
+                <option value="date_appointment">Date</option>
+            </select>
+            <button type="submit">Apply</button>
+        </form>
+    </div>
+
+    <div class="right-side">
+        <div class="table-title">
+            <div class="row">
+                <h2>My appointments</h2>
+            </div>
+        </div>
+        {% if appointments %}
+        {% for appointment in appointments %}
+        <table class="table">
+            <thead>
+                <tr class="row">
+                    <th>Appointment ID</th>
+                    <th>Status </th>
+                    <th>Client</th>
+                    <th>Professional</th>
+                    <th>Date</th>
+                    <th>Venue</th>
+                    <th>Time-Slot</th>
+                    <th>Service</th>
+                    {% if current_user.user_type == 'Member' %}
+                    <th>Action</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="row">
+                    <td data-title="Appointment ID">{{ appointment[0] }}</td>
+                    <td data-title="Status">{{ appointment[1] }}</td>
+                    <td data-title="Client">{{  appointment[6] }}</td>
+                    <td data-title="Professional">{{  appointment[7] }}</td>
+                    <td data-title="Date">{{ appointment[2] }}</td>
+                    <td data-title="Venue">{{ appointment[4] }}</td>
+                    <td data-title="Time-Slot">{{ appointment[3] }}</td>
+                    <td data-title="Service">{{ appointment[5] }}</td>
+                    {% if current_user.user_type == 'Member' %}
+                    <td data-title="Action">
+                        <a class="button"href="{{url_for('appointment.update_appointment',appointment_id=appointment[0])}}">Update appointment</a>
+                    </td>
+                    {% endif %}
+                </tr>
+            </tbody>
+        </table>
+        <table class="table feedback-table">
+            <tr>
+                <th class="fixed-size">Client feedback:</th>
+                {% if appointment[8] %}
+                <td data-title="Client Feedback">{{ appointment[8] }}</td>
+                {% else %}
+                <td data-title="Client Feedback">None</td>
+                {% endif %}
+            </tr>
+            <tr>
+                <th class="fixed-size">Professional feedback:</th>
+                {% if appointment[9] %}
+                <td data-title="Professional Feedback">{{ appointment[9] }}</td>
+                {% else %}
+                <td data-title="Professional Feedback">None</td>
+                {% endif %}
+            </tr>
+            <tr>
+                <th class="fixed-size">Action:</th>
+                {% if current_user.user_type == 'Member' %}
+                <td class="action-column" data-title="Action">
+                    {% if appointment[8] %}
+                    <a class="button" href="{{url_for('report.update_report',appointment_id=appointment[0])}}"> Update my feedback</a>
+                    {% else %}
+                    <a class="button" href="{{url_for('report.update_report',appointment_id=appointment[0])}}"> Add my feedback</a>
+                    {% endif %}
+                </td>
+
+                {% endif %}
+                {% if current_user.user_type == 'Professional' %}
+                <td class="action-column">
+                    {% if appointment[9] %}
+                    <a class="button" href="{{url_for('report.update_report',appointment_id=appointment[0])}}"> Update my feedback</a>
+                    {% else %}
+                    <a class="button" href="{{url_for('report.update_report',appointment_id=appointment[0])}}"> Add my feedback </a>
+                    {% endif %}
+                </td>
+                {% endif %}
+            </tr>
+        </table>
+        {% endfor %}
+        {% else %}
+        <div>No appointments to render</div>
+        {% endif %}
+    </div>
+</div>
+
+
+{% endblock content %}

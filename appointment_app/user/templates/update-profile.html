@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% from "macros.html" import form_field_error with context %}
+{% block header %}
+    <link rel="stylesheet" href="{{ url_for('user.static', filename='styles.css')}}"/>
+    <script src="{{ url_for('user.static', filename='update-form-validation.js') }}"></script>
+{% endblock header %}
+{% block content %}
+    <div class="form-container">
+        <form method="POST" novalidate enctype="multipart/form-data" id="update_form">
+            {{ form.hidden_tag() }}
+            {{ form.username(class='form-field', placeholder='Enter username') }}
+            {{ form_field_error(form.username.errors) }}
+            <div id="username-error" class="div-error"></div>
+            {{ form.email(class='form-field', placeholder='Enter email') }}
+            {{ form_field_error(form.email.errors) }}
+            <div id="email-error" class="div-error"></div>
+            {{ form.phone(class='form-field', placeholder='Enter your phone number') }}
+            {{ form_field_error(form.phone.errors) }}
+            <div id="phone-error" class="div-error"></div>
+            {{ form.address(class='form-field',placeholder='Enter your address ') }}
+            {{ form_field_error(form.address.errors) }}
+            <div id="address-error" class="div-error"></div>
+            {{ form.age(class='form-field',placeholder='Enter your age ') }}
+            {{ form_field_error(form.age.errors) }}
+            <div id="age-error" class="div-error"></div>
+
+            {% if current_user.user_type == 'Professional' %}
+                {{ form.pay_rate(placeholder='Enter pay rate') }}
+                {{ form_field_error(form.pay_rate.errors) }}
+                <div id="payrate-error" class="div-error"></div>
+                <div class="input-group">
+                    <div>Speciality</div>
+                    {{ form.specialty() }}
+                    {{ form_field_error(form.specialty.errors) }}
+                </div>
+            {% endif %}
+            <div class="input-group">
+                <div>Profile Picture</div>
+                {{ form.avatar() }}
+                {{ form_field_error(form.avatar.errors) }}
+            </div>
+            {{ form.submit(class='button', value='Update profile') }}
+        </form>
+    </div>
+{% endblock content %}

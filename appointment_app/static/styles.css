@@ -1,0 +1,248 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+/* * {
+    outline: 1px solid red;
+} */
+
+:root {
+    --primary-clr: #561D25;
+    --secondary-clr: #CE8147;
+    --ternary-clr: #ECDD7B;
+    --fourth-clr: #e2bb93a1;
+    --fifth-clr: #261010;
+    --font-family: Roboto, sans-serif;
+}
+
+body,
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Roboto, sans-serif;
+}
+
+a {
+    color: unset;
+    text-decoration: none;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--secondary-clr);
+    color: #ffffff;
+    height: auto;
+    font-size: 1.25rem;
+    text-align: center;
+    padding: 1rem;
+}
+
+.header-left {
+    flex: 1;
+    text-align: left;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+}
+
+.header-right img {
+    width: 40px; /* Adjust the width as needed */
+    height: 40px; /* Adjust the height as needed */
+    border-radius: 50%; /* To make it circular */
+    margin-right: 10px; /* Adjust spacing as needed */
+}
+
+.header-right span {
+    font-weight: bold;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary-clr);
+    color: #ffffff;
+    font-size: 1.25rem;
+    gap: 1rem;
+    padding: 1rem 0;
+}
+nav a {
+    color: #ffffff;
+    text-decoration: none;
+    padding: 0.2rem 1rem;
+    transition: background-color 0.3s ease;
+}
+
+nav a:hover {
+    background-color: rgba(255, 255, 255, 0.7);
+    color:black;
+}
+
+@media (max-width: 1000px) {
+    nav {
+        flex-direction: column;
+        text-align: center;
+        gap: 0;
+        padding: 0;
+    }
+
+    nav a {
+        width: 100%;
+        display: block;
+        flex: 1;
+        padding: 1rem;
+        border: 1px solid black;
+    }
+}
+
+body,
+html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    background-color: var(--fifth-clr);
+    flex: 1;
+}
+
+.form-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+}
+
+form {
+    background-color: var(--fourth-clr);
+    padding: 4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+    width: 100%;
+    max-width: 37.5rem;
+    border-radius: 0.2rem;
+    height: auto;
+}
+
+.input-group {
+    width: 80%;
+}
+
+.input-group * {
+    width: 100%;
+}
+
+form * {
+    width: 80%;
+}
+
+form input,
+select {
+    font-size: 1.25rem;
+    padding: 0.5rem;
+}
+
+form .button {
+    background-color: var(--secondary-clr);
+    border: none;
+    border-radius: 0.1rem;
+    color: #ffffff;
+}
+
+.hide-field{
+    display:none;
+}
+
+.error,
+.success,
+.warning {
+    padding: 1rem;
+    color: #ffffff;
+}
+
+.error {
+    list-style: none;
+    background-color: var(--fifth-clr);
+    padding: 0.5rem;
+    font-weight: 700;
+    background-color: red;
+    width: 100%;
+    text-align: center;
+}
+
+.success {
+    background-color: green;
+    width: fit-content;
+    width: 100%;
+    text-align: center;
+}
+
+.warning {
+    background-color: orange;
+    width: fit-content;
+    width: 100%;
+    text-align: center;
+}
+
+#pay-rate {
+    display: none;
+}
+
+#specialty-register,
+#specialityLabel {
+    display: none;
+}
+
+#flashes {
+    position: fixed;
+    z-index: 10;
+    top: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    width: 100%;
+}
+
+footer {
+    background-color: var(--fourth-clr);
+    width: 100%;
+    flex-grow: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2em;
+    font-weight: bold;
+    border: 1px solid black;
+}
+
+/* 404 not found */
+.app-error {
+    text-align: center;
+    font-size: 1rem;
+    margin-top: 2rem;
+    color:white;
+}
+

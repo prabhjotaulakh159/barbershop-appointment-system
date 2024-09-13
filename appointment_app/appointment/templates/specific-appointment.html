@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% from "macros.html" import form_field_error with context %}
+
+{% block header %}
+<link rel="stylesheet" href="{{ url_for('appointment.static', filename='specific-appointment.css') }}" />
+{% endblock header %}
+
+{% block content %}
+
+{% if appointment %}
+<table>
+    <tbody>
+        <tr>
+            <th>Appointment ID</th>
+            <td>{{ appointment[0] }}</td>
+        </tr>
+        <tr>
+            <th>Status</th>
+            <td>{{ appointment[1] }}</td>
+        </tr>
+        <tr>
+            <th>Client</th>
+            <td>{{ appointment[6] }}</td>
+        </tr>
+        <tr>
+            <th>Professional</th>
+            <td>{{ appointment[7] }}</td>
+        </tr>
+        <tr>
+            <th>Date</th>
+            <td>{{ appointment[2] }}</td>
+        </tr>
+        <tr>
+            <th>Venue</th>
+            <td>{{ appointment[4] }}</td>
+        </tr>
+        <tr>
+            <th>Time-Slot</th>
+            <td>{{ appointment[3] }}</td>
+        </tr>
+        <tr>
+            <th>Service</th>
+            <td>{{ appointment[5] }}</td>
+        </tr>
+        {% if current_user.is_authenticated and (current_user.user_name == appointment[6]) %}
+        <tr>
+            <th>Action</th>
+            <td><a class="button" href="{{url_for('appointment.update_appointment',appointment_id=appointment[0])}}">Update my appointment </a></td>
+        </tr>
+        {% endif %}
+    </tbody>
+</table>
+
+{% else %}
+<div>No appointments to render</div>
+{% endif %}
+
+{% endblock content %}

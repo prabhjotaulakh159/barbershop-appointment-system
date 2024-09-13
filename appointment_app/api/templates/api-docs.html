@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% block header %}
+    <link rel="stylesheet" href="{{ url_for('api.static', filename='styles.css') }}" type="text/css"/>
+{% endblock header %}
+{% block content %}
+    <div class="api-docs">
+        
+        
+        <div class="endpoint">
+            <a href="http://10.172.16.230:5015/api/appointments" target="_blank">
+                <h1 class="doc-header">GET http://10.172.16.230:5015/api/appointments</h1>
+            </a>
+            <p class="description">This endpoint gets a list of all appointments as a list of dictionaries with a status of 200</p>
+            <pre>
+                <code>
+    curl -X GET http://10.172.16.230:5015/api/appointments
+    [
+        {
+            'appointment_id': 1,
+            'status': 'ON GOING',
+            'date': '2024-01-01',
+            'slot': '10-11',
+            'venue': 'Venue A',
+            'client_id': 1,
+            'professional_id': 2,
+            'service_id': 1
+        },
+        {
+            'appointment_id': 2,
+            'status': 'ON GOING',
+            'date': '2024-01-01',
+            'slot': '11-12',
+            'venue': 'Venue B',
+            'client_id': 2,
+            'professional_id': 2,
+            'service_id': 2
+        },
+        {
+            'appointment_id': 3,
+            'status': 'ON GOING',
+            'date': '2024-01-01',
+            'slot': '12-13',
+            'venue': 'Venue C',
+            'client_id': 3,
+            'professional_id': 2,
+            'service_id': 3
+        }
+    ]
+                </code>
+            </pre>
+        </div>
+
+
+        <div class="endpoint">
+            <h1 class="doc-header">POST http://10.172.16.230:5015/api/appointments</h1>
+            <p class="description">This endpoint creates an appointment with all the parameters and returns a status of 200</p>
+            <p class="description">Any missing field or non-existant ID will return a status of 400 with some message</p>
+            <pre>
+                <code>
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -d '{
+            "status": "ON GOING",
+            "date": "2024-01-01",
+            "slot": "10-11",
+            "venue": "Venue A",
+            "client_id": 1,
+            "professional_id": 2,
+            "service_id": 1
+        }' \
+    http://10.172.16.230:5015/api/appointments               
+                </code>
+            </pre>
+        </div>
+
+
+
+        <div class="endpoint">
+            <a href="http://10.172.16.230:5015/api/appointments/1" target="_blank">
+                <h1 class="doc-header">GET http://10.172.16.230:5015/api/appointments/{id}</h1>
+            </a>
+            <p class="description">This endpoint gets an individual appointment by ID and returns a status 200</p>
+            <p class="description">If the appointment ID does not exists, returns a status of 400 and some error message</p>
+            <pre>
+                <code>
+    curl -X GET http://10.172.16.230:5015/api/appointments/1
+    {
+        'appointment_id': 1,
+        'status': 'ON GOING',
+        'date': '2024-01-01',
+        'slot': '10-11',
+        'venue': 'Venue A',
+        'client_id': 1,
+        'professional_id': 2,
+        'service_id': 1
+    }               
+                </code>
+            </pre>
+        </div>
+        
+
+
+        <div class="endpoint">
+            <h1 class="doc-header">DELETE http://10.172.16.230:5015/api/appointments/{id}</h1>
+            <p class="description">This endpoint deletes an individual appointment by ID and returns a status 200</p>
+            <p class="description">If the appointment ID does not exists, returns a status of 400 and some error message</p>
+            <pre>
+                <code>
+    curl -X DELETE http://10.172.16.230:5015/api/appointments/1
+                </code>
+            </pre>
+        </div>
+
+        <div class="endpoint">
+            <h1 class="doc-header">PATCH http://10.172.16.230:5015/api/appointments/{id}</h1>
+            <p class="description">This endpoint updates an appointment with a given ID with all the parameters and returns a status of 200</p>
+            <p class="description">Any missing field or non-existant ID will return a status of 400 with some message</p>
+            <p class="description">Here, we change the slot to 11-12 and the service ID to 4 for appointment ID 1</p>
+            <pre>
+                <code>
+    curl -X PATCH \
+    -H "Content-Type: application/json" \
+    -d '{
+            "status": "ON GOING",
+            "date": "2024-01-01",
+            "slot": "11-12",
+            "venue": "Venue B",
+            "client_id": 1,
+            "professional_id": 2,
+            "service_id": 4
+        }' \
+    http://10.172.16.230:5015/api/appointments/1               
+                </code>
+            </pre>
+        </div>
+    
+    </div>
+{% endblock content %}

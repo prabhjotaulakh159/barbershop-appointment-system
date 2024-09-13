@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% from "macros.html" import form_field_error with context %}
+{% block header %}
+<link rel="stylesheet" href="{{ url_for('user.static', filename='styles.css')}}" />
+<script src="{{ url_for('user.static', filename='forms.js') }}"></script>
+<script src="{{ url_for('static', filename='notification.js') }}"></script>
+<script src="{{ url_for('administration.static', filename='filter.js') }}"></script>
+{% endblock header %}
+{% block content %}
+<div id="user-admin">
+    <div id="create-user-section">
+        <form>
+            <label for="Search Name">Search By Name:</label>
+            <input name="Search Name" id="search-name"/>
+            <button id="search-user">Search By Name</button>
+        </form>
+        <form method="POST" novalidate enctype="multipart/form-data" id="user_form">
+            {{ form.hidden_tag() }}
+            {{ form.user_type(id='user-type') }}
+            {{ form_field_error(form.user_type.errors) }}
+            {{ form.username(class='form-field', placeholder='Enter username', id='username') }}
+            {{ form_field_error(form.username.errors) }}
+            <div id="username-error" class="div-error"></div>
+            {{ form.email(class='form-field', placeholder='example@email.com', id='email') }}
+            {{ form_field_error(form.email.errors) }}
+            <div id="email-error" class="div-error"></div>
+            {{ form.password(class='form-field', placeholder='Enter password', id='password') }}
+            {{ form_field_error(form.password.errors) }}
+            <div id="password-error" class="div-error"></div>
+            {{ form.confirm_password(class='form-field', placeholder='Retype password', id='confirm-password') }}
+            {{ form_field_error(form.confirm_password.errors) }}
+            <div id="confirm-password-error" class="div-error"></div>
+            {{ form.phone(class='form-field', placeholder='XXX-XXX-XXXX', id='phone') }}
+            {{ form_field_error(form.phone.errors) }}
+            <div id="phone-error" class="div-error"></div>
+            {{ form.address(class='form-field',placeholder='Enter your address ') }}
+            {{ form_field_error(form.address.errors) }}
+            <div id="address-error" class="div-error"></div>
+            {{ form.age(class='form-field',placeholder='Enter your age ', id='age') }}
+            {{ form_field_error(form.age.errors) }}
+            <div id="age-error" class="div-error"></div>
+            {{ form.pay_rate(placeholder='Enter pay rate', id='pay-rate') }}
+            {{ form_field_error(form.pay_rate.errors) }}
+            <div id="payrate-error" class="div-error"></div>
+            <div class="input-group">
+                <div id="specialityLabel">Speciality</div>
+                {{ form.specialty(id='specialty-register') }}
+                {{ form_field_error(form.specialty.errors) }}
+            </div>
+            <div class="input-group">
+                <div>Profile Picture</div>
+                {{ form.avatar() }}
+                {{ form_field_error(form.avatar.errors) }}
+            </div>
+            {{ form.submit(class='button', value='Create User') }}
+        </form>
+    </div>
+    <div id="users">
+        <ul>
+            <li><a href="{{ url_for('administration.user_admin_panel') }}">User Admin Panel</a> </li>
+            {% if current_user.access_level == 3 %}
+            <li><a href="{{ url_for('administration.admin_appointments') }}">Appointment Admin Panel</a></li>
+            <li><a href="{{ url_for('administration.view_admins') }}">View Admins</a> </li>
+            <li><a href="{{ url_for('administration.view_logs') }}">Admin logs</a> </li>
+            {% endif %}
+        </ul>
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Type</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Address</th>
+                    <th>Age</th>
+                    <th>Pay</th>
+                    <th>Speciality</th>
+                    <th>Enabled</th>
+                    <th>Warnings</th>
+                    <th>Warn User Action</th>
+                    <th>State User Action</th>
+                    <th>Update User Action</th>
+                    <th>Delete User Action</th>
+                </tr>
+            </thead>
+            <tbody id="user-list">
+                {% for user in users %}
+                <tr>
+                    <td data-title="ID">{{ user[0] }}</td>
+                    <td data-title="Type">{{ user[2] }}</td>
+                    <td data-title="Name">{{ user[3] }}</td>
+                    <td data-title="Email">{{ user[4] }}</td>
+                    <td data-title="Phone">{{ user[5] }}</td>
+                    <td data-title="Address">{{ user[6] }}</td>
+                    <td data-title="Age">{{ user[7] }}</td>
+                    <td data-title="Pay">{{ user[8] }}</td>
+                    <td data-title="Speciality">{{ user[9] }}</td>
+                    <td data-title="Enabled" class="{% if user[1] == 1 %}enabled-yes{% else %}enabled-no{% endif %}">
+                        {% if user[1] == 1 %}
+                        Yes
+                        {% else %}
+                        No
+                        {% endif %}
+                    </td>
+                    <td data-title="Warnings">{{ user[10] }}</td>
+                    <td data-title="Warn User Action">
+                        <a class="warn-button" href="{{ url_for('administration.warn_user', user_id=user[0]) }}">
+                            Warn
+                        </a>
+                    </td>
+                    <td class="action-col" data-title="State User Action">
+                        <a class="state-button" href="{{ url_for('administration.toggle_activation', user_id=user[0]) }}">
+                            {% if user[1] == 1 %}
+                            Disable
+                            {% else %}
+                            Enable
+                            {% endif %}
+                        </a>
+                    </td>
+                    <td class="action-col" data-title="Update User Action"><a class="button"
+                            href="{{ url_for('administration.update_user', user_id=user[0]) }}">Update</a></td>
+                    <td class="action-col" data-title="Delete User Action"><a class="delete-button"
+                            href="{{ url_for('administration.delete_user', user_id=user[0]) }}">Delete</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}

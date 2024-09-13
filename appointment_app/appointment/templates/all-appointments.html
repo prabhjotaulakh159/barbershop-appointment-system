@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% from "macros.html" import form_field_error with context %}
+
+{% block header %}
+<link rel="stylesheet" href="{{ url_for('appointment.static', filename='all-appointments.css') }}" />
+<script src="{{ url_for('appointment.static', filename='filter.js') }}"></script>
+{% endblock header %}
+
+{% block content %}
+
+<div class="container">
+    <div class="left-side">
+        <form action="{{ url_for('appointment.all_appointments') }}" method="GET">
+            <label for="filter">Filter by:</label>
+            <select name="filter" id="filter">
+                <option value="client_id">Client ID</option>
+                <option value="professional_id">Professional ID</option>
+                <option value="slot">Time</option>
+            </select>
+
+            <input type="number" name="search" id="search" placeholder="Enter ID">
+            <label for="order_by">Order by:</label>
+            <select name="order_by" id="order_by">
+                <option value="appointment_id">Appointment ID</option>
+                <option value="client_id">Client ID</option>
+                <option value="professional_id">Professional ID</option>
+                <option value="date_appointment">Date</option>
+            </select>
+
+            <button type="submit">Apply</button>
+        </form>
+    </div>
+
+    <div class="right-side">
+        <div class="table-title">
+            <h2>All appointments</h2>
+        </div>
+        {% if appointments %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Appointment ID</th>
+                    <th>Status </th>
+                    <th>Client ID</th>
+                    <th>Professional ID</th>
+                    <th>Date</th>
+                    <th>Time-Slot</th>
+                    {% if current_user.is_authenticated %}
+                    <th>Action</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for appointment in appointments %}
+                <tr>
+                    <td data-title="Appointment ID">{{ appointment[0] }}</td>
+                    <td data-title="Status">{{ appointment[1] }}</td>
+                    <td data-title="Client ID">{{ appointment[5] }}</td>
+                    <td data-title="Professional ID">{{ appointment[6] }}</td>
+                    <td data-title="Date">{{ appointment[2] }}</td>
+                    <td data-title="Time-Slot">{{ appointment[3] }}</td>
+                    {% if current_user.is_authenticated %}
+                    <td data-title="Action"><a class="button" href="{{url_for('appointment.appointment_view',appointment_id=appointment[0])}}">Click for detailed info </a> </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div>No appointments to render</div>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}

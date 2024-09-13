@@ -1,0 +1,25 @@
+{% extends "base.html" %}\
+{% block header %}
+<link rel="stylesheet" href="{{ url_for('main.static', filename='styles.css') }}" />
+<link rel="stylesheet" href="{{ url_for('main.static', filename='about.css') }}" />
+{% endblock header %}
+{% block content %}
+<div class="container">
+    <div class="profile-container">
+        <div class="profile">
+            <p>Student ID: 2034747</p>
+            <img src="static/images/barber-shop.jpeg" alt="Profile Picture">
+            <p>Prabhjot Aulakh</p>
+            <p>As a second-year computer science student, I'm enthusiastic about coding, but I have a strong aversion to CSS. </p>
+        </div>
+    </div>
+    <div class="profile-container">
+        <div class="profile">
+            <p>Student ID: 1435162 </p>
+            <img src="static/images/avatar.png" alt="Profile Picture">
+            <p>Tommy Tran</p>
+            <p>I'm currently a second-year computer science student who's passionate about coding but strongly dislikes CSS. </p>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% from "macros.html" import form_field_error with context %}
+{% block header %}
+<script src="{{ url_for('report.static', filename='form_validation.js') }}"></script>
+{% endblock header %}
+{% block content %}
+	<div class="form-container">
+		<form method="POST" novalidate id="report_form">
+			{{ form.hidden_tag() }}    
+            <div class="input-group">
+                {% if current_user.user_type == 'Professional' or member_to_update == 'Professional' %}
+                    <div>Professional feedback</div>
+                {% else %}
+                    <div>Client feedback</div>
+                {% endif %}
+                {{ form.feedback(placeholder='Add a report', id='report') }}
+                {{ form_field_error(form.feedback.errors) }}
+                <div id="report-error"></div>
+            </div>
+			{{ form.submit(value='Add report') }}
+		</form>
+	</div>
+{% endblock content %}
